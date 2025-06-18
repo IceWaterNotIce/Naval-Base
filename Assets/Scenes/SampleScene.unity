@@ -751,7 +751,7 @@ MonoBehaviour:
   navalBase: {fileID: 274980083}
   minSpawnDistance: 5
   maxSpawnDistance: 15
-  spawnInterval: 2
+  spawnInterval: 5
 --- !u!4 &603846844
 Transform:
   m_ObjectHideFlags: 0

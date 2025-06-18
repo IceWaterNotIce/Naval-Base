@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     public GameObject ammoPrefab; // Prefab for enemy ammo
     public Transform firePoint; // Point where ammo is fired
     public int goldReward = 1; // Gold rewarded when the enemy dies
+    public float minDistanceToNavalBase = 3f; // Minimum distance to the naval base
+    public float orbitSpeed = 1f; // Speed at which the enemy orbits the naval base
 
     private float attackTimer;
     private float currentSpeed = 0f; // Current movement speed
@@ -47,26 +49,57 @@ public class Enemy : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 direction = (target.position - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, target.position);
 
-            // Smooth rotation towards the target
-            float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if (distance > minDistanceToNavalBase && distance <= 5f) // Within attack range but not too close
+            {
+                OrbitAroundNavalBase(); // Move around the naval base
+            }
+            else if (distance > 5f) // Too far from the naval base
+            {
+                Vector3 direction = (target.position - transform.position).normalized;
+
+                // Smooth rotation towards the target
+                float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                // Accelerate towards the naval base
+                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+                transform.position += transform.right * currentSpeed * Time.deltaTime;
+            }
+            else // Too close to the naval base
+            {
+                Vector3 direction = (transform.position - target.position).normalized;
+
+                // Smooth rotation away from the naval base
+                float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                // Move away from the naval base
+                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+                transform.position += transform.right * currentSpeed * Time.deltaTime;
+            }
+        }
+    }
+
+    private void OrbitAroundNavalBase()
+    {
+        if (target != null)
+        {
+            Vector3 direction = (transform.position - target.position).normalized;
+
+            // Calculate orbit direction (perpendicular to the direction to the naval base)
+            Vector3 orbitDirection = new Vector3(-direction.y, direction.x, 0).normalized;
+
+            // Smooth rotation to orbit
+            float targetAngle = Mathf.Atan2(orbitDirection.y, orbitDirection.x) * Mathf.Rad2Deg;
             float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            // Adjust speed based on distance to the target
-            float distance = Vector3.Distance(transform.position, target.position);
-            if (distance > 0.5f) // Accelerate if far from the target
-            {
-                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-            }
-            else // Decelerate if close to the target
-            {
-                currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
-            }
-
-            // Move the enemy
-            transform.position += transform.right * currentSpeed * Time.deltaTime;
+            // Move in orbit
+            transform.position += transform.right * orbitSpeed * Time.deltaTime;
         }
     }
 
