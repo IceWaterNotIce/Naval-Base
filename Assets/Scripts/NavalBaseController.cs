@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NavalBaseController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class NavalBaseController : MonoBehaviour
     public LayerMask enemyLayer; // Layer for detecting enemies
     public float detectionRadius = 10f; // Radius to detect enemies
     public int gold = 0; // Naval base gold
+    public Text goldText; // Reference to the UI Text element
 
     private float fireTimer;
 
@@ -19,6 +21,7 @@ public class NavalBaseController : MonoBehaviour
             DetectAndShootEnemies(); // Ensure this method is called correctly
             fireTimer = 0f;
         }
+        UpdateGoldUI(); // Update the gold UI
     }
 
     private void DetectAndShootEnemies()
@@ -45,5 +48,14 @@ public class NavalBaseController : MonoBehaviour
     public void AddGold(int amount) // Ensure this method is public
     {
         gold += amount; // Increase gold by the specified amount
+        UpdateGoldUI(); // Update the UI whenever gold changes
+    }
+
+    private void UpdateGoldUI()
+    {
+        if (goldText != null)
+        {
+            goldText.text = $"Gold: {gold}"; // Update the text element
+        }
     }
 }

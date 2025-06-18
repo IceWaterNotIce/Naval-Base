@@ -1,5 +1,11 @@
 {
     "ammoPositions": [],
-    "enemyPositions": [],
-    "navalBaseGold": 11
+    "enemyPositions": [
+        {
+            "x": 5.000329971313477,
+            "y": 2.4593124389648439,
+            "z": 0.0
+        }
+    ],
+    "navalBaseGold": 63
 }
