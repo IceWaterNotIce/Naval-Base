@@ -15,8 +15,11 @@ public class Enemy : MonoBehaviour
     public Canvas healthCanvas; // Reference to the Canvas containing the health UI
     public int attackDamage = 1; // Damage dealt to the naval base
     public float attackInterval = 1f; // Interval between attacks
-    private float attackTimer;
+    public GameObject ammoPrefab; // Prefab for enemy ammo
+    public Transform firePoint; // Point where ammo is fired
+    public int goldReward = 1; // Gold rewarded when the enemy dies
 
+    private float attackTimer;
     private float currentSpeed = 0f; // Current movement speed
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -69,17 +72,25 @@ public class Enemy : MonoBehaviour
 
     private void HandleAttack()
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) <= 0.5f) // Check if close to the naval base
+        if (target != null && Vector3.Distance(transform.position, target.position) <= 5f) // Check if within attack range
         {
             attackTimer += Time.deltaTime;
             if (attackTimer >= attackInterval)
             {
-                NavalBaseController navalBase = target.gameObject.GetComponent<NavalBaseController>();
-                if (navalBase != null)
-                {
-                    navalBase.TakeDamage(attackDamage); // Deal damage to the naval base
-                }
+                ShootAmmoAtNavalBase(); // Shoot ammo at the naval base
                 attackTimer = 0f; // Reset attack timer
+            }
+        }
+    }
+
+    private void ShootAmmoAtNavalBase()
+    {
+        if (ammoPrefab != null && firePoint != null)
+        {
+            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
+            if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
+            {
+                ammoScript.SetTarget(target, "NavalBase"); // Set the naval base as the target
             }
         }
     }
@@ -125,6 +136,11 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        NavalBaseController navalBase = GameObject.FindWithTag("NavalBase").GetComponent<NavalBaseController>();
+        if (navalBase != null)
+        {
+            navalBase.AddGold(goldReward); // Add gold to the naval base
+        }
         Destroy(gameObject); // Destroy the enemy
     }
 }
