@@ -691,6 +691,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 1458330411860717221, guid: 63f6c19c51a7fe947bc91dc534228a0a, type: 3}
+  - {fileID: 1691240916028891628, guid: 7f6d47003f3117e4eba99fb8f8bda2d2, type: 3}
+  - {fileID: 1691240916028891628, guid: 028355222735c674c871decce9d6fd26, type: 3}
+  - {fileID: 1691240916028891628, guid: 7e7d8aeed9fa172488db641d446dade1, type: 3}
+  - {fileID: 1691240916028891628, guid: d2b9fb6122876a449aa47fdd4c388fcc, type: 3}
+  - {fileID: 1691240916028891628, guid: af6faf0cb1898aa49a7edfe6dee934f2, type: 3}
   navalBase: {fileID: 274980083}
   minSpawnDistance: 5
   maxSpawnDistance: 15
