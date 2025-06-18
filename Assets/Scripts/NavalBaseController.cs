@@ -47,7 +47,7 @@ public class NavalBaseController : MonoBehaviour
         GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
         if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
         {
-            ammoScript.SetTarget(enemy);
+            ammoScript.SetTarget(enemy, "Enemy"); // Set the target for the ammo
             ammoManager.RegisterAmmo(ammo); // Register the ammo with AmmoManager
         }
     }

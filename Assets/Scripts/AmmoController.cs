@@ -6,6 +6,7 @@ public class Ammo : MonoBehaviour
     public float speed = 10f;
     public float maxDistance = 20f; // Maximum distance ammo can travel
     public int damage = 1; // Damage dealt by the ammo
+    public string targetTag; // Store the target's tag
 
     private Vector3 startPosition; // Starting position of the ammo
     private Vector3 direction; // Direction toward the target
@@ -35,22 +36,34 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    public void SetTarget(Transform enemyTarget)
+    public void SetTarget(Transform enemyTarget, string tag)
     {
         if (enemyTarget != null)
         {
             targetPosition = enemyTarget.position; // Store the enemy's position once
+            targetTag = tag; // Store the target's tag
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) // Change to OnTriggerEnter2D
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy")) // Check if collided object is an enemy
+        if (collision.CompareTag(targetTag)) // Check if collided object matches the target tag
         {
-            Enemy enemy = collision.GetComponent<Enemy>();
-            if (enemy != null)
+            if (targetTag == "Enemy")
             {
-                enemy.TakeDamage(damage); // Deal damage to the enemy
+                Enemy enemy = collision.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage); // Deal damage to the enemy
+                }
+            }
+            else if (targetTag == "NavalBase")
+            {
+                NavalBaseController navalBase = collision.GetComponent<NavalBaseController>();
+                if (navalBase != null)
+                {
+                    navalBase.TakeDamage(damage); // Deal damage to the naval base
+                }
             }
             Destroy(gameObject); // Destroy the ammo
         }
