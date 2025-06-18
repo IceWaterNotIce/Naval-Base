@@ -3,7 +3,10 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public float speed = 2f; // Movement speed
+    public float maxSpeed = 2f; // Maximum movement speed
+    public float acceleration = 0.5f; // Acceleration rate
+    public float deceleration = 0.5f; // Deceleration rate
+    public float rotationSpeed = 100f; // Rotation speed
     public Transform target; // Target for the enemy to move towards
     public int health = 5; // Enemy health
     public int maxHealth = 5; // Maximum health
@@ -13,6 +16,8 @@ public class Enemy : MonoBehaviour
     public int attackDamage = 1; // Damage dealt to the naval base
     public float attackInterval = 1f; // Interval between attacks
     private float attackTimer;
+
+    private float currentSpeed = 0f; // Current movement speed
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,11 +45,25 @@ public class Enemy : MonoBehaviour
         if (target != null)
         {
             Vector3 direction = (target.position - transform.position).normalized;
-            transform.position += direction * speed * Time.deltaTime; // Move enemy towards target
 
-            // Rotate enemy to face the target
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // Smooth rotation towards the target
+            float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // Adjust speed based on distance to the target
+            float distance = Vector3.Distance(transform.position, target.position);
+            if (distance > 0.5f) // Accelerate if far from the target
+            {
+                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
+            }
+            else // Decelerate if close to the target
+            {
+                currentSpeed = Mathf.MoveTowards(currentSpeed, 0, deceleration * Time.deltaTime);
+            }
+
+            // Move the enemy
+            transform.position += transform.right * currentSpeed * Time.deltaTime;
         }
     }
 
