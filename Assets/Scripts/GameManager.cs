@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public AmmoManager ammoManager; // Reference to AmmoManager
     public EnemyManager enemyManager; // Reference to EnemyManager
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
+
+    public Text gameTimeText; // Reference to the UI Text element for game time display
 
     private List<Vector3> savedAmmoPositions = new List<Vector3>();
     private List<string> savedAmmoTargetTags = new List<string>(); // Save ammo target tags
@@ -17,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int savedNavalBaseHealth; // Save naval base health
 
     private string saveFilePath;
+    private float gameTime; // Track the elapsed game time
 
     void Start()
     {
@@ -27,6 +31,12 @@ public class GameManager : MonoBehaviour
     void OnApplicationQuit()
     {
         SaveGame(); // Save game data when the game quits
+    }
+
+    void Update()
+    {
+        gameTime += Time.deltaTime; // Increment game time
+        UpdateGameTimeUI(); // Update the game time UI
     }
 
     public void SaveGame()
@@ -78,7 +88,8 @@ public class GameManager : MonoBehaviour
             enemyPositions = savedEnemyPositions,
             enemyHealth = savedEnemyHealth,
             navalBaseGold = savedGold,
-            navalBaseHealth = savedNavalBaseHealth
+            navalBaseHealth = savedNavalBaseHealth,
+            gameTime = gameTime // Save game time
         };
 
         // Serialize and save to file
@@ -132,6 +143,19 @@ public class GameManager : MonoBehaviour
             navalBaseController.health = loadedData.navalBaseHealth;
             navalBaseController.UpdateGoldUI(); // Update gold UI
             navalBaseController.UpdateHealthUI(); // Update health UI
+
+            // Reload game time
+            gameTime = loadedData.gameTime;
+        }
+    }
+
+    private void UpdateGameTimeUI()
+    {
+        if (gameTimeText != null)
+        {
+            int minutes = Mathf.FloorToInt(gameTime / 60);
+            int seconds = Mathf.FloorToInt(gameTime % 60);
+            gameTimeText.text = $"Time: {minutes:D2}:{seconds:D2}"; // Format as MM:SS
         }
     }
 }
@@ -146,4 +170,5 @@ public class GameData
     public List<int> enemyHealth; // Save enemy health
     public int navalBaseGold; // Save naval base gold
     public int navalBaseHealth; // Save naval base health
+    public float gameTime; // Save game time
 }
