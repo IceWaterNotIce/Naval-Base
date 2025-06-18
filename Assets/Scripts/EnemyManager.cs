@@ -5,15 +5,13 @@ public class EnemyManager : MonoBehaviour
 {
     private List<GameObject> activeEnemies = new List<GameObject>();
 
-    public GameObject enemyPrefab; // Prefab for spawning enemies
-    public Transform spawnPoint; // Point where enemies are spawned
-    public float spawnInterval = 5f; // Interval between enemy spawns
-
-    private float spawnTimer;
-
+    public List<GameObject> enemyPrefabs; // List of enemy prefabs
     public Transform navalBase; // Reference to the naval base
     public float minSpawnDistance = 5f; // Minimum distance from the naval base
     public float maxSpawnDistance = 15f; // Maximum distance from the naval base
+    public float spawnInterval = 5f; // Interval between enemy spawns
+
+    private float spawnTimer;
 
     public void RegisterEnemy(GameObject enemy)
     {
@@ -79,11 +77,15 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Vector2 randomDirection = Random.insideUnitCircle.normalized; // Random direction
-        float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance); // Random distance within range
-        Vector3 spawnPosition = navalBase.position + new Vector3(randomDirection.x, randomDirection.y, 0) * randomDistance;
+        if (enemyPrefabs.Count > 0)
+        {
+            Vector2 randomDirection = Random.insideUnitCircle.normalized; // Random direction
+            float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance); // Random distance within range
+            Vector3 spawnPosition = navalBase.position + new Vector3(randomDirection.x, randomDirection.y, 0) * randomDistance;
 
-        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-        RegisterEnemy(enemy);
+            GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Select a random enemy prefab
+            GameObject enemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
+            RegisterEnemy(enemy);
+        }
     }
 }

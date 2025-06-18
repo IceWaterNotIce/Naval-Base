@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private List<Vector3> savedAmmoDirections = new List<Vector3>(); // Save ammo directions
     private List<Vector3> savedEnemyPositions = new List<Vector3>();
     private List<int> savedEnemyHealth = new List<int>(); // Save enemy health
+    private List<int> savedEnemyPrefabIndices = new List<int>(); // Save enemy prefab indices
     private int savedGold;
     private int savedNavalBaseHealth; // Save naval base health
 
@@ -59,9 +60,10 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Save enemy positions and health
+        // Save enemy positions, health, and prefab indices
         savedEnemyPositions.Clear();
         savedEnemyHealth.Clear();
+        savedEnemyPrefabIndices.Clear();
         foreach (GameObject enemy in enemyManager.GetActiveEnemies())
         {
             if (enemy != null)
@@ -72,6 +74,9 @@ public class GameManager : MonoBehaviour
                 {
                     savedEnemyHealth.Add(enemyScript.health);
                 }
+
+                int prefabIndex = enemyManager.enemyPrefabs.IndexOf(enemyScript.gameObject);
+                savedEnemyPrefabIndices.Add(prefabIndex >= 0 ? prefabIndex : 0); // Save prefab index, default to 0 if not found
             }
         }
 
@@ -87,6 +92,7 @@ public class GameManager : MonoBehaviour
             ammoDirections = savedAmmoDirections,
             enemyPositions = savedEnemyPositions,
             enemyHealth = savedEnemyHealth,
+            enemyPrefabIndices = savedEnemyPrefabIndices,
             navalBaseGold = savedGold,
             navalBaseHealth = savedNavalBaseHealth,
             gameTime = gameTime // Save game time
@@ -127,7 +133,9 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < loadedData.enemyPositions.Count; i++)
             {
                 Vector3 position = loadedData.enemyPositions[i];
-                GameObject enemy = Instantiate(enemyManager.enemyPrefab, position, Quaternion.identity);
+                int prefabIndex = i < loadedData.enemyPrefabIndices.Count ? loadedData.enemyPrefabIndices[i] : 0; // Default to index 0 if no data
+                GameObject enemyPrefab = enemyManager.enemyPrefabs[Mathf.Clamp(prefabIndex, 0, enemyManager.enemyPrefabs.Count - 1)];
+                GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
                 enemyManager.RegisterEnemy(enemy);
 
                 Enemy enemyScript = enemy.GetComponent<Enemy>();
@@ -168,6 +176,7 @@ public class GameData
     public List<Vector3> ammoDirections; // Save ammo directions
     public List<Vector3> enemyPositions;
     public List<int> enemyHealth; // Save enemy health
+    public List<int> enemyPrefabIndices; // Save enemy prefab indices
     public int navalBaseGold; // Save naval base gold
     public int navalBaseHealth; // Save naval base health
     public float gameTime; // Save game time
