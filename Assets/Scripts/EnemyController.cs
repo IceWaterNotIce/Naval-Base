@@ -90,7 +90,8 @@ public class Enemy : MonoBehaviour
             GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
             if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
             {
-                ammoScript.SetTarget(target, "NavalBase"); // Set the naval base as the target
+                ammoScript.SetTarget(target, "NavalBase"); // Pass Transform and tag
+                Debug.Log($"Ammo shot at NavalBase with targetTag: NavalBase"); // Debug log
             }
         }
     }

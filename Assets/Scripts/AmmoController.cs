@@ -41,12 +41,14 @@ public class Ammo : MonoBehaviour
         if (enemyTarget != null)
         {
             targetPosition = enemyTarget.position; // Store the enemy's position once
+            direction = (targetPosition - transform.position).normalized; // Set direction immediately
             targetTag = tag; // Store the target's tag
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log($"Ammo collided with {collision.tag}"); // Debug log
         if (collision.CompareTag(targetTag)) // Check if collided object matches the target tag
         {
             if (targetTag == "Enemy")
@@ -55,6 +57,7 @@ public class Ammo : MonoBehaviour
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage); // Deal damage to the enemy
+                    Debug.Log("Damage dealt to Enemy"); // Debug log
                 }
             }
             else if (targetTag == "NavalBase")
@@ -63,6 +66,7 @@ public class Ammo : MonoBehaviour
                 if (navalBase != null)
                 {
                     navalBase.TakeDamage(damage); // Deal damage to the naval base
+                    Debug.Log("Damage dealt to NavalBase"); // Debug log
                 }
             }
             Destroy(gameObject); // Destroy the ammo
