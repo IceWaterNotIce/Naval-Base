@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
 
     private List<Vector3> savedAmmoPositions = new List<Vector3>();
     private List<Vector3> savedEnemyPositions = new List<Vector3>();
+    private List<int> savedEnemyHealth = new List<int>(); // Save enemy health
     private int savedGold;
+    private int savedNavalBaseHealth; // Save naval base health
 
     private string saveFilePath;
 
@@ -37,25 +39,34 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Save enemy positions
+        // Save enemy positions and health
         savedEnemyPositions.Clear();
+        savedEnemyHealth.Clear();
         foreach (GameObject enemy in enemyManager.GetActiveEnemies())
         {
             if (enemy != null)
             {
                 savedEnemyPositions.Add(enemy.transform.position);
+                Enemy enemyScript = enemy.GetComponent<Enemy>();
+                if (enemyScript != null)
+                {
+                    savedEnemyHealth.Add(enemyScript.health);
+                }
             }
         }
 
-        // Save naval base gold
+        // Save naval base gold and health
         savedGold = navalBaseController.gold;
+        savedNavalBaseHealth = navalBaseController.health;
 
         // Create a save object
         GameData saveData = new GameData
         {
             ammoPositions = savedAmmoPositions,
             enemyPositions = savedEnemyPositions,
-            navalBaseGold = savedGold
+            enemyHealth = savedEnemyHealth,
+            navalBaseGold = savedGold,
+            navalBaseHealth = savedNavalBaseHealth
         };
 
         // Serialize and save to file
@@ -82,15 +93,26 @@ public class GameManager : MonoBehaviour
                 ammoManager.RegisterAmmo(ammo);
             }
 
-            // Reload enemies
-            foreach (Vector3 position in loadedData.enemyPositions)
+            // Reload enemies and their health
+            for (int i = 0; i < loadedData.enemyPositions.Count; i++)
             {
+                Vector3 position = loadedData.enemyPositions[i];
                 GameObject enemy = Instantiate(enemyManager.enemyPrefab, position, Quaternion.identity);
                 enemyManager.RegisterEnemy(enemy);
+
+                Enemy enemyScript = enemy.GetComponent<Enemy>();
+                if (enemyScript != null && i < loadedData.enemyHealth.Count)
+                {
+                    enemyScript.health = loadedData.enemyHealth[i];
+                    enemyScript.UpdateHealthUI(); // Update health UI
+                }
             }
 
-            // Reload naval base gold
+            // Reload naval base gold and health
             navalBaseController.gold = loadedData.navalBaseGold;
+            navalBaseController.health = loadedData.navalBaseHealth;
+            navalBaseController.UpdateGoldUI(); // Update gold UI
+            navalBaseController.UpdateHealthUI(); // Update health UI
         }
     }
 }
@@ -100,5 +122,7 @@ public class GameData
 {
     public List<Vector3> ammoPositions;
     public List<Vector3> enemyPositions;
+    public List<int> enemyHealth; // Save enemy health
     public int navalBaseGold; // Save naval base gold
+    public int navalBaseHealth; // Save naval base health
 }

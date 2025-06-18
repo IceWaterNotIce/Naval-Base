@@ -14,6 +14,7 @@ public class NavalBaseController : MonoBehaviour
     public int maxHealth = 100; // Maximum health
     public Text healthText; // Reference to the UI Text element for health display
     public Slider healthSlider; // Reference to the UI Slider element for health display
+    public AmmoManager ammoManager; // Reference to AmmoManager
 
     private float fireTimer;
 
@@ -47,6 +48,7 @@ public class NavalBaseController : MonoBehaviour
         if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
         {
             ammoScript.SetTarget(enemy);
+            ammoManager.RegisterAmmo(ammo); // Register the ammo with AmmoManager
         }
     }
 
@@ -67,7 +69,7 @@ public class NavalBaseController : MonoBehaviour
         }
     }
 
-    private void UpdateGoldUI()
+    public void UpdateGoldUI() // Change to public so it can be accessed externally
     {
         if (goldText != null)
         {
@@ -75,7 +77,7 @@ public class NavalBaseController : MonoBehaviour
         }
     }
 
-    private void UpdateHealthUI()
+    public void UpdateHealthUI() // Change to public so it can be accessed externally
     {
         if (healthSlider != null)
         {

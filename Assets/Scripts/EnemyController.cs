@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void UpdateHealthUI()
+    public void UpdateHealthUI() // Change to public so it can be accessed externally
     {
         if (healthSlider != null)
         {

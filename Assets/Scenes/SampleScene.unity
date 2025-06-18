@@ -233,6 +233,7 @@ MonoBehaviour:
   maxHealth: 100
   healthText: {fileID: 748255373}
   healthSlider: {fileID: 2135907900}
+  ammoManager: {fileID: 1419681875}
 --- !u!1 &279809813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1087,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecda6b1574ee4df4189af73afeb84163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoPrefab: {fileID: 0}
+  ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
 --- !u!4 &1419681876
 Transform:
   m_ObjectHideFlags: 0
