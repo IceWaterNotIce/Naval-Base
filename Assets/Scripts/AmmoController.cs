@@ -5,6 +5,7 @@ public class Ammo : MonoBehaviour
     private Vector3 targetPosition; // Store the target's position
     public float speed = 10f;
     public float maxDistance = 20f; // Maximum distance ammo can travel
+    public int damage = 1; // Damage dealt by the ammo
 
     private Vector3 startPosition; // Starting position of the ammo
     private Vector3 direction; // Direction toward the target
@@ -46,12 +47,11 @@ public class Ammo : MonoBehaviour
     {
         if (collision.CompareTag("Enemy")) // Check if collided object is an enemy
         {
-            NavalBaseController navalBase = FindObjectOfType<NavalBaseController>();
-            if (navalBase != null)
+            Enemy enemy = collision.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                navalBase.AddGold(1); // Ensure this method is called correctly
+                enemy.TakeDamage(damage); // Deal damage to the enemy
             }
-            Destroy(collision.gameObject); // Destroy the enemy
             Destroy(gameObject); // Destroy the ammo
         }
     }
