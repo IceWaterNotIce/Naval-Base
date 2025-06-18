@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     private List<int> savedEnemyPrefabIndices = new List<int>(); // Save enemy prefab indices
     private int savedGold;
     private int savedNavalBaseHealth; // Save naval base health
+    private int savedNavalBaseMaxHealth; // Save naval base max health
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
@@ -83,6 +84,7 @@ public class GameManager : MonoBehaviour
         // Save naval base gold and health
         savedGold = navalBaseController.gold;
         savedNavalBaseHealth = navalBaseController.health;
+        savedNavalBaseMaxHealth = navalBaseController.maxHealth; // Save max health
 
         // Create a save object
         GameData saveData = new GameData
@@ -95,6 +97,7 @@ public class GameManager : MonoBehaviour
             enemyPrefabIndices = savedEnemyPrefabIndices,
             navalBaseGold = savedGold,
             navalBaseHealth = savedNavalBaseHealth,
+            navalBaseMaxHealth = savedNavalBaseMaxHealth, // Save max health
             gameTime = gameTime // Save game time
         };
 
@@ -149,6 +152,7 @@ public class GameManager : MonoBehaviour
             // Reload naval base gold and health
             navalBaseController.gold = loadedData.navalBaseGold;
             navalBaseController.health = loadedData.navalBaseHealth;
+            navalBaseController.maxHealth = loadedData.navalBaseMaxHealth; // Reload max health
             navalBaseController.UpdateGoldUI(); // Update gold UI
             navalBaseController.UpdateHealthUI(); // Update health UI
 
@@ -179,5 +183,6 @@ public class GameData
     public List<int> enemyPrefabIndices; // Save enemy prefab indices
     public int navalBaseGold; // Save naval base gold
     public int navalBaseHealth; // Save naval base health
+    public int navalBaseMaxHealth; // Save naval base max health
     public float gameTime; // Save game time
 }
