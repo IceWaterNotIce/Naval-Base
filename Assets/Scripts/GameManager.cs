@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
 
     private List<Vector3> savedAmmoPositions = new List<Vector3>();
+    private List<string> savedAmmoTargetTags = new List<string>(); // Save ammo target tags
+    private List<Vector3> savedAmmoDirections = new List<Vector3>(); // Save ammo directions
     private List<Vector3> savedEnemyPositions = new List<Vector3>();
     private List<int> savedEnemyHealth = new List<int>(); // Save enemy health
     private int savedGold;
@@ -29,13 +31,21 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        // Save ammo positions
+        // Save ammo positions, target tags, and directions
         savedAmmoPositions.Clear();
+        savedAmmoTargetTags.Clear();
+        savedAmmoDirections.Clear();
         foreach (GameObject ammo in ammoManager.GetActiveAmmo())
         {
             if (ammo != null)
             {
                 savedAmmoPositions.Add(ammo.transform.position);
+                Ammo ammoScript = ammo.GetComponent<Ammo>();
+                if (ammoScript != null)
+                {
+                    savedAmmoTargetTags.Add(ammoScript.targetTag);
+                    savedAmmoDirections.Add(ammoScript.GetDirection());
+                }
             }
         }
 
@@ -63,6 +73,8 @@ public class GameManager : MonoBehaviour
         GameData saveData = new GameData
         {
             ammoPositions = savedAmmoPositions,
+            ammoTargetTags = savedAmmoTargetTags,
+            ammoDirections = savedAmmoDirections,
             enemyPositions = savedEnemyPositions,
             enemyHealth = savedEnemyHealth,
             navalBaseGold = savedGold,
@@ -87,10 +99,17 @@ public class GameManager : MonoBehaviour
             enemyManager.ClearEnemies();
 
             // Reload ammo
-            foreach (Vector3 position in loadedData.ammoPositions)
+            for (int i = 0; i < loadedData.ammoPositions.Count; i++)
             {
-                GameObject ammo = Instantiate(ammoManager.ammoPrefab, position, Quaternion.identity);
+                GameObject ammo = Instantiate(ammoManager.ammoPrefab, loadedData.ammoPositions[i], Quaternion.identity);
                 ammoManager.RegisterAmmo(ammo);
+
+                Ammo ammoScript = ammo.GetComponent<Ammo>();
+                if (ammoScript != null && i < loadedData.ammoTargetTags.Count && i < loadedData.ammoDirections.Count)
+                {
+                    ammoScript.targetTag = loadedData.ammoTargetTags[i];
+                    ammoScript.SetDirection(loadedData.ammoDirections[i]);
+                }
             }
 
             // Reload enemies and their health
@@ -121,6 +140,8 @@ public class GameManager : MonoBehaviour
 public class GameData
 {
     public List<Vector3> ammoPositions;
+    public List<string> ammoTargetTags; // Save ammo target tags
+    public List<Vector3> ammoDirections; // Save ammo directions
     public List<Vector3> enemyPositions;
     public List<int> enemyHealth; // Save enemy health
     public int navalBaseGold; // Save naval base gold

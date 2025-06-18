@@ -68,4 +68,14 @@ public class Ammo : MonoBehaviour
             Destroy(gameObject); // Destroy the ammo
         }
     }
+
+    public Vector3 GetDirection()
+    {
+        return direction; // Return the current direction
+    }
+
+    public void SetDirection(Vector3 newDirection)
+    {
+        direction = newDirection.normalized; // Set the direction
+    }
 }
