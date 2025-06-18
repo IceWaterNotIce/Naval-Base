@@ -11,6 +11,10 @@ public class EnemyManager : MonoBehaviour
 
     private float spawnTimer;
 
+    public Transform navalBase; // Reference to the naval base
+    public float minSpawnDistance = 5f; // Minimum distance from the naval base
+    public float maxSpawnDistance = 15f; // Maximum distance from the naval base
+
     public void RegisterEnemy(GameObject enemy)
     {
         activeEnemies.Add(enemy);
@@ -75,7 +79,11 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        Vector2 randomDirection = Random.insideUnitCircle.normalized; // Random direction
+        float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance); // Random distance within range
+        Vector3 spawnPosition = navalBase.position + new Vector3(randomDirection.x, randomDirection.y, 0) * randomDistance;
+
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         RegisterEnemy(enemy);
     }
 }

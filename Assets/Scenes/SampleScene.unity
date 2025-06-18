@@ -397,6 +397,9 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1458330411860717221, guid: 63f6c19c51a7fe947bc91dc534228a0a, type: 3}
   spawnPoint: {fileID: 603846844}
   spawnInterval: 2
+  navalBase: {fileID: 274980083}
+  minSpawnDistance: 5
+  maxSpawnDistance: 15
 --- !u!4 &603846844
 Transform:
   m_ObjectHideFlags: 0
