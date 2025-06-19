@@ -13,7 +13,7 @@ public class TechTreeManager : MonoBehaviour {
     public PredictionTech dynamicTracking = new PredictionTech();
     public PredictionTech intelligentCorrection = new PredictionTech();
     
-    public int techPoints = 0;
+    public NavalBaseController navalBaseController; // Reference to NavalBaseController
     public Button basicShootingButton;
     public Button dynamicTrackingButton;
     public Button intelligentCorrectionButton;
@@ -28,29 +28,33 @@ public class TechTreeManager : MonoBehaviour {
 
     //=== 科技解鎖方法 ===//
     public void UnlockBasicShooting() {
-        if (techPoints >= 2 && !basicShooting.isUnlocked)
+        if (navalBaseController.gold >= 2 && !basicShooting.isUnlocked)
         {
             basicShooting.isUnlocked = true;
-            techPoints -= 2;
+            navalBaseController.gold -= 2; // Deduct gold
+            navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
             UpdateUI();
         }
     }
 
     public void UnlockDynamicTracking() {
-        if (techPoints >= 3 && basicShooting.isUnlocked && !dynamicTracking.isUnlocked)
+        if (navalBaseController.gold >= 3 && basicShooting.isUnlocked && !dynamicTracking.isUnlocked)
         {
             dynamicTracking.isUnlocked = true;
-            techPoints -= 3;
+            navalBaseController.gold -= 3; // Deduct gold
+            navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
             UpdateUI();
         }
     }
 
     public void UnlockIntelligentCorrection() {
-        if(techPoints >= 4 && dynamicTracking.isUnlocked && !intelligentCorrection.isUnlocked) {
+        if (navalBaseController.gold >= 4 && dynamicTracking.isUnlocked && !intelligentCorrection.isUnlocked)
+        {
             intelligentCorrection.isUnlocked = true;
-            techPoints -= 4;
+            navalBaseController.gold -= 4; // Deduct gold
+            navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
             UpdateUI();
         }
@@ -62,15 +66,13 @@ public class TechTreeManager : MonoBehaviour {
         public bool basicShooting;
         public bool dynamicTracking;
         public bool intelligentCorrection;
-        public int savedTechPoints;
     }
 
     void SaveTechTree() {
         SaveData data = new SaveData {
             basicShooting = basicShooting.isUnlocked,
             dynamicTracking = dynamicTracking.isUnlocked,
-            intelligentCorrection = intelligentCorrection.isUnlocked,
-            savedTechPoints = techPoints
+            intelligentCorrection = intelligentCorrection.isUnlocked
         };
         File.WriteAllText(savePath, JsonUtility.ToJson(data));
     }
@@ -81,15 +83,14 @@ public class TechTreeManager : MonoBehaviour {
             basicShooting.isUnlocked = data.basicShooting;
             dynamicTracking.isUnlocked = data.dynamicTracking;
             intelligentCorrection.isUnlocked = data.intelligentCorrection;
-            techPoints = data.savedTechPoints;
         }
     }
 
     //=== UI 更新 ===//
     void UpdateUI() {
-        basicShootingButton.interactable = techPoints >= 2 && !basicShooting.isUnlocked;
-        dynamicTrackingButton.interactable = techPoints >= 3 && basicShooting.isUnlocked && !dynamicTracking.isUnlocked;
-        intelligentCorrectionButton.interactable = techPoints >= 4 && dynamicTracking.isUnlocked && !intelligentCorrection.isUnlocked;
+        basicShootingButton.interactable = navalBaseController.gold >= 2 && !basicShooting.isUnlocked;
+        dynamicTrackingButton.interactable = navalBaseController.gold >= 3 && basicShooting.isUnlocked && !dynamicTracking.isUnlocked;
+        intelligentCorrectionButton.interactable = navalBaseController.gold >= 4 && dynamicTracking.isUnlocked && !intelligentCorrection.isUnlocked;
         
         // 視覺化已解鎖狀態
         basicShootingButton.GetComponent<Image>().color = basicShooting.isUnlocked ? Color.green : Color.white;

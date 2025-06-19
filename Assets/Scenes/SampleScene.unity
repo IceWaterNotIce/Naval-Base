@@ -1749,26 +1749,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicShooting:
     isUnlocked: 0
-    useVelocityPrediction: 0
-    enableCurvePrediction: 0
-    predictionAccuracy: 0
-    predictionUpdateRate: 0
-    maxBounces: 0
   dynamicTracking:
     isUnlocked: 0
-    useVelocityPrediction: 0
-    enableCurvePrediction: 0
-    predictionAccuracy: 0
-    predictionUpdateRate: 0
-    maxBounces: 0
   intelligentCorrection:
     isUnlocked: 0
-    useVelocityPrediction: 0
-    enableCurvePrediction: 0
-    predictionAccuracy: 0
-    predictionUpdateRate: 0
-    maxBounces: 0
-  techPoints: 10
+  navalBaseController: {fileID: 274980084}
   basicShootingButton: {fileID: 128715384}
   dynamicTrackingButton: {fileID: 1717922497}
   intelligentCorrectionButton: {fileID: 1375901}
