@@ -4,19 +4,26 @@
     "ammoDirections": [],
     "enemyPositions": [
         {
-            "x": 10.041226387023926,
-            "y": 7.613109111785889,
+            "x": -3.6902620792388918,
+            "y": -2.4633419513702394,
+            "z": 0.0
+        },
+        {
+            "x": -4.652605056762695,
+            "y": -11.005992889404297,
             "z": 0.0
         }
     ],
     "enemyHealth": [
+        2,
         10
     ],
     "enemyPrefabIndices": [
+        0,
         0
     ],
-    "navalBaseGold": 1802,
-    "navalBaseHealth": 42,
+    "navalBaseGold": 1840,
+    "navalBaseHealth": 0,
     "navalBaseMaxHealth": 100,
-    "gameTime": 5456.06982421875
+    "gameTime": 5670.54052734375
 }
