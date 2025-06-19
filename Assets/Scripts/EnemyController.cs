@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float deceleration = 0.5f; // Deceleration rate
     public float rotationSpeed = 100f; // Rotation speed
     public Transform target; // Target for the enemy to move towards
+    public Rigidbody2D rb; // Reference to Rigidbody2D for velocity updates
     public int health = 5; // Enemy health
     public int maxHealth = 5; // Maximum health
     public Slider healthSlider; // Reference to the UI Slider element for health display
@@ -33,6 +34,7 @@ public class Enemy : MonoBehaviour
             target = GameObject.FindWithTag("NavalBase").transform; // Assuming NavalBase has a tag
         }
 
+        rb = GetComponent<Rigidbody2D>(); // Get Rigidbody2D component
         SetCanvasEventCamera(); // Set the event camera for the canvas
         UpdateHealthUI(); // Initialize health display
     }
@@ -66,7 +68,7 @@ public class Enemy : MonoBehaviour
 
                 // Accelerate towards the naval base
                 currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-                transform.position += transform.right * currentSpeed * Time.deltaTime;
+                rb.linearVelocity = transform.right * currentSpeed; // Update Rigidbody2D linearVelocity
             }
             else // Too close to the naval base
             {
@@ -79,7 +81,7 @@ public class Enemy : MonoBehaviour
 
                 // Move away from the naval base
                 currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-                transform.position += transform.right * currentSpeed * Time.deltaTime;
+                rb.linearVelocity = transform.right * currentSpeed; // Update Rigidbody2D linearVelocity
             }
         }
     }
@@ -99,7 +101,7 @@ public class Enemy : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
             // Move in orbit
-            transform.position += transform.right * orbitSpeed * Time.deltaTime;
+            rb.linearVelocity = transform.right * orbitSpeed; // Update Rigidbody2D linearVelocity
         }
     }
 

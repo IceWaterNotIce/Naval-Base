@@ -36,14 +36,16 @@ public class Ammo : MonoBehaviour
         }
     }
 
+    public void SetTarget(Vector3 targetPosition, string tag)
+    {
+        this.targetPosition = targetPosition; // Store the target's position
+        direction = (targetPosition - transform.position).normalized; // Set direction immediately
+        targetTag = tag; // Store the target's tag
+    }
+
     public void SetTarget(Transform enemyTarget, string tag)
     {
-        if (enemyTarget != null)
-        {
-            targetPosition = enemyTarget.position; // Store the enemy's position once
-            direction = (targetPosition - transform.position).normalized; // Set direction immediately
-            targetTag = tag; // Store the target's tag
-        }
+        SetTarget(enemyTarget.position, tag); // Overload for Transform
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -15,6 +15,7 @@ public class NavalBaseController : MonoBehaviour
     public Text healthText; // Reference to the UI Text element for health display
     public Slider healthSlider; // Reference to the UI Slider element for health display
     public AmmoManager ammoManager; // Reference to AmmoManager
+    public TechTreeManager techTreeManager; // Reference to TechTreeManager
 
     private float fireTimer;
 
@@ -47,8 +48,39 @@ public class NavalBaseController : MonoBehaviour
         GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
         if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
         {
-            ammoScript.SetTarget(enemy, "Enemy"); // Set the target for the ammo
-            ammoManager.RegisterAmmo(ammo); // Register the ammo with AmmoManager
+            Vector3 targetPos = enemy.position;
+
+            if (techTreeManager != null && techTreeManager.basicShooting.isUnlocked)
+            {
+                Debug.Log($"Shooting at enemy {enemy.name} at position {targetPos}"); // Log enemy position for debugging
+
+                if (techTreeManager.dynamicTracking.isUnlocked)
+                {
+                    Rigidbody2D enemyRB = enemy.GetComponent<Rigidbody2D>();
+                    if (enemyRB != null && enemyRB.linearVelocity != Vector2.zero)
+                    {
+                        Vector2 enemyVelocity = enemyRB.linearVelocity; // Get enemy linearVelocity
+                        float timeToTarget = Vector3.Distance(firePoint.position, enemy.position) / ammoScript.speed; // Predict time to target
+                        targetPos += new Vector3(enemyVelocity.x, enemyVelocity.y, 0) * timeToTarget; // Predict target position
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"Enemy {enemy.name} has zero linearVelocity or no Rigidbody2D component.");
+                    }
+                }
+
+                if (techTreeManager.intelligentCorrection.isUnlocked)
+                {
+                    RaycastHit2D hit = Physics2D.Raycast(firePoint.position, (targetPos - firePoint.position).normalized);
+                    if (hit.collider != null)
+                    {
+                        targetPos = new Vector3(hit.point.x, hit.point.y, 0) + Vector3.Reflect((targetPos - firePoint.position).normalized, new Vector3(hit.normal.x, hit.normal.y, 0)); // Adjust for obstacles
+                    }
+                }
+            }
+
+            ammoScript.SetTarget(targetPos, "Enemy");
+            ammoManager.RegisterAmmo(ammo);
         }
     }
 

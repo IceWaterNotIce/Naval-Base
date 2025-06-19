@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        SaveGame(); // Save game data when the game quits
+        SaveGame(); // Save game data when the application quits
     }
 
     void Update()
@@ -103,7 +104,7 @@ public class GameManager : MonoBehaviour
 
         // Serialize and save to file
         string json = JsonUtility.ToJson(saveData, true);
-        File.WriteAllText(saveFilePath, json);
+        File.WriteAllText(saveFilePath, json); // Save JSON to file
     }
 
     public void LoadGame()
@@ -169,6 +170,11 @@ public class GameManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(gameTime % 60);
             gameTimeText.text = $"Time: {minutes:D2}:{seconds:D2}"; // Format as MM:SS
         }
+    }
+
+    public void GoBackToScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName); // Load the specified scene
     }
 }
 
