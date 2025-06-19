@@ -7,6 +7,7 @@ public class InfiniteTileMap : MonoBehaviour
     public int tileSize = 10; // Size of each tile
     public int viewDistance = 3; // Number of tiles visible around the player
     public Transform player; // Reference to the player
+    public bool showTileEdges = false; // Toggle for showing tile edges
 
     private Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
     private Vector2Int currentTilePosition;
@@ -65,6 +66,14 @@ public class InfiniteTileMap : MonoBehaviour
     {
         Vector3 worldPosition = new Vector3(tilePosition.x * tileSize, tilePosition.y * tileSize, 10);
         GameObject tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
+
+        // Add edge line visibility logic
+        LineRenderer lineRenderer = tile.GetComponent<LineRenderer>();
+        if (lineRenderer != null)
+        {
+            lineRenderer.enabled = showTileEdges; // Set visibility based on toggle
+        }
+
         tiles[tilePosition] = tile;
     }
 
@@ -84,6 +93,20 @@ public class InfiniteTileMap : MonoBehaviour
         {
             Destroy(tiles[tilePosition]);
             tiles.Remove(tilePosition);
+        }
+    }
+
+    public void ToggleTileEdges()
+    {
+        showTileEdges = !showTileEdges; // Toggle visibility
+
+        foreach (var tile in tiles.Values)
+        {
+            LineRenderer lineRenderer = tile.GetComponent<LineRenderer>();
+            if (lineRenderer != null)
+            {
+                lineRenderer.enabled = showTileEdges; // Update visibility for all tiles
+            }
         }
     }
 }
