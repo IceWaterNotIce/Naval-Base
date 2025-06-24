@@ -6,6 +6,7 @@ public class PlayerShipControlUI : MonoBehaviour
     public GameObject controlPanel; // The UI panel for controlling the ship
     public Button fullSpeedButton, threeQuarterSpeedButton, halfSpeedButton, quarterSpeedButton, stopButton;
     public Button rotateLeftButton, rotateHalfLeftButton, rotateNoneButton, rotateHalfRightButton, rotateRightButton;
+    public Button DeselectShipButton; // New button for deselecting the ship
 
     private PlayerShip selectedShip;
 
@@ -26,6 +27,9 @@ public class PlayerShipControlUI : MonoBehaviour
         rotateNoneButton.onClick.AddListener(() => SetRotation(0f));
         rotateHalfRightButton.onClick.AddListener(() => SetRotation(0.5f));
         rotateRightButton.onClick.AddListener(() => SetRotation(1f));
+
+        // Bind deselect button
+        DeselectShipButton.onClick.AddListener(DeselectShip);
     }
 
     void Update()

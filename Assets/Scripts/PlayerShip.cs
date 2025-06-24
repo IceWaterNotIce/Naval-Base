@@ -8,29 +8,6 @@ public class PlayerShip : Ship
 
     protected override void Update()
     {
-        // Ensure currentSpeed and currentRotateSpeed are set for movement and rotation
-        if (Input.GetKey(KeyCode.W)) // Example: Move forward when 'W' is pressed
-        {
-            currentSpeed = maxSpeed;
-        }
-        else if (Input.GetKey(KeyCode.S)) // Example: Stop when 'S' is pressed
-        {
-            currentSpeed = 0f;
-        }
-
-        if (Input.GetKey(KeyCode.A)) // Rotate left when 'A' is pressed
-        {
-            currentRotateSpeed = -targetRotationSpeed;
-        }
-        else if (Input.GetKey(KeyCode.D)) // Rotate right when 'D' is pressed
-        {
-            currentRotateSpeed = targetRotationSpeed;
-        }
-        else // No rotation
-        {
-            currentRotateSpeed = 0f;
-        }
-
         base.Update(); // Call base class Update for movement and health UI updates
         HandleAttack(); // 處理攻擊邏輯
     }

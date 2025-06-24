@@ -5,7 +5,6 @@ public class ShipCreationUI : MonoBehaviour
 {
     public Button CreateButton;
     public Button FormBattleLineButton; // 新增按鈕
-    public Button DeselectShipButton; // 新增按鈕
     public PlayerShipManager ShipManager;
     public NavalBaseController NavalBaseController; // 引用 NavalBaseController
     public Text ErrorText; // 顯示錯誤訊息的 UI
@@ -14,7 +13,6 @@ public class ShipCreationUI : MonoBehaviour
     {
         CreateButton.onClick.AddListener(OnCreateButtonClicked);
         FormBattleLineButton.onClick.AddListener(OnFormBattleLineButtonClicked); // 綁定按鈕事件
-        DeselectShipButton.onClick.AddListener(OnDeselectShipButtonClicked); // 綁定按鈕事件
         UpdateGoldText();
     }
 
@@ -38,15 +36,6 @@ public class ShipCreationUI : MonoBehaviour
         Vector3 direction = Vector3.right; // 排列方向
         float spacing = 2f; // 間距
         ShipManager.FormBattleLine(startPosition, direction, spacing); // 呼叫排列方法
-    }
-
-    private void OnDeselectShipButtonClicked()
-    {
-        PlayerShipControlUI controlUI = FindFirstObjectByType<PlayerShipControlUI>(); // Use the updated method
-        if (controlUI != null)
-        {
-            controlUI.DeselectShip(); // Deselect the current ship
-        }
     }
 
     private void UpdateGoldText()
