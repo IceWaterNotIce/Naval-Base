@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         savedAmmoDirections.Clear();
         foreach (GameObject ammo in ammoManager.GetActiveAmmo())
         {
-            if (ammo != null)
+            if (ammo != null) // Check if ammo is not null
             {
                 savedAmmoPositions.Add(ammo.transform.position);
                 Ammo ammoScript = ammo.GetComponent<Ammo>();
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
         savedEnemyPrefabIndices.Clear();
         foreach (GameObject enemy in enemyManager.GetActiveEnemies())
         {
-            if (enemy != null)
+            if (enemy != null) // Check if enemy is not null
             {
                 savedEnemyPositions.Add(enemy.transform.position);
                 EnemyShip enemyScript = enemy.GetComponent<EnemyShip>();
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
                     savedEnemyHealth.Add((int)enemyScript.Health); // 使用 Health 屬性
                 }
 
-                int prefabIndex = enemyManager.enemyPrefabs.IndexOf(enemyScript.gameObject);
+                int prefabIndex = enemyManager.enemyPrefabs.IndexOf(enemyScript?.gameObject);
                 savedEnemyPrefabIndices.Add(prefabIndex >= 0 ? prefabIndex : 0); // 保存 prefab 索引
             }
         }
@@ -92,14 +92,17 @@ public class GameManager : MonoBehaviour
         List<PlayerShipData> playerShipDataList = new List<PlayerShipData>();
         foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
         {
-            PlayerShip playerShipScript = ship.GetComponent<PlayerShip>();
-            if (playerShipScript != null)
+            if (ship != null) // Check if ship is not null
             {
-                playerShipDataList.Add(new PlayerShipData
+                PlayerShip playerShipScript = ship.GetComponent<PlayerShip>();
+                if (playerShipScript != null)
                 {
-                    position = ship.transform.position,
-                    health = playerShipScript.Health
-                });
+                    playerShipDataList.Add(new PlayerShipData
+                    {
+                        position = ship.transform.position,
+                        health = playerShipScript.Health
+                    });
+                }
             }
         }
 
