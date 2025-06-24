@@ -16,6 +16,10 @@ public class NavalBaseController : MonoBehaviour
     public Slider healthSlider; // Reference to the UI Slider element for health display
     public AmmoManager ammoManager; // Reference to AmmoManager
     public TechTreeManager techTreeManager; // Reference to TechTreeManager
+    public int level = 1; // Naval base level
+    public int maxLevel = 10; // Maximum level
+    public Text levelText; // Reference to the UI Text element for level display
+    public int levelUpGoldCost = 100; // Gold cost for leveling up
 
     private float fireTimer;
 
@@ -29,6 +33,7 @@ public class NavalBaseController : MonoBehaviour
         }
         UpdateGoldUI(); // Update the gold UI
         UpdateHealthUI(); // Update the health UI
+        UpdateLevelUI(); // Update the level UI
     }
 
     private void DetectAndShootEnemies()
@@ -118,6 +123,35 @@ public class NavalBaseController : MonoBehaviour
         if (healthText != null)
         {
             healthText.text = $"{health}/{maxHealth}"; // Update the health text
+        }
+    }
+
+    public void LevelUp()
+    {
+        if (gold >= levelUpGoldCost && level < maxLevel)
+        {
+            gold -= levelUpGoldCost; // Deduct gold for leveling up
+            level++; // Increase level
+            levelUpGoldCost += 50; // Increase the cost for the next level
+            maxHealth += 20; // Increase max health
+            detectionRadius += 2f; // Increase detection radius
+            health = maxHealth; // Restore health to max
+            UpdateGoldUI(); // Update gold UI
+            UpdateHealthUI(); // Update health UI
+            UpdateLevelUI(); // Update level UI
+            Debug.Log($"Naval Base leveled up to {level}!");
+        }
+        else
+        {
+            Debug.LogWarning("Not enough gold or already at max level!");
+        }
+    }
+
+    public void UpdateLevelUI()
+    {
+        if (levelText != null)
+        {
+            levelText.text = $"Level: {level}"; // Update the level text
         }
     }
 
