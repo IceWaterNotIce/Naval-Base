@@ -55,7 +55,7 @@ public class Ammo : MonoBehaviour
         {
             if (targetTag == "Enemy")
             {
-                Enemy enemy = collision.GetComponent<Enemy>();
+                EnemyShip enemy = collision.GetComponent<EnemyShip>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage); // Deal damage to the enemy

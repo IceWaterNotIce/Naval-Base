@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateButton: {fileID: 770948699}
   ShipManager: {fileID: 598007195}
-  NavalBaseController: {fileID: 0}
+  NavalBaseController: {fileID: 274980084}
   ErrorText: {fileID: 2079093661}
 --- !u!1 &1717922495
 GameObject:

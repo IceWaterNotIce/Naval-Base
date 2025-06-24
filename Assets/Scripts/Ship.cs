@@ -1,20 +1,63 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
-    public string ShipName;
-    public float Speed;
-    public float Health;
+    // ===== 基本屬性 =====
+    public string ShipName;  // 船艦名稱
 
-    public void Initialize(string name, float speed, float health)
+    // ===== 血量 (Health) 相關 =====
+    public float Health;         // 當前血量
+    public int maxHealth = 5;    // 最大血量
+    public Slider healthSlider;  // 血條 UI Slider
+    public Text healthText;      // 血量文字 UI
+    public Canvas healthCanvas;  // 血條畫布
+
+    // ===== 速度 (Speed) 相關 =====
+    public float Speed;          // 當前速度（可被外部修改）
+    public float maxSpeed = 2f;  // 最大移動速度
+    public float acceleration = 0.5f; // 加速度
+    public float deceleration = 0.5f; // 減速度
+    protected float currentSpeed = 0f; // 內部計算的當前速度
+
+    // ===== 旋轉 (Rotation) 相關 =====
+    public float rotationSpeed = 100f; // 旋轉速度（度/秒）
+
+    // ===== 戰鬥系統 =====
+    public int attackDamage = 1;      // 攻擊傷害
+    public float attackInterval = 1f; // 攻擊間隔（秒）
+    protected float attackTimer;      // 攻擊計時器
+    public GameObject ammoPrefab;     // 子彈預製體
+
+    // ===== 目標與物理 =====
+    public Transform target;   // 追蹤目標
+    public Rigidbody2D rb;     // 物理引擎組件
+
+    // ===== 方法 =====
+    public virtual void Initialize(string name, float speed, float health)
     {
         ShipName = name;
         Speed = speed;
         Health = health;
     }
 
-    public void Move(Vector3 direction)
+    public virtual void Move(Vector3 direction)
     {
         transform.Translate(direction * Speed * Time.deltaTime);
+    }
+
+    public virtual void TakeDamage(int damage)
+    {
+        Health -= damage;
+        Health = Mathf.Clamp(Health, 0, maxHealth); // 確保血量不低於 0
+        if (Health <= 0)
+        {
+            DestroyShip();
+        }
+    }
+
+    protected virtual void DestroyShip()
+    {
+        Destroy(gameObject);
     }
 }

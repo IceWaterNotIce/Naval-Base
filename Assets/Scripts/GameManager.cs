@@ -71,14 +71,14 @@ public class GameManager : MonoBehaviour
             if (enemy != null)
             {
                 savedEnemyPositions.Add(enemy.transform.position);
-                Enemy enemyScript = enemy.GetComponent<Enemy>();
+                EnemyShip enemyScript = enemy.GetComponent<EnemyShip>();
                 if (enemyScript != null)
                 {
-                    savedEnemyHealth.Add(enemyScript.health);
+                    savedEnemyHealth.Add((int)enemyScript.Health); // 使用 Health 屬性
                 }
 
                 int prefabIndex = enemyManager.enemyPrefabs.IndexOf(enemyScript.gameObject);
-                savedEnemyPrefabIndices.Add(prefabIndex >= 0 ? prefabIndex : 0); // Save prefab index, default to 0 if not found
+                savedEnemyPrefabIndices.Add(prefabIndex >= 0 ? prefabIndex : 0); // 保存 prefab 索引
             }
         }
 
@@ -137,16 +137,16 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < loadedData.enemyPositions.Count; i++)
             {
                 Vector3 position = loadedData.enemyPositions[i];
-                int prefabIndex = i < loadedData.enemyPrefabIndices.Count ? loadedData.enemyPrefabIndices[i] : 0; // Default to index 0 if no data
+                int prefabIndex = i < loadedData.enemyPrefabIndices.Count ? loadedData.enemyPrefabIndices[i] : 0; // 默認索引為 0
                 GameObject enemyPrefab = enemyManager.enemyPrefabs[Mathf.Clamp(prefabIndex, 0, enemyManager.enemyPrefabs.Count - 1)];
                 GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
                 enemyManager.RegisterEnemy(enemy);
 
-                Enemy enemyScript = enemy.GetComponent<Enemy>();
+                EnemyShip enemyScript = enemy.GetComponent<EnemyShip>();
                 if (enemyScript != null && i < loadedData.enemyHealth.Count)
                 {
-                    enemyScript.health = loadedData.enemyHealth[i];
-                    enemyScript.UpdateHealthUI(); // Update health UI
+                    enemyScript.Health = loadedData.enemyHealth[i]; // 使用 Health 屬性
+                    enemyScript.UpdateHealthUI(); // 調用公開的 UpdateHealthUI 方法
                 }
             }
 

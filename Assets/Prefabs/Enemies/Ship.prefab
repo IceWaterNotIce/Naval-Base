@@ -123,21 +123,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4cbb54fec5ab347a03866dae9f5a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 2
-  acceleration: 0.5
-  deceleration: 0.5
-  rotationSpeed: 100
-  target: {fileID: 0}
-  health: 10
+  ShipName: Enemy
+  Health: 10
   maxHealth: 10
   healthSlider: {fileID: 4520406776669291252}
   healthText: {fileID: 2374643923295191002}
   healthCanvas: {fileID: 8238375212236243020}
+  Speed: 0
+  maxSpeed: 2
+  acceleration: 0.5
+  deceleration: 0.5
+  rotationSpeed: 100
   attackDamage: 1
   attackInterval: 1
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
-  firePoint: {fileID: 9101755358209939500}
+  target: {fileID: 0}
+  rb: {fileID: 4423954513793788216}
+  minDistanceToNavalBase: 3
+  orbitSpeed: 1
   goldReward: 1
+  firePoint: {fileID: 9101755358209939500}
 --- !u!212 &5135344872581193433
 SpriteRenderer:
   m_ObjectHideFlags: 0
