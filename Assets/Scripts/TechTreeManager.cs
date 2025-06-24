@@ -19,6 +19,7 @@ public class TechTreeManager : MonoBehaviour {
     public Button intelligentCorrectionButton;
     public GameObject techTreePanel; // 面板物件
     public Button toggleTechTreeButton; // 切換按鈕
+    public Button closeTechTreeButton; // 新增關閉按鈕
 
     private string savePath;
 
@@ -27,12 +28,18 @@ public class TechTreeManager : MonoBehaviour {
         LoadTechTree();
         UpdateUI();
         toggleTechTreeButton.onClick.AddListener(ToggleTechTreePanel); // 綁定按鈕事件
+        closeTechTreeButton.onClick.AddListener(CloseTechTreePanel); // 綁定關閉按鈕事件
         techTreePanel.SetActive(false); // 初始隱藏面板
     }
 
     // 切換科技樹面板顯示狀態
     void ToggleTechTreePanel() {
         techTreePanel.SetActive(!techTreePanel.activeSelf);
+    }
+
+    // 新增關閉面板方法
+    void CloseTechTreePanel() {
+        techTreePanel.SetActive(false);
     }
 
     //=== 科技解鎖方法 ===//

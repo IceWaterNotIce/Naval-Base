@@ -1,11 +1,25 @@
 {
-    "ammoPositions": [],
-    "ammoTargetTags": [],
-    "ammoDirections": [],
+    "ammoPositions": [
+        {
+            "x": 12.027376174926758,
+            "y": 1.1494327783584595,
+            "z": 0.0
+        }
+    ],
+    "ammoTargetTags": [
+        "Enemy"
+    ],
+    "ammoDirections": [
+        {
+            "x": 0.9954643845558167,
+            "y": 0.09513457119464874,
+            "z": 0.0
+        }
+    ],
     "enemyPositions": [
         {
-            "x": 8.87630844116211,
-            "y": -8.840539932250977,
+            "x": 8.704977035522461,
+            "y": -8.55001163482666,
             "z": 0.0
         }
     ],
@@ -15,11 +29,11 @@
     "enemyPrefabIndices": [
         0
     ],
-    "navalBaseGold": 111070,
+    "navalBaseGold": 111071,
     "navalBaseHealth": 160,
     "navalBaseMaxHealth": 160,
     "navalBaseLevel": 4,
     "navalBaseLevelUpGoldCost": 250,
-    "gameTime": 130.39271545410157,
+    "gameTime": 139.0235137939453,
     "playerShips": []
 }
