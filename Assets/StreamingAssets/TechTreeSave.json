@@ -1,5 +1,1 @@
-{
-    "basicShooting": true,
-    "dynamicTracking": true,
-    "intelligentCorrection": false
-}
+{"basicShooting":true,"dynamicTracking":true,"intelligentCorrection":true}

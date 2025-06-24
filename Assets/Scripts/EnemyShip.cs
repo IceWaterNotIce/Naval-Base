@@ -24,9 +24,9 @@ public class EnemyShip : Ship
         SetCanvasEventCamera(); // Call method from Ship class
         UpdateHealthUI(); // Call method from Ship class
     }
-
-    void Update()
+    protected override void Update()
     {
+        base.Update(); // Call base class Update for movement and health UI updates
         UpdateTarget(); // 更新目標
         MoveTowardsTarget();
         HandleAttack(); // 處理攻擊邏輯

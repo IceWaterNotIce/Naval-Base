@@ -14,7 +14,7 @@ public class Ship : MonoBehaviour
     public Canvas healthCanvas;  // 血條畫布
 
     // ===== 速度 (Speed) 相關 =====
-    public float Speed;          // 當前速度（可被外部修改）
+    public float targetSpeed;          // 當前速度（可被外部修改）
     public float maxSpeed = 2f;  // 最大移動速度
     public float acceleration = 0.5f; // 加速度
     public float deceleration = 0.5f; // 減速度
@@ -37,13 +37,8 @@ public class Ship : MonoBehaviour
     public virtual void Initialize(string name, float speed, float health)
     {
         ShipName = name;
-        Speed = speed;
+        targetSpeed = speed;
         Health = health;
-    }
-
-    public virtual void Move(Vector3 direction)
-    {
-        transform.Translate(direction * Speed * Time.deltaTime);
     }
 
     public virtual void TakeDamage(int damage)
@@ -87,6 +82,21 @@ public class Ship : MonoBehaviour
         if (healthCanvas != null && Camera.main != null)
         {
             healthCanvas.worldCamera = Camera.main; // Set the event camera for the canvas
+        }
+    }
+
+    protected virtual void Update()
+    {
+        MoveForward(); // Call movement logic
+        UpdateHealthUIPosition(); // Ensure health UI follows the ship
+    }
+
+    protected virtual void MoveForward()
+    {
+        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+        if (rb != null)
+        {
+            rb.linearVelocity = transform.right * currentSpeed; // Move the ship forward based on its current speed
         }
     }
 }
