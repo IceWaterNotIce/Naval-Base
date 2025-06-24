@@ -124,8 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipName: Enemy
-  Health: 10
-  maxHealth: 10
+  Health: 50
+  maxHealth: 50
   healthSlider: {fileID: 4520406776669291252}
   healthText: {fileID: 2374643923295191002}
   healthCanvas: {fileID: 8238375212236243020}
@@ -143,6 +143,7 @@ MonoBehaviour:
   orbitSpeed: 1
   goldReward: 1
   firePoint: {fileID: 9101755358209939500}
+  playerShipDetectionRadius: 10
 --- !u!212 &5135344872581193433
 SpriteRenderer:
   m_ObjectHideFlags: 0

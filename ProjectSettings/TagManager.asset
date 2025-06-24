@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NavalBase
   - Enemy
+  - PlayerShip
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - 
+  - PlayerShip
   - 
   - 
   - 

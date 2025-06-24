@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6426173758450608505}
   - component: {fileID: 945139388950909975}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Slider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2963055093019686068}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3460728396711800549}
   - component: {fileID: 3918391494142053939}
   - component: {fileID: 3238042684269703124}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 6559406278399476852}
   - component: {fileID: 2593660876583772186}
   - component: {fileID: 3959120308611495999}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,9 +312,9 @@ GameObject:
   - component: {fileID: 8123828315702453522}
   - component: {fileID: 2337059136777880858}
   - component: {fileID: 1120400529803841102}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ship
-  m_TagString: Player
+  m_TagString: PlayerShip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -514,7 +514,7 @@ GameObject:
   - component: {fileID: 7877618842842751720}
   - component: {fileID: 4657177569772118366}
   - component: {fileID: 6116792259766651376}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Text (Legacy)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 8189110774238946387}
   - component: {fileID: 5229040199425307512}
   - component: {fileID: 1082529171307279236}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6290128830552921894}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}

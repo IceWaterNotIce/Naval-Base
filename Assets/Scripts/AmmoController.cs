@@ -71,6 +71,15 @@ public class Ammo : MonoBehaviour
                     Debug.Log("Damage dealt to NavalBase"); // Debug log
                 }
             }
+            else if (targetTag == "PlayerShip")
+            {
+                PlayerShip playerShip = collision.GetComponent<PlayerShip>();
+                if (playerShip != null)
+                {
+                    playerShip.TakeDamage(damage); // Deal damage to the player ship
+                    Debug.Log("Damage dealt to PlayerShip"); // Debug log
+                }
+            }
             Destroy(gameObject); // Destroy the ammo
         }
     }
