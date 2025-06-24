@@ -173,6 +173,7 @@ public class NavalBaseController : MonoBehaviour, IPointerClickHandler
 
     public void UpdateLevelUI()
     {
+        if (level < 1) level = 1; // Ensure level is at least 1
         if (levelText != null)
         {
             levelText.text = $"Level: {level}"; // Update the level text

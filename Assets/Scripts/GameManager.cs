@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     private int savedGold;
     private int savedNavalBaseHealth; // Save naval base health
     private int savedNavalBaseMaxHealth; // Save naval base max health
+    private int savedNavalBaseLevel; // Save naval base level
+    private int savedNavalBaseLevelUpGoldCost; // Save level-up gold cost
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
@@ -88,6 +90,10 @@ public class GameManager : MonoBehaviour
         savedNavalBaseHealth = navalBaseController.health;
         savedNavalBaseMaxHealth = navalBaseController.maxHealth; // Save max health
 
+        // Save naval base level and level-up gold cost
+        savedNavalBaseLevel = navalBaseController.level;
+        savedNavalBaseLevelUpGoldCost = navalBaseController.levelUpGoldCost;
+
         // Save player ships' positions and health
         List<PlayerShipData> playerShipDataList = new List<PlayerShipData>();
         foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
@@ -118,6 +124,8 @@ public class GameManager : MonoBehaviour
             navalBaseGold = savedGold,
             navalBaseHealth = savedNavalBaseHealth,
             navalBaseMaxHealth = savedNavalBaseMaxHealth, // Save max health
+            navalBaseLevel = savedNavalBaseLevel, // Save naval base level
+            navalBaseLevelUpGoldCost = savedNavalBaseLevelUpGoldCost, // Save level-up gold cost
             gameTime = gameTime, // Save game time
             playerShips = playerShipDataList
         };
@@ -177,6 +185,11 @@ public class GameManager : MonoBehaviour
             navalBaseController.UpdateGoldUI(); // Update gold UI
             navalBaseController.UpdateHealthUI(); // Update health UI
 
+            // Reload naval base level and ensure it is at least 1
+            navalBaseController.level = Mathf.Max(loadedData.navalBaseLevel, 1);
+            navalBaseController.levelUpGoldCost = loadedData.navalBaseLevelUpGoldCost;
+            navalBaseController.UpdateLevelUI(); // Update level UI
+
             // Reload player ships
             foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
             {
@@ -229,6 +242,8 @@ public class GameData
     public int navalBaseGold; // Save naval base gold
     public int navalBaseHealth; // Save naval base health
     public int navalBaseMaxHealth; // Save naval base max health
+    public int navalBaseLevel; // Save naval base level
+    public int navalBaseLevelUpGoldCost; // Save level-up gold cost
     public float gameTime; // Save game time
     public List<PlayerShipData> playerShips; // 保存多個玩家船隻
 }
