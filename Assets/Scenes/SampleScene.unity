@@ -1258,7 +1258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7aabd9545021494ab86dad9a067d3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipPrefab: {fileID: 1458330411860717221, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
+  ShipPrefab: {fileID: 6503241041720059141, guid: 8daa73ed0a7150440ba63c509197eee0, type: 3}
   ShipCost: 50
   navalBaseController: {fileID: 274980084}
 --- !u!4 &598007196
