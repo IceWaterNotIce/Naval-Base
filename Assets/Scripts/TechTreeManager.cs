@@ -17,6 +17,8 @@ public class TechTreeManager : MonoBehaviour {
     public Button basicShootingButton;
     public Button dynamicTrackingButton;
     public Button intelligentCorrectionButton;
+    public GameObject techTreePanel; // 面板物件
+    public Button toggleTechTreeButton; // 切換按鈕
 
     private string savePath;
 
@@ -24,6 +26,13 @@ public class TechTreeManager : MonoBehaviour {
         savePath = Path.Combine(Application.streamingAssetsPath, "TechTreeSave.json");
         LoadTechTree();
         UpdateUI();
+        toggleTechTreeButton.onClick.AddListener(ToggleTechTreePanel); // 綁定按鈕事件
+        techTreePanel.SetActive(false); // 初始隱藏面板
+    }
+
+    // 切換科技樹面板顯示狀態
+    void ToggleTechTreePanel() {
+        techTreePanel.SetActive(!techTreePanel.activeSelf);
     }
 
     //=== 科技解鎖方法 ===//
