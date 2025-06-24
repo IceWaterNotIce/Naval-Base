@@ -21,15 +21,14 @@ public class EnemyShip : Ship
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get Rigidbody2D component
-        SetCanvasEventCamera(); // Set the event camera for the canvas
-        UpdateHealthUI(); // Initialize health display
+        SetCanvasEventCamera(); // Call method from Ship class
+        UpdateHealthUI(); // Call method from Ship class
     }
 
     void Update()
     {
         UpdateTarget(); // 更新目標
         MoveTowardsTarget();
-        UpdateHealthUIPosition(); // 確保 UI 跟隨敵人的位置
         HandleAttack(); // 處理攻擊邏輯
     }
 
@@ -142,7 +141,6 @@ public class EnemyShip : Ship
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
-        UpdateHealthUI(); // Update health display
         if (Health <= 0)
         {
             RewardPlayer(); // Handle enemy death
@@ -155,34 +153,6 @@ public class EnemyShip : Ship
         if (navalBase != null)
         {
             navalBase.AddGold(goldReward); // Add gold to the naval base
-        }
-    }
-
-    public void UpdateHealthUI() // 將此方法設為 public
-    {
-        if (healthSlider != null)
-        {
-            healthSlider.value = Health / (float)maxHealth; // 更新滑塊值
-        }
-        if (healthText != null)
-        {
-            healthText.text = $"{Health}/{maxHealth}"; // 更新血量文字
-        }
-    }
-
-    private void UpdateHealthUIPosition()
-    {
-        if (healthCanvas != null)
-        {
-            healthCanvas.transform.rotation = Quaternion.identity; // Prevent rotation
-        }
-    }
-
-    private void SetCanvasEventCamera()
-    {
-        if (healthCanvas != null && Camera.main != null)
-        {
-            healthCanvas.worldCamera = Camera.main; // Set the event camera for the canvas
         }
     }
 }

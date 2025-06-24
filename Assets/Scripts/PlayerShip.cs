@@ -45,10 +45,4 @@ public class PlayerShip : Ship
             }
         }
     }
-
-    public void UpdateHealthUI()
-    {
-        // 更新玩家船隻生命值的 UI
-        Debug.Log($"Player Ship Health: {Health}");
-    }
 }

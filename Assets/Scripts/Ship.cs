@@ -50,6 +50,7 @@ public class Ship : MonoBehaviour
     {
         Health -= damage;
         Health = Mathf.Clamp(Health, 0, maxHealth); // 確保血量不低於 0
+        UpdateHealthUI(); // Update health display
         if (Health <= 0)
         {
             DestroyShip();
@@ -59,5 +60,33 @@ public class Ship : MonoBehaviour
     protected virtual void DestroyShip()
     {
         Destroy(gameObject);
+    }
+
+    public void UpdateHealthUI()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.value = Health / (float)maxHealth; // 更新滑塊值
+        }
+        if (healthText != null)
+        {
+            healthText.text = $"{Health}/{maxHealth}"; // 更新血量文字
+        }
+    }
+
+    public void UpdateHealthUIPosition()
+    {
+        if (healthCanvas != null)
+        {
+            healthCanvas.transform.rotation = Quaternion.identity; // Prevent rotation
+        }
+    }
+
+    public void SetCanvasEventCamera()
+    {
+        if (healthCanvas != null && Camera.main != null)
+        {
+            healthCanvas.worldCamera = Camera.main; // Set the event camera for the canvas
+        }
     }
 }
