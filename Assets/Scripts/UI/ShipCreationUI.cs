@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ShipCreationUI : MonoBehaviour
 {
     public Button CreateButton;
-    public ShipManager ShipManager;
+    public PlayerShipManager ShipManager;
     public NavalBaseController NavalBaseController; // 引用 NavalBaseController
     public Text ErrorText; // 顯示錯誤訊息的 UI
 

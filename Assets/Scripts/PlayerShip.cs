@@ -5,7 +5,7 @@ public class PlayerShip : Ship
     public Transform firePoint; // 子彈發射點
     public LayerMask enemyLayer; // 用於檢測敵人的圖層
     public float detectionRadius = 10f; // 檢測敵人的半徑
-
+    
     void Update()
     {
         HandleAttack(); // 處理攻擊邏輯
@@ -44,5 +44,11 @@ public class PlayerShip : Ship
                 Debug.Log($"PlayerShip shot at enemy {enemy.name} at position {enemy.position}"); // Debug log
             }
         }
+    }
+
+    public void UpdateHealthUI()
+    {
+        // 更新玩家船隻生命值的 UI
+        Debug.Log($"Player Ship Health: {Health}");
     }
 }

@@ -1261,6 +1261,7 @@ MonoBehaviour:
   ShipPrefab: {fileID: 6503241041720059141, guid: 8daa73ed0a7150440ba63c509197eee0, type: 3}
   ShipCost: 50
   navalBaseController: {fileID: 274980084}
+  playerShips: []
 --- !u!4 &598007196
 Transform:
   m_ObjectHideFlags: 0
@@ -1647,6 +1648,7 @@ MonoBehaviour:
   ammoManager: {fileID: 1419681875}
   enemyManager: {fileID: 603846843}
   navalBaseController: {fileID: 274980084}
+  playerShipManager: {fileID: 598007195}
   gameTimeText: {fileID: 176768691}
 --- !u!4 &989261685
 Transform:

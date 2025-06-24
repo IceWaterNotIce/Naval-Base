@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public AmmoManager ammoManager; // Reference to AmmoManager
     public EnemyManager enemyManager; // Reference to EnemyManager
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
+    public PlayerShipManager playerShipManager; // 引用 PlayerShipManager
 
     public Text gameTimeText; // Reference to the UI Text element for game time display
 
@@ -87,6 +88,21 @@ public class GameManager : MonoBehaviour
         savedNavalBaseHealth = navalBaseController.health;
         savedNavalBaseMaxHealth = navalBaseController.maxHealth; // Save max health
 
+        // Save player ships' positions and health
+        List<PlayerShipData> playerShipDataList = new List<PlayerShipData>();
+        foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
+        {
+            PlayerShip playerShipScript = ship.GetComponent<PlayerShip>();
+            if (playerShipScript != null)
+            {
+                playerShipDataList.Add(new PlayerShipData
+                {
+                    position = ship.transform.position,
+                    health = playerShipScript.Health
+                });
+            }
+        }
+
         // Create a save object
         GameData saveData = new GameData
         {
@@ -99,7 +115,8 @@ public class GameManager : MonoBehaviour
             navalBaseGold = savedGold,
             navalBaseHealth = savedNavalBaseHealth,
             navalBaseMaxHealth = savedNavalBaseMaxHealth, // Save max health
-            gameTime = gameTime // Save game time
+            gameTime = gameTime, // Save game time
+            playerShips = playerShipDataList
         };
 
         // Serialize and save to file
@@ -157,6 +174,25 @@ public class GameManager : MonoBehaviour
             navalBaseController.UpdateGoldUI(); // Update gold UI
             navalBaseController.UpdateHealthUI(); // Update health UI
 
+            // Reload player ships
+            foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
+            {
+                Destroy(ship); // 清除現有的玩家船隻
+            }
+            playerShipManager.playerShips.Clear();
+
+            foreach (PlayerShipData shipData in loadedData.playerShips)
+            {
+                GameObject newShip = Instantiate(playerShipManager.ShipPrefab, shipData.position, Quaternion.identity); // 使用 ShipPrefab
+                PlayerShip playerShipScript = newShip.GetComponent<PlayerShip>();
+                if (playerShipScript != null)
+                {
+                    playerShipScript.Health = shipData.health;
+                    playerShipScript.UpdateHealthUI();
+                }
+                playerShipManager.playerShips.Add(newShip); // 添加到 PlayerShipManager 的玩家船隻列表
+            }
+
             // Reload game time
             gameTime = loadedData.gameTime;
         }
@@ -191,4 +227,13 @@ public class GameData
     public int navalBaseHealth; // Save naval base health
     public int navalBaseMaxHealth; // Save naval base max health
     public float gameTime; // Save game time
+    public List<PlayerShipData> playerShips; // 保存多個玩家船隻
 }
+
+[System.Serializable]
+public class PlayerShipData
+{
+    public Vector3 position; // 玩家船隻位置
+    public float health; // 玩家船隻生命值
+}
+

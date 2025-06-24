@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic; // 引入命名空間以使用 List
 
-public class ShipManager : MonoBehaviour
+public class PlayerShipManager : MonoBehaviour
 {
     public GameObject ShipPrefab;
     public int ShipCost = 50; // 每艘船的金幣成本
     public NavalBaseController navalBaseController; // 引用 NavalBaseController
+
+    public List<GameObject> playerShips = new List<GameObject>(); // 管理所有玩家船隻
 
     public bool CreateShipFromPrefab(Vector3 position)
     {
@@ -12,7 +15,8 @@ public class ShipManager : MonoBehaviour
         {
             navalBaseController.gold -= ShipCost; // 扣除金幣
             navalBaseController.UpdateGoldUI(); // 更新金幣 UI
-            Instantiate(ShipPrefab, position, Quaternion.identity);
+            GameObject newShip = Instantiate(ShipPrefab, position, Quaternion.identity);
+            playerShips.Add(newShip); // 添加到玩家船隻列表
             return true; // 創建成功
         }
         else
