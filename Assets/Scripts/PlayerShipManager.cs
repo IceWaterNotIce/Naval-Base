@@ -25,4 +25,16 @@ public class PlayerShipManager : MonoBehaviour
             return false; // 創建失敗
         }
     }
+
+    public void FormBattleLine(Vector3 startPosition, Vector3 direction, float spacing)
+    {
+        for (int i = 0; i < playerShips.Count; i++)
+        {
+            if (playerShips[i] != null)
+            {
+                Vector3 position = startPosition + direction.normalized * spacing * i;
+                playerShips[i].transform.position = position;
+            }
+        }
+    }
 }
