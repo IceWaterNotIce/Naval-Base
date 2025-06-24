@@ -5,7 +5,7 @@ public class ShipCreationUI : MonoBehaviour
 {
     public Button CreateButton;
     public ShipManager ShipManager;
-    public Text GoldText; // 顯示玩家金幣的 UI
+    public NavalBaseController NavalBaseController; // 引用 NavalBaseController
     public Text ErrorText; // 顯示錯誤訊息的 UI
 
     private void Start()
@@ -30,6 +30,6 @@ public class ShipCreationUI : MonoBehaviour
 
     private void UpdateGoldText()
     {
-        GoldText.text = "金幣: " + ShipManager.PlayerGold;
+        NavalBaseController.UpdateGoldUI(); // 通過 NavalBaseController 更新金幣顯示
     }
 }

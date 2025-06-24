@@ -1259,8 +1259,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipPrefab: {fileID: 1458330411860717221, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  PlayerGold: 100
   ShipCost: 50
+  navalBaseController: {fileID: 274980084}
 --- !u!4 &598007196
 Transform:
   m_ObjectHideFlags: 0
@@ -2377,7 +2377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreateButton: {fileID: 770948699}
   ShipManager: {fileID: 598007195}
-  GoldText: {fileID: 1097210576}
+  NavalBaseController: {fileID: 0}
   ErrorText: {fileID: 2079093661}
 --- !u!1 &1717922495
 GameObject:
