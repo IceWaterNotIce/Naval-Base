@@ -21,7 +21,8 @@ public class Ship : MonoBehaviour
     protected float currentSpeed = 0f; // 內部計算的當前速度
 
     // ===== 旋轉 (Rotation) 相關 =====
-    public float rotationSpeed = 100f; // 旋轉速度（度/秒）
+    public float targetRotationSpeed = 100f; // 目標旋轉速度（度/秒）
+    protected float currentRotateSpeed = 0f; // 當前旋轉速度
 
     // ===== 戰鬥系統 =====
     public int attackDamage = 1;      // 攻擊傷害
@@ -94,9 +95,12 @@ public class Ship : MonoBehaviour
     protected virtual void MoveForward()
     {
         currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, acceleration * Time.deltaTime);
+        currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotationSpeed, acceleration * Time.deltaTime);
+
         if (rb != null)
         {
             rb.linearVelocity = transform.right * currentSpeed; // Move the ship forward based on its current speed
+            rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
         }
     }
 }
