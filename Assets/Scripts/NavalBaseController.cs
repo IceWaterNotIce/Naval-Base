@@ -120,6 +120,13 @@ public class NavalBaseController : MonoBehaviour, IPointerClickHandler
         UpdateGoldUI(); // Update the UI whenever gold changes
     }
 
+    public void DeductGold(int amount)
+    {
+        gold -= amount; // Deduct the specified amount of gold
+        gold = Mathf.Max(gold, 0); // Ensure gold does not go below 0
+        UpdateGoldUI(); // Update the UI whenever gold changes
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage; // Reduce health by the damage amount

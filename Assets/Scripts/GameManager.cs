@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public EnemyManager enemyManager; // Reference to EnemyManager
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
     public PlayerShipManager playerShipManager; // 引用 PlayerShipManager
+    public InfiniteTileMap infiniteTileMap; // Reference to InfiniteTileMap
 
     public Text gameTimeText; // Reference to the UI Text element for game time display
 
@@ -235,6 +236,14 @@ public class GameManager : MonoBehaviour
     public void GoBackToScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName); // Load the specified scene
+    }
+
+    public void RequestTilePurchase(Vector3 worldPosition)
+    {
+        if (infiniteTileMap == null) return;
+
+        Vector3Int tilePosition = infiniteTileMap.oceanTileMap.WorldToCell(worldPosition);
+        infiniteTileMap.BuyTile(tilePosition);
     }
 }
 

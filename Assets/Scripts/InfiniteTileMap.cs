@@ -23,6 +23,8 @@ public class InfiniteTileMap : MonoBehaviour
     public TileBase oceanRuleTile; // Ocean Rule Tile to use
     public Tilemap landTileMap; // Reference to the Land Tilemap
     public TileBase landRuleTile; // Land Rule Tile to use
+    public Tilemap navalBaseTileMap; // Tilemap for naval base tiles
+    public TileBase navalBaseTile; // Tile to represent purchased tiles
     public int tileSize = 10; // Size of each tile
     public int viewDistance = 3; // Number of tiles visible around the player
     public Transform navalBase; // Reference to the naval base
@@ -31,6 +33,9 @@ public class InfiniteTileMap : MonoBehaviour
     public float landThreshold = 0.5f; // Threshold for land generation
     public float islandScale = 0.1f; // 控制島嶼大小的縮放因子
     public float islandSpacing = 0.2f; // 控制島嶼之間距離的縮放因子
+    public int landTileCost = 50; // Cost to buy a land tile
+    public int oceanTileCost = 30; // Cost to buy an ocean tile
+    public NavalBaseController navalBaseController; // Reference to NavalBaseController
 
     public string oceanTileMapSavePath = "OceanTileMap.json"; // Path to save ocean tilemap
     public string landTileMapSavePath = "LandTileMap.json"; // Path to save land tilemap
@@ -378,5 +383,55 @@ public class InfiniteTileMap : MonoBehaviour
         {
             Debug.Log("Naval base position is not at (0, 0), no adjustment needed.");
         }
+    }
+
+    public void BuyTile(Vector3Int tilePosition)
+    {
+        if (navalBaseTileMap == null || navalBaseController == null) return;
+
+        // Check if the tile is adjacent to an existing naval base tile
+        if (!IsTileAdjacentToNavalBase(tilePosition))
+        {
+            Debug.LogWarning("Tile is not adjacent to any naval base tile.");
+            return;
+        }
+
+        // Determine the cost based on the type of tile
+        TileBase existingTile = landTileMap.GetTile(tilePosition) ?? oceanTileMap.GetTile(tilePosition);
+        int tileCost = existingTile == landRuleTile ? landTileCost : oceanTileCost;
+
+        // Check if the player has enough gold
+        if (navalBaseController.gold < tileCost)
+        {
+            Debug.LogWarning("Not enough gold to buy this tile.");
+            return;
+        }
+
+        // Deduct gold and mark the tile as purchased
+        navalBaseController.AddGold(-tileCost);
+        navalBaseTileMap.SetTile(tilePosition, navalBaseTile);
+        Debug.Log($"Tile purchased at {tilePosition} for {tileCost} gold.");
+    }
+
+    private bool IsTileAdjacentToNavalBase(Vector3Int tilePosition)
+    {
+        Vector3Int[] adjacentOffsets = new Vector3Int[]
+        {
+            new Vector3Int(1, 0, 0),
+            new Vector3Int(-1, 0, 0),
+            new Vector3Int(0, 1, 0),
+            new Vector3Int(0, -1, 0)
+        };
+
+        foreach (var offset in adjacentOffsets)
+        {
+            Vector3Int adjacentPosition = tilePosition + offset;
+            if (navalBaseTileMap.GetTile(adjacentPosition) != null)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
