@@ -34,7 +34,7 @@ public class PlayerShipManager : MonoBehaviour
             navalBaseController.gold -= ShipCost;
             navalBaseController.UpdateGoldUI();
             
-            GameObject newShip = Instantiate(ShipPrefab, position, Quaternion.identity);
+            GameObject newShip = Instantiate(ShipPrefab, position, Quaternion.identity, transform);
             playerShips.Add(newShip);
             
             UpdateShipsListUI(); // 新增船隻後更新 UI

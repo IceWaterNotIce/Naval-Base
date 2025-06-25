@@ -94,7 +94,7 @@ public class EnemyManager : MonoBehaviour
                 if (oceanTileMap.GetTile(tilePosition) != null && landTileMap.GetTile(tilePosition) == null)
                 {
                     GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Select a random enemy prefab
-                    GameObject enemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
+                    GameObject enemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity, transform); // Set as child of EnemyManager
                     RegisterEnemy(enemy);
                     return; // Exit after successfully spawning an enemy
                 }

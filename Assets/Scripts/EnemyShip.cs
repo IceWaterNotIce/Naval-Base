@@ -120,7 +120,8 @@ public class EnemyShip : Ship
     {
         if (ammoPrefab != null && firePoint != null && target != null)
         {
-            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
+            AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>(); // Get AmmoManager instance
+            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform); // Instantiate ammo
             if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
             {
                 string targetTag = target.CompareTag("PlayerShip") ? "PlayerShip" : "NavalBase"; // Determine target tag

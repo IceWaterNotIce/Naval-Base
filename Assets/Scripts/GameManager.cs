@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
             // Reload ammo
             for (int i = 0; i < loadedData.ammoPositions.Count; i++)
             {
-                GameObject ammo = Instantiate(ammoManager.ammoPrefab, loadedData.ammoPositions[i], Quaternion.identity);
+                GameObject ammo = Instantiate(ammoManager.ammoPrefab, loadedData.ammoPositions[i], Quaternion.identity, ammoManager.transform); // Instantiate ammo with parent
                 ammoManager.RegisterAmmo(ammo);
 
                 Ammo ammoScript = ammo.GetComponent<Ammo>();
@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
                 Vector3 position = loadedData.enemyPositions[i];
                 int prefabIndex = i < loadedData.enemyPrefabIndices.Count ? loadedData.enemyPrefabIndices[i] : 0; // 默認索引為 0
                 GameObject enemyPrefab = enemyManager.enemyPrefabs[Mathf.Clamp(prefabIndex, 0, enemyManager.enemyPrefabs.Count - 1)];
-                GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+                GameObject enemy = Instantiate(enemyPrefab, position, Quaternion.identity, enemyManager.transform); // Instantiate enemy with parent
                 enemyManager.RegisterEnemy(enemy);
 
                 EnemyShip enemyScript = enemy.GetComponent<EnemyShip>();
@@ -208,7 +208,7 @@ public class GameManager : MonoBehaviour
 
             foreach (PlayerShipData shipData in loadedData.playerShips)
             {
-                GameObject newShip = Instantiate(playerShipManager.ShipPrefab, shipData.position, Quaternion.identity); // 使用 ShipPrefab
+                GameObject newShip = Instantiate(playerShipManager.ShipPrefab, shipData.position, Quaternion.identity, playerShipManager.transform); // 使用 ShipPrefab
                 PlayerShip playerShipScript = newShip.GetComponent<PlayerShip>();
                 if (playerShipScript != null)
                 {

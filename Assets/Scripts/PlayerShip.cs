@@ -38,7 +38,8 @@ public class PlayerShip : Ship
     {
         if (ammoPrefab != null && firePoint != null)
         {
-            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
+            AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>(); // 獲取 AmmoManager 實例
+            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform);
             if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // 確保子彈有 Ammo 組件
             {
                 ammoScript.SetTarget(enemy.position, "Enemy"); // 設置子彈目標
