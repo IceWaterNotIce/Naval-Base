@@ -48,6 +48,7 @@ public class InfiniteTileMap : MonoBehaviour
             return;
         }
 
+        StartCoroutine(WaitForMapRenderAndSetNavalBase()); // Wait for map rendering before setting naval base position
         LoadSavedTileMaps(); // Load saved tilemaps on start
         UpdateTileMap(); // Initialize the tile map
     }
@@ -326,6 +327,48 @@ public class InfiniteTileMap : MonoBehaviour
         else
         {
             Debug.LogWarning($"Tilemap file not found at path: {fullPath}");
+        }
+    }
+
+    private System.Collections.IEnumerator WaitForMapRenderAndSetNavalBase()
+    {
+        yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure map rendering is complete
+        SetNavalBaseToNearestLandTile(); // Set naval base position to the nearest land tile
+    }
+
+    private void SetNavalBaseToNearestLandTile()
+    {
+        if (navalBase == null || landTileMap == null) return;
+
+        Vector3Int baseTilePosition = landTileMap.WorldToCell(navalBase.position);
+        Vector3Int nearestLandTile = baseTilePosition;
+
+        float shortestDistance = float.MaxValue;
+
+        foreach (var position in landTileMap.cellBounds.allPositionsWithin)
+        {
+            if (landTileMap.GetTile(position) != null) // Check if the tile is a land tile
+            {
+                float distance = Vector3.Distance(landTileMap.CellToWorld(position), navalBase.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    nearestLandTile = position;
+                }
+            }
+        }
+
+        if (shortestDistance < float.MaxValue)
+        {
+            Vector3 newPosition = landTileMap.CellToWorld(nearestLandTile);
+            newPosition.x += 0.5f; // Set naval base position to the nearest land tile
+            newPosition.y += 0.5f; // Adjust for tile center
+            navalBase.position = newPosition;
+            Debug.Log($"Naval base moved to nearest land tile at {nearestLandTile}");
+        }
+        else
+        {
+            Debug.LogWarning("No land tiles found near the naval base.");
         }
     }
 }
