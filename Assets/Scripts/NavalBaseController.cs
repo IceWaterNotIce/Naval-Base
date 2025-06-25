@@ -75,7 +75,8 @@ public class NavalBaseController : MonoBehaviour, IPointerClickHandler
 
     private void ShootAmmoAtEnemy(Transform enemy)
     {
-        GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
+        AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>(); // Get AmmoManager instance
+        GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform); // Instantiate ammo at fire point
         if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
         {
             Vector3 targetPos = enemy.position;
