@@ -85,10 +85,8 @@ public class PlayerShipManager : MonoBehaviour
         }
 
         // 自動調整 Content 大小
-        LayoutRebuilder.ForceRebuildLayoutImmediate(shipsListContent.GetComponent<RectTransform>());
+        shipsListContent.GetComponent<RectTransform>().sizeDelta = new Vector2(shipsListContent.GetComponent<RectTransform>().sizeDelta.x, shipsListContent.childCount * 30); // 假設每個項目高度為 30
         
-        // 滾動到最底部
-        shipsScrollView.normalizedPosition = new Vector2(0, 0);
     }
 
     // 新增：開啟和關閉船隻列表面板的方法
@@ -96,7 +94,13 @@ public class PlayerShipManager : MonoBehaviour
     {
         if (shipsPanel != null)
         {
-            shipsPanel.SetActive(!shipsPanel.activeSelf);
+            bool isActive = !shipsPanel.activeSelf;
+            shipsPanel.SetActive(isActive);
+
+            if (isActive)
+            {
+                UpdateShipsListUI(); // 開啟面板時更新 UI
+            }
         }
     }
 }
