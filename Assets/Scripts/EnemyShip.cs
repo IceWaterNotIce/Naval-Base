@@ -72,26 +72,18 @@ public class EnemyShip : Ship
             else if (distance > 5f) // Too far from the naval base
             {
                 Vector3 direction = (target.position - transform.position).normalized;
-
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, targetRotationSpeed * Time.deltaTime);
-                transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-                currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotationSpeed, acceleration * Time.deltaTime);
-                rb.linearVelocity = transform.right * currentSpeed; // 使用 linearVelocity
+                targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+                targetSpeed = maxSpeed; // 使用基類的速度邏輯
             }
             else // Too close to the naval base
             {
                 Vector3 direction = (transform.position - target.position).normalized;
-
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, targetRotationSpeed * Time.deltaTime);
-                transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                currentSpeed = Mathf.MoveTowards(currentSpeed, maxSpeed, acceleration * Time.deltaTime);
-                currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotationSpeed, acceleration * Time.deltaTime);
-                rb.linearVelocity = transform.right * currentSpeed; // 使用 linearVelocity
+                targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+                targetSpeed = maxSpeed; // 使用基類的速度邏輯
             }
         }
     }
@@ -104,12 +96,10 @@ public class EnemyShip : Ship
 
             // Calculate orbit direction (perpendicular to the direction to the naval base)
             Vector3 orbitDirection = new Vector3(-direction.y, direction.x, 0).normalized;
-
             float targetAngle = Mathf.Atan2(orbitDirection.y, orbitDirection.x) * Mathf.Rad2Deg;
-            float angle = Mathf.MoveTowardsAngle(transform.eulerAngles.z, targetAngle, targetRotationSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            rb.linearVelocity = transform.right * orbitSpeed; // 使用 linearVelocity
+            targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+            targetSpeed = orbitSpeed; // 使用基類的速度邏輯
         }
     }
 

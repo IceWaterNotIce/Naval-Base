@@ -17,13 +17,15 @@ public class Ship : MonoBehaviour
     public float targetSpeed;          // 當前速度（可被外部修改）
     public float maxSpeed = 2f;  // 最大移動速度
     public float acceleration = 0.5f; // 加速度
-    public float deceleration = 0.5f; // 減速度
     protected float currentSpeed = 0f; // 內部計算的當前速度
 
     // ===== 旋轉 (Rotation) 相關 =====
     public float targetRotationSpeed = 100f; // 目標旋轉速度（度/秒）
+    public float rotationAcceleration = 10f; // 旋轉加速度（度/秒^2）
     public float maxRotateSpeed = 200f; // 最大旋轉速度
     protected float currentRotateSpeed = 0f; // 當前旋轉速度
+
+    public float targetAzimuthAngle = -1f ; // 目標方位角（度）
 
     // ===== 戰鬥系統 =====
     public int attackDamage = 1;      // 攻擊傷害
@@ -34,6 +36,7 @@ public class Ship : MonoBehaviour
     // ===== 目標與物理 =====
     public Transform target;   // 追蹤目標
     public Rigidbody2D rb;     // 物理引擎組件
+
 
     // ===== 方法 =====
     public virtual void Initialize(string name, float speed, float health)
@@ -90,7 +93,34 @@ public class Ship : MonoBehaviour
     protected virtual void Update()
     {
         MoveForward(); // Call movement logic
+        HandleRotation(); // Handle rotation logic
         UpdateHealthUIPosition(); // Ensure health UI follows the ship
+    }
+
+    protected void HandleRotation()
+    {
+        if (targetAzimuthAngle != -1f) // 如果目標方位角被設定
+        {
+            targetAzimuthAngle = Mathf.Repeat(targetAzimuthAngle, 360f); // 確保範圍在 0 到 360
+            targetRotationSpeed = 0; // 重置旋轉速度
+            float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, targetAzimuthAngle);
+            currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, angleDifference, rotationAcceleration * Time.deltaTime);
+            if (Mathf.Abs(angleDifference) < 0.1f) // 如果接近目標角度
+            {
+                currentRotateSpeed = 0; // 停止旋轉
+                targetAzimuthAngle = -1f; // 重置目標方位角
+            }
+            else
+            {
+                rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
+            }
+        }
+        else if (targetRotationSpeed != 0) // 如果目標旋轉速度被設定
+        {
+            targetAzimuthAngle = -1f; // 重置目標方位角
+            currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotationSpeed, rotationAcceleration * Time.deltaTime);
+            rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
+        }
     }
 
     protected virtual void MoveForward()
