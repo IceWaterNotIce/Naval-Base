@@ -1,22 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class InfiniteTileMap : MonoBehaviour
 {
-    public GameObject tilePrefab; // Prefab for the tile
+    public Tilemap tilemap; // Reference to the Tilemap
+    public TileBase ruleTile; // Rule Tile to use
     public int tileSize = 10; // Size of each tile
     public int viewDistance = 3; // Number of tiles visible around the player
-    public Transform player; // Reference to the player
-    public bool showTileEdges = false; // Toggle for showing tile edges
+    public Transform navalBase; // Reference to the naval base
+    public PlayerShipManager playerShipManager; // Reference to PlayerShipManager
 
-    private Dictionary<Vector2Int, GameObject> tiles = new Dictionary<Vector2Int, GameObject>();
+    private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
     private Vector2Int currentTilePosition;
 
     void Start()
     {
-        if (player == null)
+        if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || tilemap == null || ruleTile == null)
         {
-            Debug.LogError("Player reference is missing!");
+            Debug.LogError("Naval Base, PlayerShipManager, Tilemap, or Rule Tile reference is missing!");
             return;
         }
 
@@ -25,87 +27,98 @@ public class InfiniteTileMap : MonoBehaviour
 
     void Update()
     {
-        Vector2Int playerTilePosition = GetPlayerTilePosition();
-        if (playerTilePosition != currentTilePosition)
+        HashSet<Vector2Int> newTilePositions = GetAllEntityTilePositions();
+        if (!newTilePositions.SetEquals(activeTiles))
         {
-            currentTilePosition = playerTilePosition;
-            UpdateTileMap(); // Update the tile map when the player moves to a new tile
+            activeTiles = newTilePositions;
+            UpdateTileMap(); // Update the tile map based on new positions
         }
     }
 
-    private Vector2Int GetPlayerTilePosition()
+    private HashSet<Vector2Int> GetAllEntityTilePositions()
+    {
+        HashSet<Vector2Int> entityTilePositions = new HashSet<Vector2Int>();
+
+        // Add naval base position
+        if (navalBase != null)
+        {
+            entityTilePositions.Add(GetTilePosition(navalBase.position));
+        }
+
+        // Add all player ships' positions
+        if (playerShipManager != null)
+        {
+            foreach (var ship in playerShipManager.playerShips)
+            {
+                if (ship != null)
+                {
+                    entityTilePositions.Add(GetTilePosition(ship.transform.position));
+                    Debug.Log($"Player ship {ship.name} at tile position {GetTilePosition(ship.transform.position)}");
+                }
+            }
+        }
+
+        return entityTilePositions;
+    }
+
+    private Vector2Int GetTilePosition(Vector3 position)
     {
         return new Vector2Int(
-            Mathf.FloorToInt(player.position.x / tileSize),
-            Mathf.FloorToInt(player.position.y / tileSize)
+            Mathf.FloorToInt(position.x / tileSize),
+            Mathf.FloorToInt(position.y / tileSize)
         );
     }
 
     private void UpdateTileMap()
     {
         HashSet<Vector2Int> tilesToKeep = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> tilesToAdd = new HashSet<Vector2Int>();
 
-        for (int x = -viewDistance; x <= viewDistance; x++)
+        // 計算所有需要保留的瓦片（實體周圍的範圍）
+        foreach (var centerTile in GetAllEntityTilePositions())
         {
-            for (int y = -viewDistance; y <= viewDistance; y++)
+            for (int x = -viewDistance; x <= viewDistance; x++)
             {
-                Vector2Int tilePosition = currentTilePosition + new Vector2Int(x, y);
-                tilesToKeep.Add(tilePosition);
-
-                if (!tiles.ContainsKey(tilePosition))
+                for (int y = -viewDistance; y <= viewDistance; y++)
                 {
-                    CreateTile(tilePosition);
+                    Vector2Int tilePosition = centerTile + new Vector2Int(x, y);
+                    tilesToKeep.Add(tilePosition); // 標記為需保留
+
+                    // 如果是新瓦片，加入待新增列表
+                    if (!activeTiles.Contains(tilePosition))
+                    {
+                        tilesToAdd.Add(tilePosition);
+                    }
                 }
             }
         }
 
+        // 新增瓦片
+        foreach (var tilePosition in tilesToAdd)
+        {
+            CreateTile(tilePosition);
+        }
+
+        // 移除不在保留列表中的瓦片
         RemoveUnusedTiles(tilesToKeep);
     }
 
     private void CreateTile(Vector2Int tilePosition)
     {
-        Vector3 worldPosition = new Vector3(tilePosition.x * tileSize, tilePosition.y * tileSize, 10);
-        GameObject tile = Instantiate(tilePrefab, worldPosition, Quaternion.identity, transform);
-
-        // Add edge line visibility logic
-        LineRenderer lineRenderer = tile.GetComponent<LineRenderer>();
-        if (lineRenderer != null)
-        {
-            lineRenderer.enabled = showTileEdges; // Set visibility based on toggle
-        }
-
-        tiles[tilePosition] = tile;
+        Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
+        tilemap.SetTile(tilemapPosition, ruleTile);
+        activeTiles.Add(tilePosition);
     }
 
     private void RemoveUnusedTiles(HashSet<Vector2Int> tilesToKeep)
     {
-        List<Vector2Int> tilesToRemove = new List<Vector2Int>();
-
-        foreach (var tilePosition in tiles.Keys)
+        foreach (var tilePosition in new HashSet<Vector2Int>(activeTiles))
         {
             if (!tilesToKeep.Contains(tilePosition))
             {
-                tilesToRemove.Add(tilePosition);
-            }
-        }
-
-        foreach (var tilePosition in tilesToRemove)
-        {
-            Destroy(tiles[tilePosition]);
-            tiles.Remove(tilePosition);
-        }
-    }
-
-    public void ToggleTileEdges()
-    {
-        showTileEdges = !showTileEdges; // Toggle visibility
-
-        foreach (var tile in tiles.Values)
-        {
-            LineRenderer lineRenderer = tile.GetComponent<LineRenderer>();
-            if (lineRenderer != null)
-            {
-                lineRenderer.enabled = showTileEdges; // Update visibility for all tiles
+                Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
+                tilemap.SetTile(tilemapPosition, null);
+                activeTiles.Remove(tilePosition);
             }
         }
     }
