@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
     public PlayerShipManager playerShipManager; // 引用 PlayerShipManager
     public InfiniteTileMap infiniteTileMap; // Reference to InfiniteTileMap
+    public DebugPanelController debugPanelController; // Reference to DebugPanelController
 
     public Text gameTimeText; // Reference to the UI Text element for game time display
 
