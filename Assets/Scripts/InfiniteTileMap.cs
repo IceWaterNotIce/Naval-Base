@@ -4,8 +4,8 @@ using UnityEngine.Tilemaps;
 
 public class InfiniteTileMap : MonoBehaviour
 {
-    public Tilemap tilemap; // Reference to the Tilemap
-    public TileBase ruleTile; // Rule Tile to use
+    public Tilemap oceanTileMap; // Reference to the Tilemap
+    public TileBase oceanRuleTile; // Rule Tile to use
     public int tileSize = 10; // Size of each tile
     public int viewDistance = 3; // Number of tiles visible around the player
     public Transform navalBase; // Reference to the naval base
@@ -16,7 +16,7 @@ public class InfiniteTileMap : MonoBehaviour
 
     void Start()
     {
-        if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || tilemap == null || ruleTile == null)
+        if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
         {
             Debug.LogError("Naval Base, PlayerShipManager, Tilemap, or Rule Tile reference is missing!");
             return;
@@ -106,7 +106,7 @@ public class InfiniteTileMap : MonoBehaviour
     private void CreateTile(Vector2Int tilePosition)
     {
         Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
-        tilemap.SetTile(tilemapPosition, ruleTile);
+        oceanTileMap.SetTile(tilemapPosition, oceanRuleTile);
         activeTiles.Add(tilePosition);
     }
 
@@ -117,7 +117,7 @@ public class InfiniteTileMap : MonoBehaviour
             if (!tilesToKeep.Contains(tilePosition))
             {
                 Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
-                tilemap.SetTile(tilemapPosition, null);
+                oceanTileMap.SetTile(tilemapPosition, null);
                 activeTiles.Remove(tilePosition);
             }
         }
