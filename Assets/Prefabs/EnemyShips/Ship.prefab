@@ -125,17 +125,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipName: Enemy
-  Health: 1
-  maxHealth: 1
+  Health: 10
+  maxHealth: 10
   healthSlider: {fileID: 4520406776669291252}
   healthText: {fileID: 2374643923295191002}
   healthCanvas: {fileID: 8238375212236243020}
   targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
-  deceleration: 0.5
   targetRotationSpeed: 100
+  rotationAcceleration: 10
   maxRotateSpeed: 200
+  targetAzimuthAngle: -1
   attackDamage: 1
   attackInterval: 1
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
