@@ -4,21 +4,26 @@ using UnityEngine.Tilemaps;
 
 public class InfiniteTileMap : MonoBehaviour
 {
-    public Tilemap oceanTileMap; // Reference to the Tilemap
-    public TileBase oceanRuleTile; // Rule Tile to use
+    public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
+    public TileBase oceanRuleTile; // Ocean Rule Tile to use
+    public Tilemap landTileMap; // Reference to the Land Tilemap
+    public TileBase landRuleTile; // Land Rule Tile to use
     public int tileSize = 10; // Size of each tile
     public int viewDistance = 3; // Number of tiles visible around the player
     public Transform navalBase; // Reference to the naval base
     public PlayerShipManager playerShipManager; // Reference to PlayerShipManager
+    public int landSeed = 42; // Seed for land generation
+    public float landThreshold = 0.5f; // Threshold for land generation
+    public float islandScale = 0.1f; // 控制島嶼大小的縮放因子
+    public float islandSpacing = 0.2f; // 控制島嶼之間距離的縮放因子
 
     private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
-    private Vector2Int currentTilePosition;
 
     void Start()
     {
         if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
         {
-            Debug.LogError("Naval Base, PlayerShipManager, Tilemap, or Rule Tile reference is missing!");
+            Debug.LogError("Naval Base, PlayerShipManager, Ocean Tilemap, or Ocean Rule Tile reference is missing!");
             return;
         }
 
@@ -96,28 +101,51 @@ public class InfiniteTileMap : MonoBehaviour
         // 新增瓦片
         foreach (var tilePosition in tilesToAdd)
         {
-            CreateTile(tilePosition);
+            CreateTile(tilePosition, oceanTileMap, oceanRuleTile);
+            CreateTile(tilePosition, landTileMap, landRuleTile);
         }
 
         // 移除不在保留列表中的瓦片
-        RemoveUnusedTiles(tilesToKeep);
+        RemoveUnusedTiles(tilesToKeep, oceanTileMap);
+        RemoveUnusedTiles(tilesToKeep, landTileMap);
     }
 
-    private void CreateTile(Vector2Int tilePosition)
+    private void CreateTile(Vector2Int tilePosition, Tilemap tilemap, TileBase ruleTile)
     {
+        if (tilemap == null || ruleTile == null) return;
+
         Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
-        oceanTileMap.SetTile(tilemapPosition, oceanRuleTile);
+
+        // 如果是陸地瓦片地圖，使用 Perlin 噪聲生成島嶼
+        if (tilemap == landTileMap)
+        {
+            float noiseValue = Mathf.PerlinNoise(
+                (tilePosition.x + landSeed) * islandScale * islandSpacing,
+                (tilePosition.y + landSeed) * islandScale * islandSpacing
+            );
+            if (noiseValue > landThreshold)
+            {
+                tilemap.SetTile(tilemapPosition, ruleTile);
+            }
+        }
+        else
+        {
+            tilemap.SetTile(tilemapPosition, ruleTile);
+        }
+
         activeTiles.Add(tilePosition);
     }
 
-    private void RemoveUnusedTiles(HashSet<Vector2Int> tilesToKeep)
+    private void RemoveUnusedTiles(HashSet<Vector2Int> tilesToKeep, Tilemap tilemap)
     {
+        if (tilemap == null) return;
+
         foreach (var tilePosition in new HashSet<Vector2Int>(activeTiles))
         {
             if (!tilesToKeep.Contains(tilePosition))
             {
                 Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
-                oceanTileMap.SetTile(tilemapPosition, null);
+                tilemap.SetTile(tilemapPosition, null);
                 activeTiles.Remove(tilePosition);
             }
         }

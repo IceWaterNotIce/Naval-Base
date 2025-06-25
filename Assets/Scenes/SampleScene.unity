@@ -4285,10 +4285,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oceanTileMap: {fileID: 1270422290}
   oceanRuleTile: {fileID: 11400000, guid: d9c603c34a233a24fbadfb2afc11ceb5, type: 2}
+  landTileMap: {fileID: 1112897215}
+  landRuleTile: {fileID: 11400000, guid: 4a529406cb3c90947989f1d472e3f01b, type: 2}
   tileSize: 1
   viewDistance: 15
   navalBase: {fileID: 274980083}
   playerShipManager: {fileID: 598007195}
+  landSeed: 42
+  landThreshold: 0.5
+  islandScale: 0.1
+  islandSpacing: 0.2
 --- !u!4 &1108994252
 Transform:
   m_ObjectHideFlags: 0
@@ -4419,6 +4425,7 @@ GameObject:
   - component: {fileID: 1112897213}
   - component: {fileID: 1112897215}
   - component: {fileID: 1112897214}
+  - component: {fileID: 1112897216}
   m_Layer: 0
   m_Name: LandTilemap
   m_TagString: Untagged
@@ -4531,6 +4538,44 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!19719996 &1112897216
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112897212}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
+  m_UseDelaunayMesh: 0
 --- !u!1 &1114001533
 GameObject:
   m_ObjectHideFlags: 0
