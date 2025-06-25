@@ -3,6 +3,20 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
+public class TileData
+{
+    public int x;
+    public int y;
+    public string tileName;
+}
+
+[System.Serializable]
+public class TileMapData
+{
+    public List<TileData> tiles = new List<TileData>();
+}
+
 public class InfiniteTileMap : MonoBehaviour
 {
     public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
@@ -20,6 +34,9 @@ public class InfiniteTileMap : MonoBehaviour
 
     public string oceanTileMapSavePath = "OceanTileMap.json"; // Path to save ocean tilemap
     public string landTileMapSavePath = "LandTileMap.json"; // Path to save land tilemap
+
+    public Tilemap oceanSavedTileMap; // Tilemap to store rendered ocean tiles
+    public Tilemap landSavedTileMap; // Tilemap to store rendered land tiles
 
     private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
 
@@ -127,9 +144,6 @@ public class InfiniteTileMap : MonoBehaviour
         RemoveUnusedTiles(tilesToKeep, landTileMap);
     }
 
-    public Tilemap oceanSavedTileMap; // Tilemap to store rendered ocean tiles
-    public Tilemap landSavedTileMap; // Tilemap to store rendered land tiles
-
     private void CreateTile(Vector2Int tilePosition, Tilemap tilemap, TileBase ruleTile)
     {
         if (tilemap == null || ruleTile == null) return;
@@ -213,7 +227,13 @@ public class InfiniteTileMap : MonoBehaviour
 
     private void SaveTileMap(Tilemap tilemap, string filePath)
     {
-        string fullPath = Path.Combine(Application.streamingAssetsPath, filePath); // Use StreamingAssets folder
+        if (tilemap == null)
+        {
+            Debug.LogError("Tilemap is null. Cannot save tilemap.");
+            return;
+        }
+
+        string fullPath = Path.Combine(Application.streamingAssetsPath, filePath);
 
         // 確保目錄存在
         string directory = Path.GetDirectoryName(fullPath);
@@ -222,45 +242,84 @@ public class InfiniteTileMap : MonoBehaviour
             Directory.CreateDirectory(directory);
         }
 
-        Dictionary<Vector3Int, string> tileData = new Dictionary<Vector3Int, string>();
+        TileMapData tileMapData = new TileMapData();
+
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
             TileBase tile = tilemap.GetTile(position);
             if (tile != null)
             {
-                tileData[position] = tile.name; // Save tile name
+                tileMapData.tiles.Add(new TileData
+                {
+                    x = position.x,
+                    y = position.y,
+                    tileName = tile.name
+                });
+                Debug.Log($"Saving tile: {tile.name} at position {position}");
             }
         }
 
-        string json = JsonUtility.ToJson(new TileMapData { tiles = tileData });
-        File.WriteAllText(fullPath, json); // Save JSON to file
+        if (tileMapData.tiles.Count == 0)
+        {
+            Debug.LogWarning($"No tiles to save for tilemap: {filePath}");
+            return;
+        }
+
+        string json = JsonUtility.ToJson(tileMapData, true);
+        File.WriteAllText(fullPath, json);
+        Debug.Log($"Tilemap saved to {fullPath} with {tileMapData.tiles.Count} tiles.");
     }
 
     private void LoadTileMap(Tilemap tilemap, string filePath)
     {
-        if (tilemap == null) 
+        if (tilemap == null)
         {
             Debug.LogError("Tilemap is null. Cannot load tilemap.");
             return;
         }
 
-        string fullPath = Path.Combine(Application.streamingAssetsPath, filePath); // Use StreamingAssets folder
+
+        string fullPath = Path.Combine(Application.streamingAssetsPath, filePath);
         if (File.Exists(fullPath))
         {
             string json = File.ReadAllText(fullPath);
             TileMapData tileMapData = JsonUtility.FromJson<TileMapData>(json);
 
-            foreach (var kvp in tileMapData.tiles)
+            if (tileMapData == null || tileMapData.tiles == null || tileMapData.tiles.Count == 0)
             {
-                Vector3Int position = kvp.Key;
-                TileBase tile = Resources.Load<TileBase>(kvp.Value); // Load tile by name
+                Debug.LogWarning($"Tilemap data is null or empty in file: {fullPath}");
+                return;
+            }
+
+            tilemap.ClearAllTiles(); // 清除现有瓦片
+
+            foreach (var tileData in tileMapData.tiles)
+            {
+                Vector3Int position = new Vector3Int(tileData.x, tileData.y, 0);
+
+                // 尝试从Resources加载Tile
+                TileBase tile = Resources.Load<TileBase>(tileData.tileName);
+
+                if (tile == null)
+                {
+                    // 如果直接加载失败，尝试从已分配的RuleTile匹配
+                    if (tilemap == oceanTileMap && oceanRuleTile != null && oceanRuleTile.name == tileData.tileName)
+                    {
+                        tile = oceanRuleTile;
+                    }
+                    else if (tilemap == landTileMap && landRuleTile != null && landRuleTile.name == tileData.tileName)
+                    {
+                        tile = landRuleTile;
+                    }
+                }
+
                 if (tile != null)
                 {
                     tilemap.SetTile(position, tile);
                 }
                 else
                 {
-                    Debug.LogWarning($"Failed to load tile: {kvp.Value} at position {position}");
+                    Debug.LogWarning($"Failed to load tile: {tileData.tileName} at position {position}");
                 }
             }
         }
@@ -268,11 +327,5 @@ public class InfiniteTileMap : MonoBehaviour
         {
             Debug.LogWarning($"Tilemap file not found at path: {fullPath}");
         }
-    }
-
-    [System.Serializable]
-    private class TileMapData
-    {
-        public Dictionary<Vector3Int, string> tiles; // Position and tile name
     }
 }
