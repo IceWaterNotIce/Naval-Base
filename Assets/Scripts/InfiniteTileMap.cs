@@ -340,35 +340,43 @@ public class InfiniteTileMap : MonoBehaviour
     {
         if (navalBase == null || landTileMap == null) return;
 
-        Vector3Int baseTilePosition = landTileMap.WorldToCell(navalBase.position);
-        Vector3Int nearestLandTile = baseTilePosition;
-
-        float shortestDistance = float.MaxValue;
-
-        foreach (var position in landTileMap.cellBounds.allPositionsWithin)
+        // Check if the naval base position is (0, 0)
+        if (navalBase.position == Vector3.zero)
         {
-            if (landTileMap.GetTile(position) != null) // Check if the tile is a land tile
+            Vector3Int baseTilePosition = landTileMap.WorldToCell(navalBase.position);
+            Vector3Int nearestLandTile = baseTilePosition;
+
+            float shortestDistance = float.MaxValue;
+
+            foreach (var position in landTileMap.cellBounds.allPositionsWithin)
             {
-                float distance = Vector3.Distance(landTileMap.CellToWorld(position), navalBase.position);
-                if (distance < shortestDistance)
+                if (landTileMap.GetTile(position) != null) // Check if the tile is a land tile
                 {
-                    shortestDistance = distance;
-                    nearestLandTile = position;
+                    float distance = Vector3.Distance(landTileMap.CellToWorld(position), navalBase.position);
+                    if (distance < shortestDistance)
+                    {
+                        shortestDistance = distance;
+                        nearestLandTile = position;
+                    }
                 }
             }
-        }
 
-        if (shortestDistance < float.MaxValue)
-        {
-            Vector3 newPosition = landTileMap.CellToWorld(nearestLandTile);
-            newPosition.x += 0.5f; // Set naval base position to the nearest land tile
-            newPosition.y += 0.5f; // Adjust for tile center
-            navalBase.position = newPosition;
-            Debug.Log($"Naval base moved to nearest land tile at {nearestLandTile}");
+            if (shortestDistance < float.MaxValue)
+            {
+                Vector3 newPosition = landTileMap.CellToWorld(nearestLandTile);
+                newPosition.x += 0.5f; // Adjust for tile center
+                newPosition.y += 0.5f; // Adjust for tile center
+                navalBase.position = newPosition;
+                Debug.Log($"Naval base moved to nearest land tile at {nearestLandTile}");
+            }
+            else
+            {
+                Debug.LogWarning("No land tiles found near the naval base.");
+            }
         }
         else
         {
-            Debug.LogWarning("No land tiles found near the naval base.");
+            Debug.Log("Naval base position is not at (0, 0), no adjustment needed.");
         }
     }
 }
