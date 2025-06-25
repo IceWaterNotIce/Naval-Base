@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps; // Add this line for Tilemap support
 
 public class EnemyManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnemyManager : MonoBehaviour
     public float minSpawnDistance = 5f; // Minimum distance from the naval base
     public float maxSpawnDistance = 15f; // Maximum distance from the naval base
     public float spawnInterval = 5f; // Interval between enemy spawns
+    public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
+    public Tilemap landTileMap; // Reference to the Land Tilemap
 
     private float spawnTimer;
 
@@ -77,15 +80,27 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        if (enemyPrefabs.Count > 0)
+        if (enemyPrefabs.Count > 0 && oceanTileMap != null && landTileMap != null)
         {
-            Vector2 randomDirection = Random.insideUnitCircle.normalized; // Random direction
-            float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance); // Random distance within range
-            Vector3 spawnPosition = navalBase.position + new Vector3(randomDirection.x, randomDirection.y, 0) * randomDistance;
+            for (int attempt = 0; attempt < 10; attempt++) // Try up to 10 times to find a valid spawn position
+            {
+                Vector2 randomDirection = Random.insideUnitCircle.normalized; // Random direction
+                float randomDistance = Random.Range(minSpawnDistance, maxSpawnDistance); // Random distance within range
+                Vector3 spawnPosition = navalBase.position + new Vector3(randomDirection.x, randomDirection.y, 0) * randomDistance;
 
-            GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Select a random enemy prefab
-            GameObject enemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
-            RegisterEnemy(enemy);
+                Vector3Int tilePosition = oceanTileMap.WorldToCell(spawnPosition);
+
+                // Ensure the spawn position is in an ocean tile and not on a land tile
+                if (oceanTileMap.GetTile(tilePosition) != null && landTileMap.GetTile(tilePosition) == null)
+                {
+                    GameObject randomEnemyPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)]; // Select a random enemy prefab
+                    GameObject enemy = Instantiate(randomEnemyPrefab, spawnPosition, Quaternion.identity);
+                    RegisterEnemy(enemy);
+                    return; // Exit after successfully spawning an enemy
+                }
+            }
+
+            Debug.LogWarning("Failed to find a valid ocean tile for enemy spawn after 10 attempts.");
         }
     }
 }

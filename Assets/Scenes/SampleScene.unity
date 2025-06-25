@@ -2561,6 +2561,8 @@ MonoBehaviour:
   minSpawnDistance: 5
   maxSpawnDistance: 15
   spawnInterval: 5
+  oceanTileMap: {fileID: 782026282}
+  landTileMap: {fileID: 174685520}
 --- !u!4 &603846844
 Transform:
   m_ObjectHideFlags: 0
