@@ -110,6 +110,9 @@ public class InfiniteTileMap : MonoBehaviour
         RemoveUnusedTiles(tilesToKeep, landTileMap);
     }
 
+    public Tilemap oceanSavedTileMap; // Tilemap to store rendered ocean tiles
+    public Tilemap landSavedTileMap; // Tilemap to store rendered land tiles
+
     private void CreateTile(Vector2Int tilePosition, Tilemap tilemap, TileBase ruleTile)
     {
         if (tilemap == null || ruleTile == null) return;
@@ -126,11 +129,13 @@ public class InfiniteTileMap : MonoBehaviour
             if (noiseValue > landThreshold)
             {
                 tilemap.SetTile(tilemapPosition, ruleTile);
+                landSavedTileMap?.SetTile(tilemapPosition, ruleTile); // Save rendered land tile
             }
         }
         else
         {
             tilemap.SetTile(tilemapPosition, ruleTile);
+            oceanSavedTileMap?.SetTile(tilemapPosition, ruleTile); // Save rendered ocean tile
         }
 
         activeTiles.Add(tilePosition);
@@ -146,6 +151,17 @@ public class InfiniteTileMap : MonoBehaviour
             {
                 Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
                 tilemap.SetTile(tilemapPosition, null);
+
+                // 同步移除儲存的瓦片
+                if (tilemap == oceanTileMap)
+                {
+                    oceanSavedTileMap?.SetTile(tilemapPosition, null);
+                }
+                else if (tilemap == landTileMap)
+                {
+                    landSavedTileMap?.SetTile(tilemapPosition, null);
+                }
+
                 activeTiles.Remove(tilePosition);
             }
         }
