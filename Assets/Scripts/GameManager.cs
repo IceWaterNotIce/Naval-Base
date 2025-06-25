@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private int savedNavalBaseMaxHealth; // Save naval base max health
     private int savedNavalBaseLevel; // Save naval base level
     private int savedNavalBaseLevelUpGoldCost; // Save level-up gold cost
+    private Vector3 savedNavalBasePosition; // Save naval base position
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
@@ -94,6 +95,9 @@ public class GameManager : MonoBehaviour
         savedNavalBaseLevel = navalBaseController.level;
         savedNavalBaseLevelUpGoldCost = navalBaseController.levelUpGoldCost;
 
+        // Save naval base position
+        savedNavalBasePosition = navalBaseController.GetPosition(); // Save naval base position
+
         // Save player ships' positions and health
         List<PlayerShipData> playerShipDataList = new List<PlayerShipData>();
         foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
@@ -127,7 +131,8 @@ public class GameManager : MonoBehaviour
             navalBaseLevel = savedNavalBaseLevel, // Save naval base level
             navalBaseLevelUpGoldCost = savedNavalBaseLevelUpGoldCost, // Save level-up gold cost
             gameTime = gameTime, // Save game time
-            playerShips = playerShipDataList
+            playerShips = playerShipDataList,
+            navalBasePosition = savedNavalBasePosition // Save naval base position
         };
 
         // Serialize and save to file
@@ -190,6 +195,9 @@ public class GameManager : MonoBehaviour
             navalBaseController.levelUpGoldCost = loadedData.navalBaseLevelUpGoldCost;
             navalBaseController.UpdateLevelUI(); // Update level UI
 
+            // Reload naval base position
+            navalBaseController.SetPosition(loadedData.navalBasePosition); // Reload naval base position
+
             // Reload player ships
             foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
             {
@@ -246,6 +254,7 @@ public class GameData
     public int navalBaseLevelUpGoldCost; // Save level-up gold cost
     public float gameTime; // Save game time
     public List<PlayerShipData> playerShips; // 保存多個玩家船隻
+    public Vector3 navalBasePosition; // Save naval base position
 }
 
 [System.Serializable]

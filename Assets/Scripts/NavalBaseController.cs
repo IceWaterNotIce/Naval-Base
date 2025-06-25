@@ -210,4 +210,14 @@ public class NavalBaseController : MonoBehaviour, IPointerClickHandler
         Debug.Log("Naval Base Destroyed!"); // Log destruction
         // Add additional logic for game over or naval base destruction
     }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position; // Return the current position of the naval base
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position; // Set the position of the naval base
+    }
 }
