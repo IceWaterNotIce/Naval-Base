@@ -32501,6 +32501,31 @@
             "tileName": "Land"
         },
         {
+            "x": 43,
+            "y": 8,
+            "tileName": "Land"
+        },
+        {
+            "x": 44,
+            "y": 8,
+            "tileName": "Land"
+        },
+        {
+            "x": 45,
+            "y": 8,
+            "tileName": "Land"
+        },
+        {
+            "x": 46,
+            "y": 8,
+            "tileName": "Land"
+        },
+        {
+            "x": 47,
+            "y": 8,
+            "tileName": "Land"
+        },
+        {
             "x": -65,
             "y": 9,
             "tileName": "Land"
@@ -32882,6 +32907,26 @@
         },
         {
             "x": 42,
+            "y": 9,
+            "tileName": "Land"
+        },
+        {
+            "x": 43,
+            "y": 9,
+            "tileName": "Land"
+        },
+        {
+            "x": 44,
+            "y": 9,
+            "tileName": "Land"
+        },
+        {
+            "x": 45,
+            "y": 9,
+            "tileName": "Land"
+        },
+        {
+            "x": 46,
             "y": 9,
             "tileName": "Land"
         },
@@ -33292,6 +33337,21 @@
         },
         {
             "x": 42,
+            "y": 10,
+            "tileName": "Land"
+        },
+        {
+            "x": 43,
+            "y": 10,
+            "tileName": "Land"
+        },
+        {
+            "x": 44,
+            "y": 10,
+            "tileName": "Land"
+        },
+        {
+            "x": 45,
             "y": 10,
             "tileName": "Land"
         },
@@ -33722,6 +33782,16 @@
         },
         {
             "x": 42,
+            "y": 11,
+            "tileName": "Land"
+        },
+        {
+            "x": 43,
+            "y": 11,
+            "tileName": "Land"
+        },
+        {
+            "x": 44,
             "y": 11,
             "tileName": "Land"
         },
@@ -34167,6 +34237,11 @@
         },
         {
             "x": 42,
+            "y": 12,
+            "tileName": "Land"
+        },
+        {
+            "x": 43,
             "y": 12,
             "tileName": "Land"
         },
@@ -34627,6 +34702,11 @@
         },
         {
             "x": 42,
+            "y": 13,
+            "tileName": "Land"
+        },
+        {
+            "x": 43,
             "y": 13,
             "tileName": "Land"
         },
