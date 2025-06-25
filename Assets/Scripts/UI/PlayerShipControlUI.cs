@@ -76,7 +76,7 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (selectedShip != null)
         {
-            selectedShip.targetRotationSpeed = selectedShip.maxSpeed * rotationMultiplier * 100f; // Adjust rotation speed
+            selectedShip.targetRotationSpeed = selectedShip.maxRotateSpeed * rotationMultiplier;
         }
     }
 }

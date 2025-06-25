@@ -22,6 +22,7 @@ public class Ship : MonoBehaviour
 
     // ===== 旋轉 (Rotation) 相關 =====
     public float targetRotationSpeed = 100f; // 目標旋轉速度（度/秒）
+    public float maxRotateSpeed = 200f; // 最大旋轉速度
     protected float currentRotateSpeed = 0f; // 當前旋轉速度
 
     // ===== 戰鬥系統 =====
