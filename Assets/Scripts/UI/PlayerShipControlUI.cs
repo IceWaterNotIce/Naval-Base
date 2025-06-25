@@ -4,6 +4,11 @@ using UnityEngine.UI;
 public class PlayerShipControlUI : MonoBehaviour
 {
     public GameObject controlPanel; // The UI panel for controlling the ship
+    public Text shipNameText; // 新增：顯示船隻名稱的文字
+    public Text maxSpeedText; // 新增：顯示最大速度的文字
+    public Text maxRotationSpeedText; // 新增：顯示最大旋轉速度的文字
+    public Text attackDamageText; // 新增：顯示攻擊傷害的文字
+    public Text attackIntervalText; // 新增：顯示攻擊間隔的文字
     public Button fullSpeedButton, threeQuarterSpeedButton, halfSpeedButton, quarterSpeedButton, stopButton;
     public Button rotateLeftButton, rotateHalfLeftButton, rotateNoneButton, rotateHalfRightButton, rotateRightButton;
     public Button DeselectShipButton; // New button for deselecting the ship
@@ -40,6 +45,7 @@ public class PlayerShipControlUI : MonoBehaviour
             {
                 controlPanel.SetActive(true); // Show the control panel when a ship is selected
             }
+            UpdateShipInfo(); // 更新船隻資訊
         }
         else
         {
@@ -55,6 +61,7 @@ public class PlayerShipControlUI : MonoBehaviour
         Debug.Log($"Ship {ship.name} selected."); // Debug log
         selectedShip = ship;
         controlPanel.SetActive(true); // Ensure the control panel is shown
+        UpdateShipInfo(); // 更新船隻資訊
     }
 
     public void DeselectShip()
@@ -77,6 +84,18 @@ public class PlayerShipControlUI : MonoBehaviour
         if (selectedShip != null)
         {
             selectedShip.targetRotationSpeed = selectedShip.maxRotateSpeed * rotationMultiplier;
+        }
+    }
+
+    private void UpdateShipInfo()
+    {
+        if (selectedShip != null)
+        {
+            shipNameText.text = $"Name: {selectedShip.ShipName}";
+            maxSpeedText.text = $"Max Speed: {selectedShip.maxSpeed}";
+            maxRotationSpeedText.text = $"Max Rotation Speed: {selectedShip.maxRotateSpeed}";
+            attackDamageText.text = $"Attack Damage: {selectedShip.attackDamage}";
+            attackIntervalText.text = $"Attack Interval: {selectedShip.attackInterval}s";
         }
     }
 }
