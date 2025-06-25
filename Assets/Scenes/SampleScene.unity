@@ -4541,8 +4541,8 @@ MonoBehaviour:
   landThreshold: 0.5
   islandScale: 0.1
   islandSpacing: 0.2
-  oceanTileMapSavePath: StreamingAssets/OceanTileMap.json
-  landTileMapSavePath: StreamingAssets/LandTileMap.json
+  oceanTileMapSavePath: OceanTileMap.json
+  landTileMapSavePath: LandTileMap.json
   oceanSavedTileMap: {fileID: 782026282}
   landSavedTileMap: {fileID: 902240171}
 --- !u!4 &1108994252

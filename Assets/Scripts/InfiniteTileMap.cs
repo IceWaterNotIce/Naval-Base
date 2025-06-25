@@ -87,9 +87,10 @@ public class InfiniteTileMap : MonoBehaviour
     private void UpdateTileMap()
     {
         HashSet<Vector2Int> tilesToKeep = new HashSet<Vector2Int>();
-        HashSet<Vector2Int> tilesToAdd = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> oceanTilesToAdd = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> landTilesToAdd = new HashSet<Vector2Int>();
 
-        // 計算所有需要保留的瓦片（實體周圍的範圍）
+        // 計算所有需要保留的瓦片
         foreach (var centerTile in GetAllEntityTilePositions())
         {
             for (int x = -viewDistance; x <= viewDistance; x++)
@@ -97,25 +98,31 @@ public class InfiniteTileMap : MonoBehaviour
                 for (int y = -viewDistance; y <= viewDistance; y++)
                 {
                     Vector2Int tilePosition = centerTile + new Vector2Int(x, y);
-                    tilesToKeep.Add(tilePosition); // 標記為需保留
+                    tilesToKeep.Add(tilePosition);
 
-                    // 如果是新瓦片，加入待新增列表
+                    // 檢查是否需要新增瓦片
                     if (!activeTiles.Contains(tilePosition))
                     {
-                        tilesToAdd.Add(tilePosition);
+                        oceanTilesToAdd.Add(tilePosition);
+                        landTilesToAdd.Add(tilePosition);
                     }
                 }
             }
         }
 
-        // 新增瓦片
-        foreach (var tilePosition in tilesToAdd)
+        // 新增海洋瓦片
+        foreach (var tilePosition in oceanTilesToAdd)
         {
             CreateTile(tilePosition, oceanTileMap, oceanRuleTile);
+        }
+
+        // 新增陸地瓦片
+        foreach (var tilePosition in landTilesToAdd)
+        {
             CreateTile(tilePosition, landTileMap, landRuleTile);
         }
 
-        // 移除不在保留列表中的瓦片
+        // 移除未使用的瓦片（分開處理海洋和陸地）
         RemoveUnusedTiles(tilesToKeep, oceanTileMap);
         RemoveUnusedTiles(tilesToKeep, landTileMap);
     }
@@ -155,25 +162,28 @@ public class InfiniteTileMap : MonoBehaviour
     {
         if (tilemap == null) return;
 
-        foreach (var tilePosition in new HashSet<Vector2Int>(activeTiles))
+        // 取得當前 tilemap 中的所有瓦片位置
+        List<Vector3Int> positionsToRemove = new List<Vector3Int>();
+        foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
-            if (!tilesToKeep.Contains(tilePosition))
+            if (tilemap.GetTile(position) != null)
             {
-                Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
-                tilemap.SetTile(tilemapPosition, null);
-
-                // 同步移除儲存的瓦片
-                if (tilemap == oceanTileMap)
+                Vector2Int tilePos = new Vector2Int(position.x, position.y);
+                if (!tilesToKeep.Contains(tilePos))
                 {
-                    oceanSavedTileMap?.SetTile(tilemapPosition, null);
+                    positionsToRemove.Add(position);
                 }
-                else if (tilemap == landTileMap)
-                {
-                    landSavedTileMap?.SetTile(tilemapPosition, null);
-                }
-
-                activeTiles.Remove(tilePosition);
             }
+        }
+
+        // 實際移除瓦片
+        foreach (var position in positionsToRemove)
+        {
+            tilemap.SetTile(position, null);
+
+            // 從 activeTiles 中移除（如果存在）
+            Vector2Int tilePos = new Vector2Int(position.x, position.y);
+            activeTiles.Remove(tilePos);
         }
     }
 
@@ -204,6 +214,14 @@ public class InfiniteTileMap : MonoBehaviour
     private void SaveTileMap(Tilemap tilemap, string filePath)
     {
         string fullPath = Path.Combine(Application.streamingAssetsPath, filePath); // Use StreamingAssets folder
+
+        // 確保目錄存在
+        string directory = Path.GetDirectoryName(fullPath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
         Dictionary<Vector3Int, string> tileData = new Dictionary<Vector3Int, string>();
         foreach (var position in tilemap.cellBounds.allPositionsWithin)
         {
@@ -220,6 +238,12 @@ public class InfiniteTileMap : MonoBehaviour
 
     private void LoadTileMap(Tilemap tilemap, string filePath)
     {
+        if (tilemap == null) 
+        {
+            Debug.LogError("Tilemap is null. Cannot load tilemap.");
+            return;
+        }
+
         string fullPath = Path.Combine(Application.streamingAssetsPath, filePath); // Use StreamingAssets folder
         if (File.Exists(fullPath))
         {
@@ -234,7 +258,15 @@ public class InfiniteTileMap : MonoBehaviour
                 {
                     tilemap.SetTile(position, tile);
                 }
+                else
+                {
+                    Debug.LogWarning($"Failed to load tile: {kvp.Value} at position {position}");
+                }
             }
+        }
+        else
+        {
+            Debug.LogWarning($"Tilemap file not found at path: {fullPath}");
         }
     }
 
