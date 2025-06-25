@@ -8,10 +8,9 @@ public class MinimapController : MonoBehaviour
     {
         if (player != null)
         {
-            Vector3 newPosition = player.position;
-            newPosition.y = transform.position.y; // Keep the camera's height constant
-            newPosition.x = transform.position.x; // Keep the camera's x position constant
-            transform.position = newPosition;
+           
+            transform.position = player.position; // Set the minimap position to the player's position
+
         }
     }
 }
