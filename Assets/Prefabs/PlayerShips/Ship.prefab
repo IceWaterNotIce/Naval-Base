@@ -353,11 +353,11 @@ MonoBehaviour:
   healthSlider: {fileID: 945139388950909975}
   healthText: {fileID: 6116792259766651376}
   healthCanvas: {fileID: 6559406278399476852}
-  Speed: 0
+  targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
   deceleration: 0.5
-  rotationSpeed: 100
+  targetRotationSpeed: 0
   attackDamage: 1
   attackInterval: 1
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
