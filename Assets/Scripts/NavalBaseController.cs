@@ -44,6 +44,7 @@ public class NavalBaseController : MonoBehaviour, IPointerClickHandler
         {
             levelUpButton.onClick.AddListener(LevelUp); // Add listener to level-up button
         }
+        //SpriteOutlineHelper.AddMouseOverHighlight(gameObject); // Add mouse over highlight effect
     }
 
     void Update()

@@ -7,6 +7,13 @@
       "dependencies": {},
       "hash": "28895b6b76ed210a0238ef5705df0b44c4e6e264"
     },
+    "com.icewaternotice.sprite-outline-helper": {
+      "version": "https://github.com/IceWaterNotIce/2D_Sprite_Outline.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "1a49bb48cf337bc1251332272936e355fb8a8c40"
+    },
     "com.unity.2d.animation": {
       "version": "10.1.3",
       "depth": 1,

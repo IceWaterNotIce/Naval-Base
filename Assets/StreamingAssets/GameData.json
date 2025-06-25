@@ -2,37 +2,76 @@
     "ammoPositions": [],
     "ammoTargetTags": [],
     "ammoDirections": [],
-    "enemyPositions": [
-        {
-            "x": 8.533310890197754,
-            "y": -8.335886001586914,
-            "z": 0.0
-        },
-        {
-            "x": -11.443565368652344,
-            "y": -1.1714131832122803,
-            "z": 0.0
-        }
-    ],
-    "enemyHealth": [
-        1,
-        1
-    ],
-    "enemyPrefabIndices": [
-        0,
-        0
-    ],
-    "navalBaseGold": 111021,
-    "navalBaseHealth": 160,
-    "navalBaseMaxHealth": 160,
-    "navalBaseLevel": 4,
-    "navalBaseLevelUpGoldCost": 250,
-    "gameTime": 152.1066436767578,
+    "enemyPositions": [],
+    "enemyHealth": [],
+    "enemyPrefabIndices": [],
+    "navalBaseGold": 108447,
+    "navalBaseHealth": 280,
+    "navalBaseMaxHealth": 280,
+    "navalBaseLevel": 10,
+    "navalBaseLevelUpGoldCost": 550,
+    "gameTime": 286.3699951171875,
     "playerShips": [
         {
             "position": {
-                "x": -0.0031447038054466249,
-                "y": 0.6781637072563171,
+                "x": -0.8252160549163818,
+                "y": -0.06987108290195465,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": 1.9507275819778443,
+                "y": -0.002208770252764225,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": 3.971033811569214,
+                "y": -0.0000028172507882118226,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": 5.952239513397217,
+                "y": -0.0010467180982232094,
+                "z": 0.0
+            },
+            "health": 4.0
+        },
+        {
+            "position": {
+                "x": 7.953164577484131,
+                "y": -0.0002580946311354637,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": -0.3651566803455353,
+                "y": 1.5548374652862549,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": -0.22968856990337373,
+                "y": 0.9282942414283752,
+                "z": 0.0
+            },
+            "health": 5.0
+        },
+        {
+            "position": {
+                "x": 0.3481495678424835,
+                "y": 0.9763240218162537,
                 "z": 0.0
             },
             "health": 5.0
