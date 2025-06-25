@@ -96191,6 +96191,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 11,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 11,
             "tileName": "Ocean"
@@ -96666,6 +96671,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 12,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 12,
             "tileName": "Ocean"
@@ -97136,6 +97146,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 13,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 13,
             "tileName": "Ocean"
@@ -97586,6 +97601,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 14,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 14,
             "tileName": "Ocean"
@@ -97881,6 +97901,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 15,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 15,
             "tileName": "Ocean"
@@ -98176,6 +98201,11 @@
             "tileName": "Ocean"
         },
         {
+            "x": -17,
+            "y": 16,
+            "tileName": "Ocean"
+        },
+        {
             "x": -16,
             "y": 16,
             "tileName": "Ocean"
@@ -98413,6 +98443,11 @@
         {
             "x": 31,
             "y": 16,
+            "tileName": "Ocean"
+        },
+        {
+            "x": -17,
+            "y": 17,
             "tileName": "Ocean"
         },
         {
