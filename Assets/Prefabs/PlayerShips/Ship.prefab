@@ -344,7 +344,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &2593660876583772186
 MonoBehaviour:
@@ -448,12 +448,12 @@ MonoBehaviour:
   rotationAcceleration: 10
   maxRotateSpeed: 200
   targetAzimuthAngle: -1
-  attackDamage: 1
-  attackInterval: 1
-  ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   target: {fileID: 0}
   rb: {fileID: 1120400529803841102}
   firePoint: {fileID: 7686684505737438679}
+  ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
+  attackInterval: 1
+  attackDamage: 1
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64

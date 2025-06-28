@@ -1,28 +1,16 @@
 using UnityEngine;
 
-public class PlayerShip : Ship
+public class PlayerShip : Warship
 {
-    public Transform firePoint; // 子彈發射點
     public LayerMask enemyLayer; // 用於檢測敵人的圖層
     public float detectionRadius = 10f; // 檢測敵人的半徑
 
     protected override void Update()
     {
         base.Update(); // Call base class Update for movement and health UI updates
-        HandleAttack(); // 處理攻擊邏輯
     }
 
-    private void HandleAttack()
-    {
-        attackTimer += Time.deltaTime;
-        if (attackTimer >= attackInterval)
-        {
-            DetectAndShootEnemies();
-            attackTimer = 0f; // 重置攻擊計時器
-        }
-    }
-
-    private void DetectAndShootEnemies()
+    protected override void PerformAttack()
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectionRadius, enemyLayer);
         foreach (Collider2D enemy in enemies)
@@ -63,3 +51,4 @@ public class PlayerShip : Ship
         }
     }
 }
+

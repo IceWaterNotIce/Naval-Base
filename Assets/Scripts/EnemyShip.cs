@@ -1,12 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyShip : Ship
+public class EnemyShip : Warship
 {
     public float minDistanceToNavalBase = 3f; // Minimum distance to the naval base
     public float orbitSpeed = 1f; // Speed at which the enemy orbits the naval base
     public int goldReward = 1; // Gold rewarded when the enemy dies
-    public Transform firePoint; // Point where ammo is fired
     public float playerShipDetectionRadius = 10f; // 半徑內檢測玩家船隻
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,7 +28,6 @@ public class EnemyShip : Ship
         base.Update(); // Call base class Update for movement and health UI updates
         UpdateTarget(); // 更新目標
         MoveTowardsTarget();
-        HandleAttack(); // 處理攻擊邏輯
     }
 
     private void UpdateTarget()
@@ -103,16 +101,11 @@ public class EnemyShip : Ship
         }
     }
 
-    private void HandleAttack()
+    protected override void PerformAttack()
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) <= 5f) // Check if within attack range
+        if (target != null && Vector3.Distance(transform.position, target.position) <= 5f)
         {
-            attackTimer += Time.deltaTime;
-            if (attackTimer >= attackInterval)
-            {
-                ShootAmmoAtTarget(); // Shoot ammo at the current target
-                attackTimer = 0f; // Reset attack timer
-            }
+            ShootAmmoAtTarget();
         }
     }
 
@@ -120,13 +113,12 @@ public class EnemyShip : Ship
     {
         if (ammoPrefab != null && firePoint != null && target != null)
         {
-            AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>(); // Get AmmoManager instance
-            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform); // Instantiate ammo
-            if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
+            AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>();
+            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform);
+            if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript))
             {
-                string targetTag = target.CompareTag("PlayerShip") ? "PlayerShip" : "NavalBase"; // Determine target tag
-                ammoScript.SetTarget(target.position, targetTag); // Pass target position and tag
-                Debug.Log($"Ammo shot at {targetTag} with target position: {target.position}"); // Debug log
+                string targetTag = target.CompareTag("PlayerShip") ? "PlayerShip" : "NavalBase";
+                ammoScript.SetTarget(target.position, targetTag);
             }
         }
     }
@@ -136,7 +128,7 @@ public class EnemyShip : Ship
         base.TakeDamage(damage);
         if (Health <= 0)
         {
-            RewardPlayer(); // Handle enemy death
+            RewardPlayer();
         }
     }
 
@@ -145,7 +137,7 @@ public class EnemyShip : Ship
         NavalBaseController navalBase = GameObject.FindWithTag("NavalBase").GetComponent<NavalBaseController>();
         if (navalBase != null)
         {
-            navalBase.AddGold(goldReward); // Add gold to the naval base
+            navalBase.AddGold(goldReward);
         }
     }
 }

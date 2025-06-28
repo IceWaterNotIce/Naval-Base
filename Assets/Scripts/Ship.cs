@@ -27,11 +27,6 @@ public class Ship : MonoBehaviour
 
     public float targetAzimuthAngle = -1f ; // 目標方位角（度）
 
-    // ===== 戰鬥系統 =====
-    public int attackDamage = 1;      // 攻擊傷害
-    public float attackInterval = 1f; // 攻擊間隔（秒）
-    protected float attackTimer;      // 攻擊計時器
-    public GameObject ammoPrefab;     // 子彈預製體
 
     // ===== 目標與物理 =====
     public Transform target;   // 追蹤目標
