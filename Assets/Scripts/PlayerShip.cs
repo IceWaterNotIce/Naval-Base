@@ -31,6 +31,7 @@ public class PlayerShip : Warship
             if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // 確保子彈有 Ammo 組件
             {
                 ammoScript.SetTarget(enemy.position, "Enemy"); // 設置子彈目標
+                ammoScript.OnHitEnemy += () => GainExperience(10); // 擊中敵人時獲得經驗值
                 Debug.Log($"PlayerShip shot at enemy {enemy.name} at position {enemy.position}"); // Debug log
             }
         }

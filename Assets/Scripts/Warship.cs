@@ -6,7 +6,32 @@ public class Warship : Ship
     public GameObject ammoPrefab; // 子彈預製體
     public float attackInterval = 1f; // 攻擊間隔（秒）
     protected float attackTimer; // 攻擊計時器
+
+    public int level = 1; // 初始等級
+    public int experience = 0; // 當前經驗值
+    public int experienceToNextLevel = 100; // 升級所需經驗值
+
     public int attackDamage = 1; // 攻擊傷害
+
+    public virtual void GainExperience(int amount)
+    {
+        experience += amount;
+        if (experience >= experienceToNextLevel)
+        {
+            LevelUp();
+        }
+    }
+
+    protected virtual void LevelUp()
+    {
+        level++;
+        experience -= experienceToNextLevel;
+        experienceToNextLevel += 50; // 每次升級增加所需經驗值
+        attackDamage += 1; // 提升攻擊傷害
+        maxHealth += 10; // 提升最大血量
+        Health = maxHealth; // 恢復血量
+        Debug.Log($"Warship leveled up to {level}! Attack Damage: {attackDamage}, Max Health: {maxHealth}");
+    }
 
     public virtual void HandleAttack()
     {

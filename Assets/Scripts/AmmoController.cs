@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Ammo : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Ammo : MonoBehaviour
 
     private Vector3 startPosition; // Starting position of the ammo
     private Vector3 direction; // Direction toward the target
+
+    public event Action OnHitEnemy; // 新增事件
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,6 +63,7 @@ public class Ammo : MonoBehaviour
                 {
                     enemy.TakeDamage(damage); // Deal damage to the enemy
                     Debug.Log("Damage dealt to Enemy"); // Debug log
+                    OnHitEnemy?.Invoke(); // 觸發事件
                 }
             }
             else if (targetTag == "NavalBase")

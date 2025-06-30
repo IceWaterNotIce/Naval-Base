@@ -7,6 +7,7 @@ public class EnemyShip : Warship
     public float orbitSpeed = 1f; // Speed at which the enemy orbits the naval base
     public int goldReward = 1; // Gold rewarded when the enemy dies
     public float playerShipDetectionRadius = 10f; // 半徑內檢測玩家船隻
+    public int experienceReward = 20; // 擊殺獎勵經驗值
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void Initialize(string name, float speed, float health)
@@ -138,6 +139,12 @@ public class EnemyShip : Warship
         if (navalBase != null)
         {
             navalBase.AddGold(goldReward);
+        }
+
+        PlayerShip playerShip = FindFirstObjectByType<PlayerShip>();
+        if (playerShip != null)
+        {
+            playerShip.GainExperience(experienceReward); // 獎勵經驗值給玩家船隻
         }
     }
 }
