@@ -9,6 +9,7 @@ public class PlayerShipControlUI : MonoBehaviour
     public Text maxRotationSpeedText; // 新增：顯示最大旋轉速度的文字
     public Text attackDamageText; // 新增：顯示攻擊傷害的文字
     public Text attackIntervalText; // 新增：顯示攻擊間隔的文字
+    public Text levelText; // 新增：顯示等級的文字
     public Button fullSpeedButton, threeQuarterSpeedButton, halfSpeedButton, quarterSpeedButton, stopButton;
     public Button rotateLeftButton, rotateHalfLeftButton, rotateNoneButton, rotateHalfRightButton, rotateRightButton;
     public Button DeselectShipButton; // New button for deselecting the ship
@@ -96,6 +97,7 @@ public class PlayerShipControlUI : MonoBehaviour
             maxRotationSpeedText.text = $"Max Rotation Speed: {selectedShip.maxRotateSpeed}";
             attackDamageText.text = $"Attack Damage: {selectedShip.attackDamage}";
             attackIntervalText.text = $"Attack Interval: {selectedShip.attackInterval}s";
+            levelText.text = $"Level: {selectedShip.level}"; // 顯示等級
         }
     }
 }

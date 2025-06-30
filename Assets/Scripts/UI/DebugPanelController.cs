@@ -36,7 +36,19 @@ public class DebugPanelController : MonoBehaviour
                              $"Enemies:\n" +
                              $"- Active: {enemyManager.GetActiveEnemies().Count}\n\n" +
                              $"Player Ships:\n" +
-                             $"- Active: {playerShipManager.playerShips.Count}";
+                             $"- Active: {playerShipManager.playerShips.Count}\n";
+
+            foreach (var ship in playerShipManager.playerShips)
+            {
+                if (ship != null)
+                {
+                    PlayerShip playerShip = ship.GetComponent<PlayerShip>();
+                    if (playerShip != null)
+                    {
+                        debugText.text += $"- {playerShip.ShipName}: Level {playerShip.level}\n"; // 顯示每艘船的等級
+                    }
+                }
+            }
         }
     }
 }
