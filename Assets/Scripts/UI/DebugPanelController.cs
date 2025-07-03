@@ -37,14 +37,22 @@ public class DebugPanelController : MonoBehaviour
     {
         if (debugText != null)
         {
-            debugText.text = $"Naval Base:\n" +
-                             $"- Gold: {navalBaseController.gold}\n" +
-                             $"- Health: {navalBaseController.health}/{navalBaseController.maxHealth}\n" +
-                             $"- Level: {navalBaseController.level}\n\n" +
-                             $"Enemies:\n" +
-                             $"- Active: {enemyManager.GetActiveEnemies().Count}\n\n" +
-                             $"Player Ships:\n" +
-                             $"- Active: {playerShipManager.playerShips.Count}\n";
+            string version = "v1.0.0"; // 可根據實際版本修改
+            float gameTime = Time.time;
+            Vector3 camPos = Camera.main != null ? Camera.main.transform.position : Vector3.zero;
+
+            debugText.text =
+                $"Version: {version}\n" +
+                $"Game Time: {gameTime:F1}s\n" +
+                $"Camera Pos: ({camPos.x:F1}, {camPos.y:F1}, {camPos.z:F1})\n\n" +
+                $"Naval Base:\n" +
+                $"- Gold: {navalBaseController.gold}\n" +
+                $"- Health: {navalBaseController.health}/{navalBaseController.maxHealth}\n" +
+                $"- Level: {navalBaseController.level}\n\n" +
+                $"Enemies:\n" +
+                $"- Active: {enemyManager.GetActiveEnemies().Count}\n\n" +
+                $"Player Ships:\n" +
+                $"- Active: {playerShipManager.playerShips.Count}\n";
 
             foreach (var ship in playerShipManager.playerShips)
             {
