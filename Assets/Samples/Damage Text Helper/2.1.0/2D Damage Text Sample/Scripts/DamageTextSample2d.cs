@@ -6,6 +6,16 @@ public class DamageTextSample2d : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        // 確保 DamageTextManager 單例存在
+        if (DamageTextManager.Instance == null)
+        {
+            var mgrObj = GameObject.FindFirstObjectByType<DamageTextManager>();
+            if (mgrObj == null)
+            {
+                GameObject mgrGO = new GameObject("DamageTextManager_AutoCreated");
+                mgrGO.AddComponent<DamageTextManager>();
+            }
+        }
         // 每秒呼叫一次 ApplyDamage
         InvokeRepeating("CallApplyDamage", 1f, 1f);
     }
@@ -27,13 +37,6 @@ public class DamageTextSample2d : MonoBehaviour
     void ApplyDamage(int damage, bool isCritical)
     {
         Vector3 hitPosition = transform.position + Vector3.up; // 在物件上方顯示
-        if (DamageTextManager.Instance != null)
-        {
-            DamageTextManager.Instance.ShowDamage(damage, hitPosition, isCritical);
-        }
-        else
-        {
-            Debug.LogError("DamageTextManager.Instance is null! 請確認場景中有 DamageTextManager。");
-        }
+        DamageTextManager.Instance.ShowDamage(damage, hitPosition, isCritical);
     }
 }

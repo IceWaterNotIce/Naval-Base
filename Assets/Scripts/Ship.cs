@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DamageTextHelper; // 引入傷害數字顯示的命名空間
 
 public class Ship : MonoBehaviour
 {
@@ -45,7 +46,11 @@ public class Ship : MonoBehaviour
     {
         Health -= damage;
         Health = Mathf.Clamp(Health, 0, maxHealth); // 確保血量不低於 0
+
         UpdateHealthUI(); // Update health display
+        Debug.Log($"This position: {this.gameObject.transform.position}, Health: {Health}"); // Debug log
+        DamageTextManager.Instance.ShowDamage(damage, this.gameObject.transform.position, false); // 顯示傷害數字
+
         if (Health <= 0)
         {
             DestroyShip();
