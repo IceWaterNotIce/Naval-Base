@@ -10,6 +10,7 @@ public class DebugPanelController : MonoBehaviour
     public PlayerShipManager playerShipManager; // Reference to PlayerShipManager
 
     private bool isDebugPanelVisible = false;
+    private bool showColliders = false; // 新增：是否顯示碰撞框
 
     void Start()
     {
@@ -25,6 +26,12 @@ public class DebugPanelController : MonoBehaviour
         {
             isDebugPanelVisible = !isDebugPanelVisible;
             debugPanel.SetActive(isDebugPanelVisible);
+        }
+
+        // F3+B 顯示碰撞框
+        if (Input.GetKey(KeyCode.F3) && Input.GetKeyDown(KeyCode.B))
+        {
+            showColliders = !showColliders;
         }
 
         if (isDebugPanelVisible)
@@ -67,4 +74,61 @@ public class DebugPanelController : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        if (!showColliders) return;
+
+        // 畫出所有玩家船隻的碰撞框
+        if (playerShipManager != null && playerShipManager.playerShips != null)
+        {
+            Gizmos.color = Color.green;
+            foreach (var ship in playerShipManager.playerShips)
+            {
+                if (ship != null)
+                {
+                    Collider2D col = ship.GetComponent<Collider2D>();
+                    if (col != null)
+                    {
+                        DrawCollider2D(col);
+                    }
+                }
+            }
+        }
+
+        // 畫出所有子彈的碰撞框
+        var ammoManager = FindFirstObjectByType<AmmoManager>();
+        if (ammoManager != null)
+        {
+            Gizmos.color = Color.yellow;
+            foreach (var ammo in ammoManager.GetActiveAmmo())
+            {
+                if (ammo != null)
+                {
+                    Collider2D col = ammo.GetComponent<Collider2D>();
+                    if (col != null)
+                    {
+                        DrawCollider2D(col);
+                    }
+                }
+            }
+        }
+    }
+
+    private void DrawCollider2D(Collider2D col)
+    {
+        if (col is CircleCollider2D circle)
+        {
+            Gizmos.DrawWireSphere(circle.transform.position + (Vector3)circle.offset, circle.radius * circle.transform.lossyScale.x);
+        }
+        else if (col is BoxCollider2D box)
+        {
+            Gizmos.matrix = box.transform.localToWorldMatrix;
+            Gizmos.DrawWireCube(box.offset, box.size);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
+        // 可擴充其他 Collider2D 類型
+    }
+#endif
 }
