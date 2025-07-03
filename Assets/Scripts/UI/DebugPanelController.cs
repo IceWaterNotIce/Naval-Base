@@ -11,6 +11,14 @@ public class DebugPanelController : MonoBehaviour
 
     private bool isDebugPanelVisible = false;
 
+    void Start()
+    {
+        if (debugPanel != null)
+        {
+            debugPanel.SetActive(false);
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F3)) // Toggle debug panel with F3
