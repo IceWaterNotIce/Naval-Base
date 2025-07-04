@@ -45,6 +45,15 @@ public class InfiniteTileMap : MonoBehaviour
 
     private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
 
+    [Header("Coastal Turret Settings")]
+    public GameObject coastalTurretPrefab; // 沿海砲塔預製體
+    public int coastalTurretCost = 100; // 建造砲塔所需金幣
+
+    [Header("UI")]
+    public GameObject buildTurretButton; // 連結Unity UI按鈕物件
+
+    private Vector3Int? selectedLandTilePos = null; // 當前選中的陸地瓦片
+
     void Start()
     {
         if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
@@ -433,5 +442,44 @@ public class InfiniteTileMap : MonoBehaviour
         }
 
         return false;
+    }
+
+    // 判斷指定陸地瓦片是否靠近海洋瓦片
+    public bool CanBuildCoastalTurret(Vector3Int landTilePos)
+    {
+        if (landTileMap.GetTile(landTilePos) != landRuleTile) return false; // 必須是陸地瓦片
+        Vector3Int[] directions = {
+            Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
+        };
+        foreach (var dir in directions)
+        {
+            Vector3Int neighbor = landTilePos + dir;
+            if (oceanTileMap.GetTile(neighbor) == oceanRuleTile)
+                return true;
+        }
+        return false;
+    }
+
+    // 在指定陸地瓦片上建造沿海砲塔
+    public bool BuildCoastalTurret(Vector3Int landTilePos)
+    {
+        if (coastalTurretPrefab == null || navalBaseController == null) return false;
+        if (!CanBuildCoastalTurret(landTilePos)) return false;
+        if (navalBaseController.gold < coastalTurretCost) return false;
+
+        // 消耗金幣
+        navalBaseController.DeductGold(coastalTurretCost);
+
+        // 計算世界座標（置中）
+        Vector3 worldPos = landTileMap.CellToWorld(landTilePos) + new Vector3(0.5f, 0.5f, 0);
+        Instantiate(coastalTurretPrefab, worldPos, Quaternion.identity, this.transform);
+        Debug.Log($"Built coastal turret at {landTilePos}");
+        return true;
+    }
+
+    // 呼叫此方法以選擇一個陸地瓦片（例如由滑鼠點擊事件觸發）
+    public void SelectLandTile(Vector3Int pos)
+    {
+        selectedLandTilePos = pos;
     }
 }
