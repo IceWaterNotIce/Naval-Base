@@ -53,7 +53,7 @@ public class Ammo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Ammo collided with {collision.tag}"); // Debug log
+       // Debug.Log($"Ammo collided with {collision.tag}"); // Debug log
         if (collision.CompareTag(targetTag)) // Check if collided object matches the target tag
         {
             if (targetTag == "Enemy")

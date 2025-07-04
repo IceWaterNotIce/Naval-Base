@@ -238,25 +238,6 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName); // Load the specified scene
     }
-
-    public void RequestTilePurchase(Vector3 worldPosition)
-    {
-        if (infiniteTileMap == null) return;
-
-        Vector3Int tilePosition = infiniteTileMap.oceanTileMap.WorldToCell(worldPosition);
-        infiniteTileMap.BuyTile(tilePosition);
-    }
-
-    public void RequestBuildCoastalTurret(Vector3 worldPosition)
-    {
-        if (infiniteTileMap == null) return;
-        Vector3Int tilePosition = infiniteTileMap.landTileMap.WorldToCell(worldPosition);
-        bool built = infiniteTileMap.BuildCoastalTurret(tilePosition);
-        if (!built)
-        {
-            Debug.LogWarning("Failed to build coastal turret: not a valid land tile, not adjacent to ocean, or not enough gold.");
-        }
-    }
 }
 
 [System.Serializable]
