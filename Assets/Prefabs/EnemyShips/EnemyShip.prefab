@@ -239,8 +239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShipName: Enemy
-  Health: 0
-  maxHealth: 5
+  Health: 100
+  maxHealth: 100
   healthSlider: {fileID: 192762565598445327}
   healthText: {fileID: 2081521309544874529}
   healthCanvas: {fileID: 5639619508095237559}
