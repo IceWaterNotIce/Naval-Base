@@ -5295,6 +5295,7 @@ MonoBehaviour:
   playerShipManager: {fileID: 598007195}
   infiniteTileMap: {fileID: 1108994251}
   debugPanelController: {fileID: 1244769740}
+  coastalTurretManager: {fileID: 1513404016}
   gameTimeText: {fileID: 176768691}
 --- !u!4 &989261685
 Transform:

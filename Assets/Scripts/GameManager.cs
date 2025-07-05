@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public PlayerShipManager playerShipManager; // 引用 PlayerShipManager
     public InfiniteTileMap infiniteTileMap; // Reference to InfiniteTileMap
     public DebugPanelController debugPanelController; // Reference to DebugPanelController
+    public CoastalTurretManager coastalTurretManager; // <--- 新增 CoastalTurretManager 參考
 
     public Text gameTimeText; // Reference to the UI Text element for game time display
 
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour
     private int savedNavalBaseLevel; // Save naval base level
     private int savedNavalBaseLevelUpGoldCost; // Save level-up gold cost
     private Vector3 savedNavalBasePosition; // Save naval base position
+    private List<Vector3> savedCoastalTurretPositions = new List<Vector3>(); // 新增：儲存砲塔位置
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
@@ -34,7 +36,48 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         saveFilePath = Path.Combine(Application.streamingAssetsPath, "GameData.json");
-        LoadGame(); // Load game data when the game starts
+        // 延遲一幀再載入，確保 CoastalTurretManager 已初始化
+        StartCoroutine(LoadGameDelayed());
+    }
+
+    private System.Collections.IEnumerator LoadGameDelayed()
+    {
+        yield return null; // 等待一幀
+        LoadGame();
+
+        // 強制再等一幀後重建砲塔，確保 CoastalTurretManager 已經初始化
+        yield return null;
+        if (File.Exists(saveFilePath))
+        {
+            string json = File.ReadAllText(saveFilePath);
+            GameData loadedData = JsonUtility.FromJson<GameData>(json);
+
+            // 清除現有砲塔
+            foreach (var turret in FindObjectsByType<CoastalTurret>(FindObjectsSortMode.None))
+            {
+                Destroy(turret.gameObject);
+            }
+
+            // 重新生成砲塔
+            if (coastalTurretManager != null)
+            {
+                if (loadedData.coastalTurretPositions != null)
+                {
+                    foreach (var pos in loadedData.coastalTurretPositions)
+                    {
+                        if (coastalTurretManager.coastalTurretPrefab != null)
+                        {
+                            Instantiate(
+                                coastalTurretManager.coastalTurretPrefab,
+                                pos,
+                                Quaternion.identity,
+                                coastalTurretManager.transform
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void OnApplicationQuit()
@@ -118,6 +161,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        // Save coastal turret positions
+        savedCoastalTurretPositions.Clear();
+        foreach (var turret in FindObjectsOfType<CoastalTurret>())
+        {
+            savedCoastalTurretPositions.Add(turret.transform.position);
+        }
+
         // Create a save object
         GameData saveData = new GameData
         {
@@ -134,7 +184,8 @@ public class GameManager : MonoBehaviour
             navalBaseLevelUpGoldCost = savedNavalBaseLevelUpGoldCost, // Save level-up gold cost
             gameTime = gameTime, // Save game time
             playerShips = playerShipDataList,
-            navalBasePosition = savedNavalBasePosition // Save naval base position
+            navalBasePosition = savedNavalBasePosition, // Save naval base position
+            coastalTurretPositions = savedCoastalTurretPositions, // 新增
         };
 
         // Serialize and save to file
@@ -200,6 +251,33 @@ public class GameManager : MonoBehaviour
             // Reload naval base position
             navalBaseController.SetPosition(loadedData.navalBasePosition); // Reload naval base position
 
+
+            // Clear existing coastal turrets
+            foreach (var turret in FindObjectsOfType<CoastalTurret>())
+            {
+                Destroy(turret.gameObject);
+            }
+
+            // 重新生成砲塔
+            if (coastalTurretManager != null)
+            {
+                if (loadedData.coastalTurretPositions != null)
+                {
+                    foreach (var pos in loadedData.coastalTurretPositions)
+                    {
+                        if (coastalTurretManager.coastalTurretPrefab != null)
+                        {
+                            Instantiate(
+                                coastalTurretManager.coastalTurretPrefab,
+                                pos,
+                                Quaternion.identity,
+                                coastalTurretManager.transform
+                            );
+                        }
+                    }
+                }
+            }
+
             // Reload player ships
             foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
             {
@@ -257,6 +335,7 @@ public class GameData
     public float gameTime; // Save game time
     public List<PlayerShipData> playerShips; // 保存多個玩家船隻
     public Vector3 navalBasePosition; // Save naval base position
+    public List<Vector3> coastalTurretPositions; // 新增：儲存砲塔位置
 }
 
 [System.Serializable]
