@@ -1323,7 +1323,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 207.52}
+  m_SizeDelta: {x: 523, y: 562.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &244202913
 MonoBehaviour:
@@ -2252,8 +2252,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 880097640}
   m_HandleRect: {fileID: 880097639}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.7866566
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3298,10 +3298,6 @@ MonoBehaviour:
   ShipPrefab: {fileID: 6503241041720059141, guid: 8daa73ed0a7150440ba63c509197eee0, type: 3}
   ShipCost: 50
   navalBaseController: {fileID: 274980084}
-  shipUIPrefab: {fileID: 7359078880093865434, guid: 42f898e4ebf86554bb1734231a118d3d, type: 3}
-  shipsListContent: {fileID: 236724268}
-  shipsScrollView: {fileID: 244202913}
-  shipsPanel: {fileID: 867902574}
   playerShips: []
 --- !u!4 &598007196
 Transform:
@@ -4819,6 +4815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 867902575}
+  - component: {fileID: 867902578}
   - component: {fileID: 867902577}
   - component: {fileID: 867902576}
   m_Layer: 5
@@ -4887,6 +4884,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 867902574}
   m_CullTransparentMesh: 1
+--- !u!114 &867902578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867902574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b23bb6f5ab46c499a94cff7db2c40c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupName: ShipList
+  shipUIPrefab: {fileID: 7359078880093865434, guid: 42f898e4ebf86554bb1734231a118d3d, type: 3}
+  shipsListContent: {fileID: 236724268}
+  shipsScrollView: {fileID: 244202913}
+  shipsPanel: {fileID: 867902574}
 --- !u!1 &880097638
 GameObject:
   m_ObjectHideFlags: 0
@@ -5766,6 +5780,7 @@ GameObject:
   - component: {fileID: 1026336764}
   - component: {fileID: 1026336763}
   - component: {fileID: 1026336762}
+  - component: {fileID: 1026336766}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -5871,6 +5886,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1026336766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026336761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62e6361b5f03e746b4b369911081ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1097210574
 GameObject:
   m_ObjectHideFlags: 0
@@ -7174,16 +7201,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 598007195}
-        m_TargetAssemblyTypeName: PlayerShipManager, Assembly-CSharp
-        m_MethodName: ToggleShipsPanel
-        m_Mode: 1
+      - m_Target: {fileID: 1026336766}
+        m_TargetAssemblyTypeName: PopupManager, Assembly-CSharp
+        m_MethodName: TogglePopup
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: ShipList
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1228788586

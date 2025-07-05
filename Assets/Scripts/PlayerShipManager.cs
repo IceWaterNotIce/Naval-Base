@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI; // 新增 UI 命名空間
 
 public class PlayerShipManager : MonoBehaviour
 {
@@ -9,23 +8,7 @@ public class PlayerShipManager : MonoBehaviour
     public int ShipCost = 50;
     public NavalBaseController navalBaseController;
 
-    [Header("UI Settings")]
-    public GameObject shipUIPrefab; // 單個船隻的 UI 預製體
-    public Transform shipsListContent; // ScrollView 的 Content 物件
-    public ScrollRect shipsScrollView; // ScrollView 元件
-
-    [Header("Panel Settings")]
-    public GameObject shipsPanel; // 船隻列表面板
-
-    public List<GameObject> playerShips = new List<GameObject>(); // 保持 privat
-
-    private void Start()
-    {
-        if (shipsPanel != null)
-        {
-            shipsPanel.SetActive(false); // 遊戲開始時隱藏面板
-        }
-    }
+    public List<GameObject> playerShips = new List<GameObject>();
 
     public bool CreateShipFromPrefab(Vector3 position)
     {
@@ -36,8 +19,6 @@ public class PlayerShipManager : MonoBehaviour
             
             GameObject newShip = Instantiate(ShipPrefab, position, Quaternion.identity, transform);
             playerShips.Add(newShip);
-            
-            UpdateShipsListUI(); // 新增船隻後更新 UI
             return true;
         }
         
@@ -57,50 +38,9 @@ public class PlayerShipManager : MonoBehaviour
         }
     }
 
-    // 新增：更新船隻列表 UI
-    private void UpdateShipsListUI()
+    // 提供船隻列表的唯讀訪問
+    public IReadOnlyList<GameObject> GetPlayerShips()
     {
-
-        Debug.Log("Updating ships list UI...");
-        // 清除現有列表
-        foreach (Transform child in shipsListContent)
-        {
-            Destroy(child.gameObject);
-        }
-
-        // 為每艘船創建 UI 項目
-        for (int i = 0; i < playerShips.Count; i++)
-        {
-            if (playerShips[i] != null)
-            {
-                GameObject shipUI = Instantiate(shipUIPrefab, shipsListContent);
-                Text shipText = shipUI.GetComponentInChildren<Text>();
-                
-                if (shipText != null)
-                {
-                    shipText.text = $"船隻 {i + 1}";
-                }
-            
-            }
-        }
-
-        // 自動調整 Content 大小
-        shipsListContent.GetComponent<RectTransform>().sizeDelta = new Vector2(shipsListContent.GetComponent<RectTransform>().sizeDelta.x, shipsListContent.childCount * 30); // 假設每個項目高度為 30
-        
-    }
-
-    // 新增：開啟和關閉船隻列表面板的方法
-    public void ToggleShipsPanel()
-    {
-        if (shipsPanel != null)
-        {
-            bool isActive = !shipsPanel.activeSelf;
-            shipsPanel.SetActive(isActive);
-
-            if (isActive)
-            {
-                UpdateShipsListUI(); // 開啟面板時更新 UI
-            }
-        }
+        return playerShips.AsReadOnly();
     }
 }
