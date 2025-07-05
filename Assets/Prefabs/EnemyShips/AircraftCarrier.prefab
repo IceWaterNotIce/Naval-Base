@@ -12,10 +12,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1) Variant 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2894237049777541982, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
+      propertyPath: m_Name
+      value: AircraftCarrier
+      objectReference: {fileID: 0}
     - target: {fileID: 5135344872581193433, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3fccaef436d14b84c8df1cf312fdb25a, type: 3}
+    - target: {fileID: 5359667374278214926, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.44
+      objectReference: {fileID: 0}
     - target: {fileID: 8355745347149942783, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -28,6 +36,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.44
       objectReference: {fileID: 0}
+    - target: {fileID: 8886458031559926562, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3fccaef436d14b84c8df1cf312fdb25a, type: 3}
     - target: {fileID: 9101755358209939500, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

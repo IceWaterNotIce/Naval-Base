@@ -1331,7 +1331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000067587}
+  m_AnchoredPosition: {x: 0, y: 0.00029357444}
   m_SizeDelta: {x: 0, y: 263.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &236724269
@@ -2404,7 +2404,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 880097639}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999874
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3657,7 +3657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7aabd9545021494ab86dad9a067d3bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipPrefab: {fileID: 6503241041720059141, guid: 8daa73ed0a7150440ba63c509197eee0, type: 3}
+  ShipPrefab: {fileID: 656534682261850800, guid: b4a4f14a03c712745afaf4593c8b47e1, type: 3}
   ShipCost: 50
   navalBaseController: {fileID: 274980084}
   playerShips: []
@@ -3706,12 +3706,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 1458330411860717221, guid: 63f6c19c51a7fe947bc91dc534228a0a, type: 3}
-  - {fileID: 1691240916028891628, guid: 7f6d47003f3117e4eba99fb8f8bda2d2, type: 3}
-  - {fileID: 1691240916028891628, guid: 028355222735c674c871decce9d6fd26, type: 3}
-  - {fileID: 1691240916028891628, guid: 7e7d8aeed9fa172488db641d446dade1, type: 3}
-  - {fileID: 1691240916028891628, guid: d2b9fb6122876a449aa47fdd4c388fcc, type: 3}
-  - {fileID: 1691240916028891628, guid: af6faf0cb1898aa49a7edfe6dee934f2, type: 3}
+  - {fileID: 2894237049777541982, guid: 7f64bd01ad98a0f4bb6fe0753aae82dd, type: 3}
+  - {fileID: 3129751242798701591, guid: 7f6d47003f3117e4eba99fb8f8bda2d2, type: 3}
+  - {fileID: 3129751242798701591, guid: 028355222735c674c871decce9d6fd26, type: 3}
+  - {fileID: 3129751242798701591, guid: 7e7d8aeed9fa172488db641d446dade1, type: 3}
+  - {fileID: 3129751242798701591, guid: d2b9fb6122876a449aa47fdd4c388fcc, type: 3}
+  - {fileID: 3129751242798701591, guid: af6faf0cb1898aa49a7edfe6dee934f2, type: 3}
   navalBase: {fileID: 274980083}
   minSpawnDistance: 5
   maxSpawnDistance: 15
@@ -6005,7 +6005,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00008915457}
+  m_AnchoredPosition: {x: 0, y: 0.00029818426}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &959682185
@@ -12274,7 +12274,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1083690471}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999243
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
