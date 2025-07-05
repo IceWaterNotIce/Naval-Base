@@ -94,6 +94,9 @@ public class InfiniteTileMap : MonoBehaviour
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int tilePos = oceanTileMap.WorldToCell(mouseWorldPos);
+            tilePos.z = 0; // 修正 z 軸
+
+            Debug.Log($"[BuyTile Debug] MouseWorldPos: {mouseWorldPos}, TilePos(raw): {oceanTileMap.WorldToCell(mouseWorldPos)}, TilePos(z=0): {tilePos}");
 
             BuyTile(tilePos);
 
@@ -443,6 +446,8 @@ public class InfiniteTileMap : MonoBehaviour
 
     public void BuyTile(Vector3Int tilePosition)
     {
+        tilePosition.z = 0; // 保證 z 軸為 0
+
         if (navalBaseTileMap == null || navalBaseController == null) return;
 
         // Check if the tile is adjacent to an existing naval base tile
