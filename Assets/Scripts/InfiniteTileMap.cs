@@ -51,6 +51,11 @@ public class InfiniteTileMap : MonoBehaviour
     public GameObject coastalTurretPrefab; // 沿海砲塔預製體
     public int coastalTurretCost = 100; // 建造砲塔所需金幣
 
+    [Header("UI")]
+    public Button buyNavalBaseTileButton; // 參考購買海軍基地瓦片的按鈕
+
+    private bool isWaitingForTileClick = false; // 是否等待玩家點擊地圖
+
     void Start()
     {
         if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
@@ -63,6 +68,10 @@ public class InfiniteTileMap : MonoBehaviour
         LoadSavedTileMaps(); // Load saved tilemaps on start
         UpdateTileMap(); // Initialize the tile map
 
+        if (buyNavalBaseTileButton != null)
+        {
+            buyNavalBaseTileButton.onClick.AddListener(OnBuyNavalBaseTileButtonClicked);
+        }
     }
 
 
@@ -80,6 +89,16 @@ public class InfiniteTileMap : MonoBehaviour
             UpdateTileMap(); // Update the tile map based on new positions
         }
 
+        // 處理等待玩家點擊地圖以購買瓦片
+        if (isWaitingForTileClick && Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int tilePos = oceanTileMap.WorldToCell(mouseWorldPos);
+
+            BuyTile(tilePos);
+
+            isWaitingForTileClick = false; // 完成一次點擊後退出等待狀態
+        }
     }
 
     private HashSet<Vector2Int> GetAllEntityTilePositions()
@@ -382,6 +401,9 @@ public class InfiniteTileMap : MonoBehaviour
                 newPosition.y += 0.5f; // Adjust for tile center
                 navalBase.position = newPosition;
                 Debug.Log($"Naval base moved to nearest land tile at {nearestLandTile}");
+
+                // 自動購買該瓦片及其相鄰瓦片
+                BuyNavalBaseAndAdjacentTiles(nearestLandTile);
             }
             else
             {
@@ -391,6 +413,31 @@ public class InfiniteTileMap : MonoBehaviour
         else
         {
             Debug.Log("Naval base position is not at (0, 0), no adjustment needed.");
+        }
+    }
+
+    // 新增：購買中心瓦片及其相鄰瓦片
+    private void BuyNavalBaseAndAdjacentTiles(Vector3Int centerTile)
+    {
+        if (navalBaseTileMap == null || navalBaseTile == null) return;
+
+        Vector3Int[] offsets = new Vector3Int[]
+        {
+            Vector3Int.zero, // 中心
+            Vector3Int.up,
+            Vector3Int.down,
+            Vector3Int.left,
+            Vector3Int.right
+        };
+
+        foreach (var offset in offsets)
+        {
+            Vector3Int pos = centerTile + offset;
+            // 僅在該位置尚未有navalBaseTile時設置
+            if (navalBaseTileMap.GetTile(pos) != navalBaseTile)
+            {
+                navalBaseTileMap.SetTile(pos, navalBaseTile);
+            }
         }
     }
 
@@ -458,6 +505,13 @@ public class InfiniteTileMap : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    // 新增：按鈕點擊事件
+    private void OnBuyNavalBaseTileButtonClicked()
+    {
+        isWaitingForTileClick = true;
+        Debug.Log("請在地圖上點擊要購買的海軍基地瓦片位置");
     }
 
 
