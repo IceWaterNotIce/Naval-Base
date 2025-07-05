@@ -244,6 +244,7 @@ MonoBehaviour:
   healthSlider: {fileID: 192762565598445327}
   healthText: {fileID: 2081521309544874529}
   healthCanvas: {fileID: 5639619508095237559}
+  nameText: {fileID: 3043643011939622023}
   targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
@@ -260,11 +261,23 @@ MonoBehaviour:
   experience: 0
   experienceToNextLevel: 100
   attackDamage: 1
+  levelText: {fileID: 8736583422818495920}
   minDistanceToNavalBase: 3
   orbitSpeed: 1
   goldReward: 1
   playerShipDetectionRadius: 10
   experienceReward: 20
+--- !u!114 &3043643011939622023 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1805445635322038353, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 3689303570150364374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4780725817443624407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8172774116208718081, guid: 618ee0746856850419d21f9deda68413, type: 3}
@@ -275,3 +288,14 @@ Canvas:
   m_CorrespondingSourceObject: {fileID: 9039003851952597345, guid: 618ee0746856850419d21f9deda68413, type: 3}
   m_PrefabInstance: {fileID: 3689303570150364374}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8736583422818495920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5336095240552790374, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 3689303570150364374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -14,6 +14,9 @@ public class Ship : MonoBehaviour
     public Text healthText;      // 血量文字 UI
     public Canvas healthCanvas;  // 血條畫布
 
+    // 新增：船艦名稱顯示 UI
+    public Text nameText;
+
     // ===== 速度 (Speed) 相關 =====
     public float targetSpeed;          // 當前速度（可被外部修改）
     public float maxSpeed = 2f;  // 最大移動速度
@@ -40,6 +43,11 @@ public class Ship : MonoBehaviour
         ShipName = name;
         targetSpeed = speed;
         Health = health;
+        // 新增：初始化名稱顯示
+        if (nameText != null)
+        {
+            nameText.text = ShipName;
+        }
     }
 
     public virtual void TakeDamage(int damage)
@@ -71,6 +79,11 @@ public class Ship : MonoBehaviour
         if (healthText != null)
         {
             healthText.text = $"{Health}/{maxHealth}"; // 更新血量文字
+        }
+        // 新增：更新名稱顯示
+        if (nameText != null)
+        {
+            nameText.text = ShipName;
         }
     }
 

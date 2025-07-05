@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Warship : Ship
 {
@@ -12,6 +13,9 @@ public class Warship : Ship
     public int experienceToNextLevel = 100; // 升級所需經驗值
 
     public int attackDamage = 1; // 攻擊傷害
+
+    // 新增：等級顯示 UI
+    public Text levelText;
 
     public virtual void GainExperience(int amount)
     {
@@ -31,6 +35,22 @@ public class Warship : Ship
         maxHealth += 10; // 提升最大血量
         Health = maxHealth; // 恢復血量
         Debug.Log($"Warship leveled up to {level}! Attack Damage: {attackDamage}, Max Health: {maxHealth}");
+        // 新增：更新等級顯示
+        UpdateLevelUI();
+    }
+
+    // 新增：等級顯示更新方法
+    public void UpdateLevelUI()
+    {
+        if (levelText != null)
+        {
+            levelText.text = $"Lv.{level}";
+        }
+    }
+
+    void Start()
+    {
+        UpdateLevelUI();
     }
 
     public virtual void HandleAttack()

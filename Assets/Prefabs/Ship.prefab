@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1597181079911555452}
   - component: {fileID: 4053664201022518632}
   m_Layer: 5
-  m_Name: Name
+  m_Name: TextName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,6 +224,7 @@ MonoBehaviour:
   healthSlider: {fileID: 4520406776669291252}
   healthText: {fileID: 2374643923295191002}
   healthCanvas: {fileID: 8238375212236243020}
+  nameText: {fileID: 1597181079911555452}
   targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
@@ -870,7 +871,7 @@ GameObject:
   - component: {fileID: 5261102713730908387}
   - component: {fileID: 2374643923295191002}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: TextHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
