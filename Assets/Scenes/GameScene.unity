@@ -494,12 +494,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1596736165}
+  m_Father: {fileID: 1458448364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 730, y: -406}
+  m_SizeDelta: {x: 60, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &134586893
 MonoBehaviour:
@@ -1255,7 +1255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.00009221981}
   m_SizeDelta: {x: 0, y: 263.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &236724269
@@ -2253,7 +2253,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 880097639}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9979308
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4987,6 +4987,7 @@ GameObject:
   - component: {fileID: 881145474}
   - component: {fileID: 881145476}
   - component: {fileID: 881145475}
+  - component: {fileID: 881145477}
   m_Layer: 5
   m_Name: TechTreePanel
   m_TagString: Untagged
@@ -5055,6 +5056,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 881145473}
   m_CullTransparentMesh: 1
+--- !u!114 &881145477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881145473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ff75b46cbf8fc49bcd4da26e9a0f79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupName: TechTree
+  techTreeManager: {fileID: 1290133807}
+  basicShootingButton: {fileID: 128715384}
+  dynamicTrackingButton: {fileID: 1717922497}
+  intelligentCorrectionButton: {fileID: 1375901}
+  closeTechTreeButton: {fileID: 1200110008}
 --- !u!1 &884437483
 GameObject:
   m_ObjectHideFlags: 0
@@ -5872,7 +5891,7 @@ RectTransform:
   - {fileID: 588184038}
   - {fileID: 881145474}
   - {fileID: 867902575}
-  - {fileID: 1138962203}
+  - {fileID: 1458448364}
   - {fileID: 2064353187}
   - {fileID: 723453857}
   - {fileID: 2048401905}
@@ -6547,43 +6566,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114691474}
   m_CullTransparentMesh: 1
---- !u!1 &1138962202
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1138962203}
-  m_Layer: 5
-  m_Name: BuildPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1138962203
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138962202}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1596736165}
-  - {fileID: 1652089531}
-  m_Father: {fileID: 1026336765}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1140112393
 GameObject:
   m_ObjectHideFlags: 0
@@ -7724,7 +7706,7 @@ Transform:
   m_GameObject: {fileID: 1290133805}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.0982068, y: -0.00834101, z: 0.060676668}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7749,12 +7731,6 @@ MonoBehaviour:
   intelligentCorrection:
     isUnlocked: 0
   navalBaseController: {fileID: 274980084}
-  basicShootingButton: {fileID: 128715384}
-  dynamicTrackingButton: {fileID: 1717922497}
-  intelligentCorrectionButton: {fileID: 1375901}
-  techTreePanel: {fileID: 881145473}
-  toggleTechTreeButton: {fileID: 1547872712}
-  closeTechTreeButton: {fileID: 1200110008}
 --- !u!1001 &1320791300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8510,6 +8486,98 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1437848963}
   m_CullTransparentMesh: 1
+--- !u!1 &1458448363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1458448364}
+  - component: {fileID: 1458448367}
+  - component: {fileID: 1458448366}
+  - component: {fileID: 1458448365}
+  m_Layer: 5
+  m_Name: BuildPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1458448364
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458448363}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1596736165}
+  - {fileID: 134586892}
+  - {fileID: 1652089531}
+  m_Father: {fileID: 1026336765}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1820, y: -980}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1458448365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458448363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d07af7889aa374eaaf0beb79acb87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupName: Build
+--- !u!114 &1458448366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458448363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1458448367
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458448363}
+  m_CullTransparentMesh: 1
 --- !u!1 &1513404015
 GameObject:
   m_ObjectHideFlags: 0
@@ -8842,7 +8910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1547872713}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1026336766}
+        m_TargetAssemblyTypeName: PopupManager, Assembly-CSharp
+        m_MethodName: TogglePopup
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: TechTree
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1547872713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8911,9 +8991,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 134586892}
-  m_Father: {fileID: 1138962203}
+  m_Children: []
+  m_Father: {fileID: 1458448364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9145,7 +9224,7 @@ RectTransform:
   m_Children:
   - {fileID: 770948698}
   - {fileID: 2079093660}
-  m_Father: {fileID: 1138962203}
+  m_Father: {fileID: 1458448364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9737,7 +9816,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1724900196}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1026336766}
+        m_TargetAssemblyTypeName: PopupManager, Assembly-CSharp
+        m_MethodName: TogglePopup
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Build
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1724900196
 MonoBehaviour:
   m_ObjectHideFlags: 0
