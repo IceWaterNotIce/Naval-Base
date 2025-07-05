@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7668272176341451458}
   - component: {fileID: 2393183007764313722}
   - component: {fileID: 4631116219985821464}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,4 +107,4 @@ MonoBehaviour:
   firePoint: {fileID: 7668272176341451458}
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512

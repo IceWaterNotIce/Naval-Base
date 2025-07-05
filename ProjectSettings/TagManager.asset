@@ -14,12 +14,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Minimap
+  - Map
+  - MinimapIcon
   - Enemy
   - PlayerShip
-  - Minimap
-  - MinimapIcon
-  - 
-  - 
+  - NavalBase
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Map
+    uniqueID: 2779030849
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
