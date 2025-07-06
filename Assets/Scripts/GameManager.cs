@@ -418,6 +418,12 @@ public class GameManager : MonoBehaviour
             Destroy(turret.gameObject);
         }
 
+        // 新增：清除所有 Dock
+        foreach (var dock in GameObject.FindGameObjectsWithTag("Dock"))
+        {
+            Destroy(dock);
+        }
+
         if (infiniteTileMap != null && infiniteTileMap.navalBaseTileMap != null)
         {
             infiniteTileMap.navalBaseTileMap.ClearAllTiles();
