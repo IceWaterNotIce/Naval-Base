@@ -351,6 +351,12 @@ public class GameManager : MonoBehaviour
             infiniteTileMap.navalBaseTileMap.ClearAllTiles();
         }
 
+        // 新增：重設海軍基地位置為 (0,0)，以觸發自動購買瓦片
+        if (navalBaseController != null)
+        {
+            navalBaseController.SetPosition(Vector3.zero);
+        }
+
         // 重設資源與狀態
         navalBaseController.gold = 0;
         navalBaseController.health = navalBaseController.maxHealth;
