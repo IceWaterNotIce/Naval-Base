@@ -158,10 +158,10 @@ public class InfiniteTileMap : MonoBehaviour
     private void UpdateTileMap()
     {
         HashSet<Vector2Int> tilesToKeep = new HashSet<Vector2Int>();
-        HashSet<Vector2Int> oceanTilesToAdd = new HashSet<Vector2Int>();
-        HashSet<Vector2Int> landTilesToAdd = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> oceanChunksToAdd = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> landChunksToAdd = new HashSet<Vector2Int>();
 
-        // 計算所有需要保留的瓦片
+        // 以 chunk 為單位計算需要保留的瓦片與需要渲染的 chunk
         foreach (var centerTile in GetAllEntityTilePositions())
         {
             for (int x = -viewDistance; x <= viewDistance; x++)
@@ -171,53 +171,48 @@ public class InfiniteTileMap : MonoBehaviour
                     Vector2Int tilePosition = centerTile + new Vector2Int(x, y);
                     tilesToKeep.Add(tilePosition);
 
-                    // 檢查是否需要新增瓦片
-                    if (!activeTiles.Contains(tilePosition))
-                    {
-                        oceanTilesToAdd.Add(tilePosition);
-                        landTilesToAdd.Add(tilePosition);
-                    }
+                    // 計算 chunk 座標
+                    Vector2Int chunkCoord = new Vector2Int(
+                        Mathf.FloorToInt((float)tilePosition.x / chunkSize),
+                        Mathf.FloorToInt((float)tilePosition.y / chunkSize)
+                    );
+
+                    // 加入需要渲染的 chunk
+                    oceanChunksToAdd.Add(chunkCoord);
+                    landChunksToAdd.Add(chunkCoord);
                 }
             }
         }
 
-        // 新增海洋瓦片
-        foreach (var tilePosition in oceanTilesToAdd)
+        // 以 chunk 為單位新增海洋瓦片
+        foreach (var chunkCoord in oceanChunksToAdd)
         {
-            CreateTile(tilePosition, oceanSavedTileMap, oceanRuleTile); // <--- 修改
+            CreateChunk(chunkCoord, oceanSavedTileMap, oceanRuleTile, false);
         }
 
-        // 新增陸地瓦片
-        foreach (var tilePosition in landTilesToAdd)
+        // 以 chunk 為單位新增陸地瓦片
+        foreach (var chunkCoord in landChunksToAdd)
         {
-            CreateTile(tilePosition, landSavedTileMap, landRuleTile); // <--- 修改
+            CreateChunk(chunkCoord, landSavedTileMap, landRuleTile, true);
         }
 
-        // 移除未使用的瓦片（分開處理海洋和陸地）
-        RemoveUnusedTiles(tilesToKeep, oceanSavedTileMap); // <--- 修改
-        RemoveUnusedTiles(tilesToKeep, landSavedTileMap); // <--- 修改
+        // 不再移除未使用的瓦片
+        // RemoveUnusedTiles(tilesToKeep, oceanSavedTileMap);
+        // RemoveUnusedTiles(tilesToKeep, landSavedTileMap);
     }
 
-    private void CreateTile(Vector2Int tilePosition, Tilemap tilemap, TileBase ruleTile)
+    // 新增：以 chunk 為單位建立瓦片
+    private void CreateChunk(Vector2Int chunkCoord, Tilemap tilemap, TileBase ruleTile, bool isLand)
     {
         if (tilemap == null || ruleTile == null) return;
 
-        // 計算 chunk 座標
-        Vector2Int chunkCoord = new Vector2Int(
-            Mathf.FloorToInt((float)tilePosition.x / chunkSize),
-            Mathf.FloorToInt((float)tilePosition.y / chunkSize)
-        );
-
-        // 決定是陸地還是海洋
-        bool isLand = tilemap == landSavedTileMap; // <--- 修改
         var loadedChunks = isLand ? loadedLandChunks : loadedOceanChunks;
-        Tilemap savedTileMap = tilemap; // <--- 直接用傳入的 tilemap
+        Tilemap savedTileMap = tilemap;
 
         // 若 chunk 已經載入過，直接返回（避免重複渲染）
         if (loadedChunks.Contains(chunkCoord))
             return;
 
-        // 處理整個 chunk
         for (int dx = 0; dx < chunkSize; dx++)
         {
             for (int dy = 0; dy < chunkSize; dy++)
