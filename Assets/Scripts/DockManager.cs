@@ -12,6 +12,10 @@ public class DockManager : MonoBehaviour
     public int dockCost = 200;
     public NavalBaseController navalBaseController;
 
+    // 新增：海軍基地瓦片地圖與瓦片
+    public Tilemap navalBaseTileMap;
+    public TileBase navalBaseTile;
+
     private bool isBuildMode = false;
     private Quaternion currentRotation = Quaternion.identity;
 
@@ -32,14 +36,19 @@ public class DockManager : MonoBehaviour
             Vector3Int cellPos = landTileMap.WorldToCell(mouseWorldPos);
             cellPos.z = 0;
 
-            // 檢查左側是否為海洋瓦片
+            // 檢查左側是否為海洋瓦片，且當前為海軍基地瓦片
             Vector3Int leftCell = cellPos + Vector3Int.left;
-            if (oceanTileMap.GetTile(leftCell) == oceanRuleTile && landTileMap.GetTile(cellPos) == landRuleTile)
+            if (oceanTileMap.GetTile(leftCell) == oceanRuleTile &&
+                navalBaseTileMap != null && navalBaseTile != null &&
+                navalBaseTileMap.GetTile(cellPos) == navalBaseTile)
             {
                 if (navalBaseController.gold >= dockCost)
                 {
                     Vector3 placePos = landTileMap.CellToWorld(cellPos) + new Vector3(0.5f, 0.5f, 0);
                     Instantiate(dockPrefab, placePos, currentRotation);
+                    // 刪除該位置的陸地瓦片與海軍基地瓦片
+                    landTileMap.SetTile(cellPos, null);
+                    navalBaseTileMap.SetTile(cellPos, null);
                     navalBaseController.AddGold(-dockCost);
                     ExitBuildMode();
                 }
@@ -50,7 +59,7 @@ public class DockManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("左側必須是海洋瓦片且當前為陸地瓦片才能建造碼頭！");
+                Debug.Log("必須在海軍基地瓦片上且左側為海洋瓦片才能建造碼頭！");
             }
         }
 
