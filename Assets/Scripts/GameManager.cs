@@ -168,6 +168,11 @@ public class GameManager : MonoBehaviour
             savedCoastalTurretPositions.Add(turret.transform.position);
         }
 
+        // Save naval base tiles
+        List<NavalBaseTileData> navalBaseTiles = infiniteTileMap != null
+            ? infiniteTileMap.GetAllNavalBaseTilePositions()
+            : new List<NavalBaseTileData>();
+
         // Create a save object
         GameData saveData = new GameData
         {
@@ -186,6 +191,7 @@ public class GameManager : MonoBehaviour
             playerShips = playerShipDataList,
             navalBasePosition = savedNavalBasePosition, // Save naval base position
             coastalTurretPositions = savedCoastalTurretPositions, // 新增
+            navalBaseTiles = navalBaseTiles, // 新增
         };
 
         // Serialize and save to file
@@ -276,6 +282,12 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
+            }
+
+            // 還原海軍基地瓦片
+            if (infiniteTileMap != null)
+            {
+                infiniteTileMap.SetNavalBaseTilesFromPositions(loadedData.navalBaseTiles);
             }
 
             // Reload player ships
@@ -380,6 +392,7 @@ public class GameData
     public List<PlayerShipData> playerShips; // 保存多個玩家船隻
     public Vector3 navalBasePosition; // Save naval base position
     public List<Vector3> coastalTurretPositions; // 新增：儲存砲塔位置
+    public List<NavalBaseTileData> navalBaseTiles; // 新增：儲存海軍基地瓦片
 }
 
 [System.Serializable]

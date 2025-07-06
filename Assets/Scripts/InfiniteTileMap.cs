@@ -19,6 +19,13 @@ public class TileMapData
     public List<TileData> tiles = new List<TileData>();
 }
 
+[System.Serializable]
+public class NavalBaseTileData
+{
+    public int x;
+    public int y;
+}
+
 public class InfiniteTileMap : MonoBehaviour
 {
     public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
@@ -522,6 +529,33 @@ public class InfiniteTileMap : MonoBehaviour
     {
         isWaitingForTileClick = true;
         Debug.Log("請在地圖上點擊要購買的海軍基地瓦片位置");
+    }
+
+    // 取得所有已購買的海軍基地瓦片座標
+    public List<NavalBaseTileData> GetAllNavalBaseTilePositions()
+    {
+        List<NavalBaseTileData> positions = new List<NavalBaseTileData>();
+        if (navalBaseTileMap == null) return positions;
+        foreach (var pos in navalBaseTileMap.cellBounds.allPositionsWithin)
+        {
+            if (navalBaseTileMap.GetTile(pos) == navalBaseTile)
+            {
+                positions.Add(new NavalBaseTileData { x = pos.x, y = pos.y });
+            }
+        }
+        return positions;
+    }
+
+    // 根據存檔還原所有已購買的海軍基地瓦片
+    public void SetNavalBaseTilesFromPositions(List<NavalBaseTileData> positions)
+    {
+        if (navalBaseTileMap == null || navalBaseTile == null) return;
+        navalBaseTileMap.ClearAllTiles();
+        if (positions == null) return;
+        foreach (var data in positions)
+        {
+            navalBaseTileMap.SetTile(new Vector3Int(data.x, data.y, 0), navalBaseTile);
+        }
     }
 
 
