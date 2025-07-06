@@ -40766,6 +40766,21 @@
             "tileName": "Land"
         },
         {
+            "x": -16,
+            "y": 29,
+            "tileName": "Land"
+        },
+        {
+            "x": -15,
+            "y": 29,
+            "tileName": "Land"
+        },
+        {
+            "x": -14,
+            "y": 29,
+            "tileName": "Land"
+        },
+        {
             "x": -13,
             "y": 29,
             "tileName": "Land"
@@ -40986,6 +41001,26 @@
             "tileName": "Land"
         },
         {
+            "x": 31,
+            "y": 29,
+            "tileName": "Land"
+        },
+        {
+            "x": -16,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": -15,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": -14,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
             "x": -13,
             "y": 30,
             "tileName": "Land"
@@ -41168,6 +41203,286 @@
         {
             "x": 23,
             "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 24,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 25,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 26,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 27,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 28,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 29,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 30,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": 31,
+            "y": 30,
+            "tileName": "Land"
+        },
+        {
+            "x": -16,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -15,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -14,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -13,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -12,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -11,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -10,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -9,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -8,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -7,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -6,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -5,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -4,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -3,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -2,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": -1,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 0,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 1,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 2,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 3,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 4,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 5,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 6,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 7,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 8,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 9,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 10,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 11,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 12,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 13,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 14,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 15,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 16,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 17,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 18,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 19,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 20,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 21,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 22,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 23,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 24,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 25,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 26,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 27,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 28,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 29,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 30,
+            "y": 31,
+            "tileName": "Land"
+        },
+        {
+            "x": 31,
+            "y": 31,
             "tileName": "Land"
         }
     ]

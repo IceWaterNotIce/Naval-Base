@@ -66,6 +66,11 @@ public class InfiniteTileMap : MonoBehaviour
     public Button buyNavalBaseTileButton; // 參考購買海軍基地瓦片的按鈕
 
     private bool isWaitingForTileClick = false; // 是否等待玩家點擊地圖
+
+    public int chunkSize = 8; // 每個 chunk 的 tile 數量（例如 8x8）
+    // 已載入的 chunk 記錄（key: chunk座標, value: true）
+    public HashSet<Vector2Int> loadedLandChunks = new HashSet<Vector2Int>();
+    public HashSet<Vector2Int> loadedOceanChunks = new HashSet<Vector2Int>();
     #endregion
 
     #region UnityMethods
@@ -200,28 +205,67 @@ public class InfiniteTileMap : MonoBehaviour
     {
         if (tilemap == null || ruleTile == null) return;
 
-        Vector3Int tilemapPosition = new Vector3Int(tilePosition.x, tilePosition.y, 0);
+        // 計算 chunk 座標
+        Vector2Int chunkCoord = new Vector2Int(
+            Mathf.FloorToInt((float)tilePosition.x / chunkSize),
+            Mathf.FloorToInt((float)tilePosition.y / chunkSize)
+        );
 
-        // 如果是陸地瓦片地圖，使用 Perlin 噪聲生成島嶼
-        if (tilemap == landTileMap)
+        // 決定是陸地還是海洋
+        bool isLand = tilemap == landTileMap;
+        var loadedChunks = isLand ? loadedLandChunks : loadedOceanChunks;
+        Tilemap savedTileMap = isLand ? landSavedTileMap : oceanSavedTileMap;
+
+        // 若 chunk 已經載入過，直接返回（避免重複渲染）
+        if (loadedChunks.Contains(chunkCoord))
+            return;
+
+        // 處理整個 chunk
+        for (int dx = 0; dx < chunkSize; dx++)
         {
-            float noiseValue = Mathf.PerlinNoise(
-                (tilePosition.x + landSeed) * islandScale * islandSpacing,
-                (tilePosition.y + landSeed) * islandScale * islandSpacing
-            );
-            if (noiseValue > landThreshold)
+            for (int dy = 0; dy < chunkSize; dy++)
             {
-                tilemap.SetTile(tilemapPosition, ruleTile);
-                landSavedTileMap?.SetTile(tilemapPosition, ruleTile); // Save rendered land tile
+                Vector2Int pos = new Vector2Int(
+                    chunkCoord.x * chunkSize + dx,
+                    chunkCoord.y * chunkSize + dy
+                );
+                Vector3Int tilemapPosition = new Vector3Int(pos.x, pos.y, 0);
+
+                // 先從 savedTileMap 載入
+                if (savedTileMap != null)
+                {
+                    TileBase savedTile = savedTileMap.GetTile(tilemapPosition);
+                    if (savedTile != null)
+                    {
+                        tilemap.SetTile(tilemapPosition, savedTile);
+                        activeTiles.Add(pos);
+                        continue;
+                    }
+                }
+
+                // 若無存檔，依規則生成
+                if (isLand)
+                {
+                    float noiseValue = Mathf.PerlinNoise(
+                        (pos.x + landSeed) * islandScale * islandSpacing,
+                        (pos.y + landSeed) * islandScale * islandSpacing
+                    );
+                    if (noiseValue > landThreshold)
+                    {
+                        tilemap.SetTile(tilemapPosition, ruleTile);
+                        landSavedTileMap?.SetTile(tilemapPosition, ruleTile);
+                    }
+                }
+                else
+                {
+                    tilemap.SetTile(tilemapPosition, ruleTile);
+                    oceanSavedTileMap?.SetTile(tilemapPosition, ruleTile);
+                }
+                activeTiles.Add(pos);
             }
         }
-        else
-        {
-            tilemap.SetTile(tilemapPosition, ruleTile);
-            oceanSavedTileMap?.SetTile(tilemapPosition, ruleTile); // Save rendered ocean tile
-        }
-
-        activeTiles.Add(tilePosition);
+        // 標記此 chunk 已載入
+        loadedChunks.Add(chunkCoord);
     }
 
     private void RemoveUnusedTiles(HashSet<Vector2Int> tilesToKeep, Tilemap tilemap)

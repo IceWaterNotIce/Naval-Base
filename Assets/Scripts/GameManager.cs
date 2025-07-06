@@ -202,6 +202,15 @@ public class GameManager : MonoBehaviour
             ? infiniteTileMap.GetAllNavalBaseTilePositions()
             : new List<NavalBaseTileData>();
 
+        // Save chunk info
+        List<Vector2Int> landChunks = new List<Vector2Int>();
+        List<Vector2Int> oceanChunks = new List<Vector2Int>();
+        if (infiniteTileMap != null)
+        {
+            landChunks.AddRange(infiniteTileMap.loadedLandChunks);
+            oceanChunks.AddRange(infiniteTileMap.loadedOceanChunks);
+        }
+
         // Create a save object
         GameData saveData = new GameData
         {
@@ -222,6 +231,8 @@ public class GameManager : MonoBehaviour
             coastalTurretPositions = savedCoastalTurretPositions, // 新增
             navalBaseTiles = navalBaseTiles, // 新增
             dockPositions = savedDockPositions, // 新增
+            landChunks = landChunks, // 新增
+            oceanChunks = oceanChunks // 新增
         };
 
         // Serialize and save to file
@@ -334,6 +345,17 @@ public class GameManager : MonoBehaviour
                 infiniteTileMap.SetNavalBaseTilesFromPositions(loadedData.navalBaseTiles);
             }
 
+            // 還原 chunk 資訊
+            if (infiniteTileMap != null && loadedData.landChunks != null && loadedData.oceanChunks != null)
+            {
+                infiniteTileMap.loadedLandChunks.Clear();
+                infiniteTileMap.loadedOceanChunks.Clear();
+                foreach (var c in loadedData.landChunks)
+                    infiniteTileMap.loadedLandChunks.Add(c);
+                foreach (var c in loadedData.oceanChunks)
+                    infiniteTileMap.loadedOceanChunks.Add(c);
+            }
+
             // Reload player ships
             foreach (GameObject ship in playerShipManager.playerShips) // 從 PlayerShipManager 獲取玩家船隻列表
             {
@@ -426,6 +448,13 @@ public class GameManager : MonoBehaviour
             infiniteTileMap.StartCoroutine("WaitForMapRenderAndSetNavalBase");
         }
 
+        // 清空 chunk 資訊
+        if (infiniteTileMap != null)
+        {
+            infiniteTileMap.loadedLandChunks.Clear();
+            infiniteTileMap.loadedOceanChunks.Clear();
+        }
+
         // 其他初始化邏輯可依需求補充
     }
     #endregion
@@ -453,6 +482,8 @@ public class GameData
     public List<Vector3> coastalTurretPositions; // 新增：儲存砲塔位置
     public List<NavalBaseTileData> navalBaseTiles; // 新增：儲存海軍基地瓦片
     public List<Vector3> dockPositions; // 新增：儲存碼頭位置
+    public List<Vector2Int> landChunks; // 新增：儲存已載入的陸地 chunk
+    public List<Vector2Int> oceanChunks; // 新增：儲存已載入的海洋 chunk
 }
 
 [System.Serializable]
