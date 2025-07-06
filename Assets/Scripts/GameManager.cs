@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+#region GameManagerClass
 public class GameManager : MonoBehaviour
 {
+    #region Fields
     public AmmoManager ammoManager; // Reference to AmmoManager
     public EnemyManager enemyManager; // Reference to EnemyManager
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
@@ -32,7 +34,9 @@ public class GameManager : MonoBehaviour
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
+    #endregion
 
+    #region UnityMethods
     void Start()
     {
         saveFilePath = Path.Combine(Application.streamingAssetsPath, "GameData.json");
@@ -90,7 +94,9 @@ public class GameManager : MonoBehaviour
         gameTime += Time.deltaTime; // Increment game time
         UpdateGameTimeUI(); // Update the game time UI
     }
+    #endregion
 
+    #region SaveLoad
     public void SaveGame()
     {
         // Save ammo positions, target tags, and directions
@@ -313,7 +319,9 @@ public class GameManager : MonoBehaviour
             gameTime = loadedData.gameTime;
         }
     }
+    #endregion
 
+    #region UI
     private void UpdateGameTimeUI()
     {
         if (gameTimeText != null)
@@ -323,12 +331,16 @@ public class GameManager : MonoBehaviour
             gameTimeText.text = $"Time: {minutes:D2}:{seconds:D2}"; // Format as MM:SS
         }
     }
+    #endregion
 
+    #region SceneControl
     public void GoBackToScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName); // Load the specified scene
     }
+    #endregion
 
+    #region GameFlow
     public void StartNewGame()
     {
         // 清除彈藥、敵人、玩家船、砲塔、海軍基地瓦片
@@ -378,8 +390,11 @@ public class GameManager : MonoBehaviour
 
         // 其他初始化邏輯可依需求補充
     }
+    #endregion
 }
+#endregion
 
+#region GameDataClasses
 [System.Serializable]
 public class GameData
 {
@@ -407,4 +422,5 @@ public class PlayerShipData
     public Vector3 position; // 玩家船隻位置
     public float health; // 玩家船隻生命值
 }
+#endregion
 

@@ -5,6 +5,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+#region DataClasses
 [System.Serializable]
 public class TileData
 {
@@ -25,9 +26,12 @@ public class NavalBaseTileData
     public int x;
     public int y;
 }
+#endregion
 
+#region InfiniteTileMapClass
 public class InfiniteTileMap : MonoBehaviour
 {
+    #region Fields
     public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
     public TileBase oceanRuleTile; // Ocean Rule Tile to use
     public Tilemap landTileMap; // Reference to the Land Tilemap
@@ -62,7 +66,9 @@ public class InfiniteTileMap : MonoBehaviour
     public Button buyNavalBaseTileButton; // 參考購買海軍基地瓦片的按鈕
 
     private bool isWaitingForTileClick = false; // 是否等待玩家點擊地圖
+    #endregion
 
+    #region UnityMethods
     void Start()
     {
         if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
@@ -110,7 +116,9 @@ public class InfiniteTileMap : MonoBehaviour
             isWaitingForTileClick = false; // 完成一次點擊後退出等待狀態
         }
     }
+    #endregion
 
+    #region TileMapLogic
     private HashSet<Vector2Int> GetAllEntityTilePositions()
     {
         HashSet<Vector2Int> entityTilePositions = new HashSet<Vector2Int>();
@@ -244,7 +252,9 @@ public class InfiniteTileMap : MonoBehaviour
             activeTiles.Remove(tilePos);
         }
     }
+    #endregion
 
+    #region TileMapSaveLoad
     private void SaveTileMaps()
     {
         if (oceanSavedTileMap != null)
@@ -372,7 +382,9 @@ public class InfiniteTileMap : MonoBehaviour
             Debug.LogWarning($"Tilemap file not found at path: {fullPath}");
         }
     }
+    #endregion
 
+    #region NavalBaseInit
     // 只在遊戲開始時自動移動海軍基地，不在每次載入遊戲時
     private System.Collections.IEnumerator WaitForMapRenderAndSetNavalBase()
     {
@@ -455,7 +467,9 @@ public class InfiniteTileMap : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region TileBuying
     public void BuyTile(Vector3Int tilePosition)
     {
         tilePosition.z = 0; // 保證 z 軸為 0
@@ -507,7 +521,9 @@ public class InfiniteTileMap : MonoBehaviour
 
         return false;
     }
+    #endregion
 
+    #region TurretLogic
     // 判斷指定陸地瓦片是否靠近海洋瓦片
     public bool CanBuildCoastalTurret(Vector3Int landTilePos)
     {
@@ -523,14 +539,18 @@ public class InfiniteTileMap : MonoBehaviour
         }
         return false;
     }
+    #endregion
 
+    #region UI
     // 新增：按鈕點擊事件
     private void OnBuyNavalBaseTileButtonClicked()
     {
         isWaitingForTileClick = true;
         Debug.Log("請在地圖上點擊要購買的海軍基地瓦片位置");
     }
+    #endregion
 
+    #region NavalBaseTileSaveLoad
     // 取得所有已購買的海軍基地瓦片座標
     public List<NavalBaseTileData> GetAllNavalBaseTilePositions()
     {
@@ -557,6 +577,6 @@ public class InfiniteTileMap : MonoBehaviour
             navalBaseTileMap.SetTile(new Vector3Int(data.x, data.y, 0), navalBaseTile);
         }
     }
-
-
+    #endregion
 }
+#endregion
