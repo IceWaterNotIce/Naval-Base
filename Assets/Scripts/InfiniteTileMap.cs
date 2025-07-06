@@ -32,9 +32,9 @@ public class NavalBaseTileData
 public class InfiniteTileMap : MonoBehaviour
 {
     #region Fields
-    public Tilemap oceanTileMap; // Reference to the Ocean Tilemap
+    public Tilemap oceanSavedTileMap; // Tilemap to store rendered ocean tiles
+    public Tilemap landSavedTileMap; // Tilemap to store rendered land tiles
     public TileBase oceanRuleTile; // Ocean Rule Tile to use
-    public Tilemap landTileMap; // Reference to the Land Tilemap
     public TileBase landRuleTile; // Land Rule Tile to use
     public Tilemap navalBaseTileMap; // Tilemap for naval base tiles
     public TileBase navalBaseTile; // Tile to represent purchased tiles
@@ -52,9 +52,6 @@ public class InfiniteTileMap : MonoBehaviour
 
     public string oceanTileMapSavePath = "OceanTileMap.json"; // Path to save ocean tilemap
     public string landTileMapSavePath = "LandTileMap.json"; // Path to save land tilemap
-
-    public Tilemap oceanSavedTileMap; // Tilemap to store rendered ocean tiles
-    public Tilemap landSavedTileMap; // Tilemap to store rendered land tiles
 
     private HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
 
@@ -76,7 +73,7 @@ public class InfiniteTileMap : MonoBehaviour
     #region UnityMethods
     void Start()
     {
-        if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanTileMap == null || oceanRuleTile == null)
+        if ((navalBase == null && (playerShipManager == null || playerShipManager.playerShips.Count == 0)) || oceanSavedTileMap == null || oceanRuleTile == null)
         {
             Debug.LogError("Naval Base, PlayerShipManager, Ocean Tilemap, or Ocean Rule Tile reference is missing!");
             return;
@@ -111,10 +108,10 @@ public class InfiniteTileMap : MonoBehaviour
         if (isWaitingForTileClick && Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int tilePos = oceanTileMap.WorldToCell(mouseWorldPos);
+            Vector3Int tilePos = oceanSavedTileMap.WorldToCell(mouseWorldPos); // <--- 修改
             tilePos.z = 0; // 修正 z 軸
 
-            Debug.Log($"[BuyTile Debug] MouseWorldPos: {mouseWorldPos}, TilePos(raw): {oceanTileMap.WorldToCell(mouseWorldPos)}, TilePos(z=0): {tilePos}");
+            Debug.Log($"[BuyTile Debug] MouseWorldPos: {mouseWorldPos}, TilePos(raw): {oceanSavedTileMap.WorldToCell(mouseWorldPos)}, TilePos(z=0): {tilePos}");
 
             BuyTile(tilePos);
 
@@ -187,18 +184,18 @@ public class InfiniteTileMap : MonoBehaviour
         // 新增海洋瓦片
         foreach (var tilePosition in oceanTilesToAdd)
         {
-            CreateTile(tilePosition, oceanTileMap, oceanRuleTile);
+            CreateTile(tilePosition, oceanSavedTileMap, oceanRuleTile); // <--- 修改
         }
 
         // 新增陸地瓦片
         foreach (var tilePosition in landTilesToAdd)
         {
-            CreateTile(tilePosition, landTileMap, landRuleTile);
+            CreateTile(tilePosition, landSavedTileMap, landRuleTile); // <--- 修改
         }
 
         // 移除未使用的瓦片（分開處理海洋和陸地）
-        RemoveUnusedTiles(tilesToKeep, oceanTileMap);
-        RemoveUnusedTiles(tilesToKeep, landTileMap);
+        RemoveUnusedTiles(tilesToKeep, oceanSavedTileMap); // <--- 修改
+        RemoveUnusedTiles(tilesToKeep, landSavedTileMap); // <--- 修改
     }
 
     private void CreateTile(Vector2Int tilePosition, Tilemap tilemap, TileBase ruleTile)
@@ -212,9 +209,9 @@ public class InfiniteTileMap : MonoBehaviour
         );
 
         // 決定是陸地還是海洋
-        bool isLand = tilemap == landTileMap;
+        bool isLand = tilemap == landSavedTileMap; // <--- 修改
         var loadedChunks = isLand ? loadedLandChunks : loadedOceanChunks;
-        Tilemap savedTileMap = isLand ? landSavedTileMap : oceanSavedTileMap;
+        Tilemap savedTileMap = tilemap; // <--- 直接用傳入的 tilemap
 
         // 若 chunk 已經載入過，直接返回（避免重複渲染）
         if (loadedChunks.Contains(chunkCoord))
@@ -376,7 +373,6 @@ public class InfiniteTileMap : MonoBehaviour
             return;
         }
 
-
         string fullPath = Path.Combine(Application.streamingAssetsPath, filePath);
         if (File.Exists(fullPath))
         {
@@ -401,11 +397,12 @@ public class InfiniteTileMap : MonoBehaviour
                 if (tile == null)
                 {
                     // 如果直接加载失败，尝试从已分配的RuleTile匹配
-                    if (tilemap == oceanTileMap && oceanRuleTile != null && oceanRuleTile.name == tileData.tileName)
+                    // oceanSavedTileMap 和 landSavedTileMap
+                    if (tilemap == oceanSavedTileMap && oceanRuleTile != null && oceanRuleTile.name == tileData.tileName)
                     {
                         tile = oceanRuleTile;
                     }
-                    else if (tilemap == landTileMap && landRuleTile != null && landRuleTile.name == tileData.tileName)
+                    else if (tilemap == landSavedTileMap && landRuleTile != null && landRuleTile.name == tileData.tileName)
                     {
                         tile = landRuleTile;
                     }
@@ -442,21 +439,21 @@ public class InfiniteTileMap : MonoBehaviour
 
     private void SetNavalBaseToNearestLandTile()
     {
-        if (navalBase == null || landTileMap == null) return;
+        if (navalBase == null || landSavedTileMap == null) return; // <--- 修改
 
         // Check if the naval base position is (0, 0)
         if (navalBase.position == Vector3.zero)
         {
-            Vector3Int baseTilePosition = landTileMap.WorldToCell(navalBase.position);
+            Vector3Int baseTilePosition = landSavedTileMap.WorldToCell(navalBase.position); // <--- 修改
             Vector3Int nearestLandTile = baseTilePosition;
 
             float shortestDistance = float.MaxValue;
 
-            foreach (var position in landTileMap.cellBounds.allPositionsWithin)
+            foreach (var position in landSavedTileMap.cellBounds.allPositionsWithin) // <--- 修改
             {
-                if (landTileMap.GetTile(position) != null) // Check if the tile is a land tile
+                if (landSavedTileMap.GetTile(position) != null) // Check if the tile is a land tile
                 {
-                    float distance = Vector3.Distance(landTileMap.CellToWorld(position), navalBase.position);
+                    float distance = Vector3.Distance(landSavedTileMap.CellToWorld(position), navalBase.position); // <--- 修改
                     if (distance < shortestDistance)
                     {
                         shortestDistance = distance;
@@ -467,7 +464,7 @@ public class InfiniteTileMap : MonoBehaviour
 
             if (shortestDistance < float.MaxValue)
             {
-                Vector3 newPosition = landTileMap.CellToWorld(nearestLandTile);
+                Vector3 newPosition = landSavedTileMap.CellToWorld(nearestLandTile); // <--- 修改
                 newPosition.x += 0.5f; // Adjust for tile center
                 newPosition.y += 0.5f; // Adjust for tile center
                 navalBase.position = newPosition;
@@ -528,7 +525,7 @@ public class InfiniteTileMap : MonoBehaviour
         }
 
         // Determine the cost based on the type of tile
-        TileBase existingTile = landTileMap.GetTile(tilePosition) ?? oceanTileMap.GetTile(tilePosition);
+        TileBase existingTile = landSavedTileMap.GetTile(tilePosition) ?? oceanSavedTileMap.GetTile(tilePosition); // <--- 修改
         int tileCost = existingTile == landRuleTile ? landTileCost : oceanTileCost;
 
         // Check if the player has enough gold
@@ -571,14 +568,14 @@ public class InfiniteTileMap : MonoBehaviour
     // 判斷指定陸地瓦片是否靠近海洋瓦片
     public bool CanBuildCoastalTurret(Vector3Int landTilePos)
     {
-        if (landTileMap.GetTile(landTilePos) != landRuleTile) return false; // 必須是陸地瓦片
+        if (landSavedTileMap.GetTile(landTilePos) != landRuleTile) return false; // 必須是陸地瓦片
         Vector3Int[] directions = {
             Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right
         };
         foreach (var dir in directions)
         {
             Vector3Int neighbor = landTilePos + dir;
-            if (oceanTileMap.GetTile(neighbor) == oceanRuleTile)
+            if (oceanSavedTileMap.GetTile(neighbor) == oceanRuleTile) // <--- 修改
                 return true;
         }
         return false;

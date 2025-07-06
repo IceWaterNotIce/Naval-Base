@@ -57,7 +57,7 @@ public class CoastalTurretManager : MonoBehaviour
         landTilePos.z = 0;
 
         // 檢查是否為陸地瓦片
-        TileBase tileAtPos = tileMap.landTileMap.GetTile(landTilePos);
+        TileBase tileAtPos = tileMap.landSavedTileMap.GetTile(landTilePos); // 修改
         bool isLand = tileAtPos == tileMap.landRuleTile;
 
         Debug.Log($"[Debug] Checking tile at {landTilePos}");
@@ -82,7 +82,7 @@ public class CoastalTurretManager : MonoBehaviour
         {
             Vector3Int neighbor = landTilePos + dir;
             neighbor.z = 0; // 確保Z軸為0
-            TileBase oceanTile = tileMap.oceanTileMap.GetTile(neighbor);
+            TileBase oceanTile = tileMap.oceanSavedTileMap.GetTile(neighbor); // 修改
             bool isOcean = oceanTile == tileMap.oceanRuleTile;
 
             Debug.Log($"[Debug] Checking neighbor at {neighbor}");
@@ -109,7 +109,7 @@ public class CoastalTurretManager : MonoBehaviour
         if (navalBaseController.gold < coastalTurretCost) return false;
 
         navalBaseController.DeductGold(coastalTurretCost);
-        Vector3 worldPos = tileMap.landTileMap.CellToWorld(landTilePos) + new Vector3(0.5f, 0.5f, 0);
+        Vector3 worldPos = tileMap.landSavedTileMap.CellToWorld(landTilePos) + new Vector3(0.5f, 0.5f, 0); // 修改
         Instantiate(coastalTurretPrefab, worldPos, Quaternion.identity, this.transform);
 
         Debug.Log("[Test] 砲塔建造成功");
@@ -145,7 +145,7 @@ public class CoastalTurretManager : MonoBehaviour
         mouseWorldPos.z = 0; // 確保Z軸為0
 
         // 轉換為Tilemap座標
-        Vector3Int tilePos = tileMap.landTileMap.WorldToCell(mouseWorldPos);
+        Vector3Int tilePos = tileMap.landSavedTileMap.WorldToCell(mouseWorldPos); // 修改
         tilePos.z = 0; // 確保Z軸為0
 
         Debug.Log($"[Debug] Mouse world position: {mouseWorldPos}");
@@ -154,7 +154,7 @@ public class CoastalTurretManager : MonoBehaviour
         // 顯示選擇指示器
         if (selectionIndicator != null)
         {
-            Vector3 indicatorPos = tileMap.landTileMap.CellToWorld(tilePos);
+            Vector3 indicatorPos = tileMap.landSavedTileMap.CellToWorld(tilePos); // 修改
             indicatorPos.x += 0.5f;
             indicatorPos.y += 0.5f;
             indicatorPos.z = 0;

@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 880097639}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9996202
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7816,9 +7816,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d30f65fb604ada41965370a06839c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  oceanTileMap: {fileID: 0}
+  oceanSavedTileMap: {fileID: 782026282}
+  landSavedTileMap: {fileID: 174685520}
   oceanRuleTile: {fileID: 11400000, guid: d9c603c34a233a24fbadfb2afc11ceb5, type: 2}
-  landTileMap: {fileID: 0}
   landRuleTile: {fileID: 11400000, guid: 4a529406cb3c90947989f1d472e3f01b, type: 2}
   navalBaseTileMap: {fileID: 693112810}
   navalBaseTile: {fileID: 11400000, guid: a15c4b9d1f639de4a92ada25920e484c, type: 2}
@@ -7835,8 +7835,6 @@ MonoBehaviour:
   navalBaseController: {fileID: 274980084}
   oceanTileMapSavePath: OceanTileMap.json
   landTileMapSavePath: LandTileMap.json
-  oceanSavedTileMap: {fileID: 782026282}
-  landSavedTileMap: {fileID: 174685520}
   coastalTurretPrefab: {fileID: 1821690573980606584, guid: c4f50d98fcc3542418299782ef1070d8, type: 3}
   coastalTurretCost: 100
   buyNavalBaseTileButton: {fileID: 1790207025}
@@ -13808,7 +13806,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1083690471}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9997715
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
