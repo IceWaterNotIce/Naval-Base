@@ -7,6 +7,7 @@ TagManager:
   - NavalBase
   - Enemy
   - PlayerShip
+  - Dock
   layers:
   - Default
   - TransparentFX

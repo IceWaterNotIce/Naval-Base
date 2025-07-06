@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public InfiniteTileMap infiniteTileMap; // Reference to InfiniteTileMap
     public DebugPanelController debugPanelController; // Reference to DebugPanelController
     public CoastalTurretManager coastalTurretManager; // <--- 新增 CoastalTurretManager 參考
+    public DockManager dockManager; // 新增：DockManager 參考
 
     public Text gameTimeText; // Reference to the UI Text element for game time display
 
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     private int savedNavalBaseLevelUpGoldCost; // Save level-up gold cost
     private Vector3 savedNavalBasePosition; // Save naval base position
     private List<Vector3> savedCoastalTurretPositions = new List<Vector3>(); // 新增：儲存砲塔位置
+    private List<Vector3> savedDockPositions = new List<Vector3>(); // 新增：儲存碼頭位置
 
     private string saveFilePath;
     private float gameTime; // Track the elapsed game time
@@ -79,6 +81,20 @@ public class GameManager : MonoBehaviour
                             );
                         }
                     }
+                }
+            }
+
+            // 清除現有 Dock
+            foreach (var dock in GameObject.FindGameObjectsWithTag("Dock"))
+            {
+                Destroy(dock);
+            }
+            // 重新生成 Dock
+            if (dockManager != null && dockManager.dockPrefab != null && loadedData.dockPositions != null)
+            {
+                foreach (var pos in loadedData.dockPositions)
+                {
+                    Instantiate(dockManager.dockPrefab, pos, Quaternion.identity);
                 }
             }
         }
@@ -174,6 +190,13 @@ public class GameManager : MonoBehaviour
             savedCoastalTurretPositions.Add(turret.transform.position);
         }
 
+        // Save dock positions
+        savedDockPositions.Clear();
+        foreach (var dock in GameObject.FindGameObjectsWithTag("Dock"))
+        {
+            savedDockPositions.Add(dock.transform.position);
+        }
+
         // Save naval base tiles
         List<NavalBaseTileData> navalBaseTiles = infiniteTileMap != null
             ? infiniteTileMap.GetAllNavalBaseTilePositions()
@@ -198,6 +221,7 @@ public class GameManager : MonoBehaviour
             navalBasePosition = savedNavalBasePosition, // Save naval base position
             coastalTurretPositions = savedCoastalTurretPositions, // 新增
             navalBaseTiles = navalBaseTiles, // 新增
+            dockPositions = savedDockPositions, // 新增
         };
 
         // Serialize and save to file
@@ -287,6 +311,20 @@ public class GameManager : MonoBehaviour
                             );
                         }
                     }
+                }
+            }
+
+            // 清除現有 Dock
+            foreach (var dock in GameObject.FindGameObjectsWithTag("Dock"))
+            {
+                Destroy(dock);
+            }
+            // 重新生成 Dock
+            if (dockManager != null && dockManager.dockPrefab != null && loadedData.dockPositions != null)
+            {
+                foreach (var pos in loadedData.dockPositions)
+                {
+                    Instantiate(dockManager.dockPrefab, pos, Quaternion.identity);
                 }
             }
 
@@ -414,6 +452,7 @@ public class GameData
     public Vector3 navalBasePosition; // Save naval base position
     public List<Vector3> coastalTurretPositions; // 新增：儲存砲塔位置
     public List<NavalBaseTileData> navalBaseTiles; // 新增：儲存海軍基地瓦片
+    public List<Vector3> dockPositions; // 新增：儲存碼頭位置
 }
 
 [System.Serializable]
