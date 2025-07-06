@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class PlayerShipManager : MonoBehaviour
 {
@@ -10,18 +11,28 @@ public class PlayerShipManager : MonoBehaviour
 
     public List<GameObject> playerShips = new List<GameObject>();
 
-    public bool CreateShipFromPrefab(Vector3 position)
+    public bool CreateShipFromPrefab()
     {
         if (navalBaseController.gold >= ShipCost)
         {
             navalBaseController.gold -= ShipCost;
             navalBaseController.UpdateGoldUI();
-            
-            GameObject newShip = Instantiate(ShipPrefab, position, Quaternion.identity, transform);
+
+
+
+            var dock = GameObject.FindGameObjectWithTag("Dock");
+            if (dock == null)
+            {
+                Debug.LogError("找不到碼頭，無法創建船隻！");
+                return false;
+            }
+            Vector3 spawnPos = dock.transform.position;
+
+            GameObject newShip = Instantiate(ShipPrefab, spawnPos, Quaternion.identity, transform);
             playerShips.Add(newShip);
             return true;
         }
-        
+
         Debug.Log("金幣不足，無法創建船隻！");
         return false;
     }

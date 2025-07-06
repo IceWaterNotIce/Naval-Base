@@ -19,7 +19,7 @@ public class ShipCreationUI : MonoBehaviour
 
     private void OnCreateButtonClicked()
     {
-        bool success = ShipManager.CreateShipFromPrefab(NavalBaseController.transform.position); // 使用 NavalBaseController 的位置作為船隻創建位置
+        bool success = ShipManager.CreateShipFromPrefab(); // 使用 NavalBaseController 的位置作為船隻創建位置
         if (!success)
         {
             ErrorText.text = "金幣不足，無法創建船隻！";
