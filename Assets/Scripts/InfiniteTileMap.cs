@@ -366,10 +366,15 @@ public class InfiniteTileMap : MonoBehaviour
         }
     }
 
+    // 只在遊戲開始時自動移動海軍基地，不在每次載入遊戲時
     private System.Collections.IEnumerator WaitForMapRenderAndSetNavalBase()
     {
         yield return new WaitForEndOfFrame(); // Wait for the end of the frame to ensure map rendering is complete
-        SetNavalBaseToNearestLandTile(); // Set naval base position to the nearest land tile
+        // 僅當海軍基地位置為 (0,0) 時才自動移動
+        if (navalBase != null && navalBase.position == Vector3.zero)
+        {
+            SetNavalBaseToNearestLandTile(); // Set naval base position to the nearest land tile
+        }
     }
 
     private void SetNavalBaseToNearestLandTile()

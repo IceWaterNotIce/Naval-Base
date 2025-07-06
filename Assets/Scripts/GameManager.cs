@@ -316,6 +316,50 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName); // Load the specified scene
     }
+
+    public void StartNewGame()
+    {
+        // 清除彈藥、敵人、玩家船、砲塔、海軍基地瓦片
+        ammoManager.ClearAmmo();
+        enemyManager.ClearEnemies();
+
+        foreach (var ship in playerShipManager.playerShips)
+        {
+            if (ship != null) Destroy(ship);
+        }
+        playerShipManager.playerShips.Clear();
+
+        foreach (var turret in FindObjectsOfType<CoastalTurret>())
+        {
+            Destroy(turret.gameObject);
+        }
+
+        if (infiniteTileMap != null && infiniteTileMap.navalBaseTileMap != null)
+        {
+            infiniteTileMap.navalBaseTileMap.ClearAllTiles();
+        }
+
+        // 重設資源與狀態
+        navalBaseController.gold = 0;
+        navalBaseController.health = navalBaseController.maxHealth;
+        navalBaseController.level = 1;
+        navalBaseController.levelUpGoldCost = 100;
+        navalBaseController.UpdateGoldUI();
+        navalBaseController.UpdateHealthUI();
+        navalBaseController.UpdateLevelUI();
+
+        // 重設遊戲時間
+        gameTime = 0f;
+        UpdateGameTimeUI();
+
+        // 讓 InfiniteTileMap 處理海軍基地自動移動到最近陸地
+        if (infiniteTileMap != null)
+        {
+            infiniteTileMap.StartCoroutine("WaitForMapRenderAndSetNavalBase");
+        }
+
+        // 其他初始化邏輯可依需求補充
+    }
 }
 
 [System.Serializable]
