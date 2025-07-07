@@ -128,7 +128,7 @@ public class Ship : MonoBehaviour
                 rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
             }
         }
-        else if (targetRotationSpeed != 0) // 如果目標旋轉速度被設定
+        else
         {
             targetAzimuthAngle = -1f; // 重置目標方位角
             currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotationSpeed, rotationAcceleration * Time.deltaTime);

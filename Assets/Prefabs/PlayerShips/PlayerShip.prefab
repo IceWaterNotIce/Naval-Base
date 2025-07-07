@@ -193,7 +193,7 @@ MonoBehaviour:
   targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
-  targetRotationSpeed: 100
+  targetRotationSpeed: 0
   rotationAcceleration: 10
   maxRotateSpeed: 200
   targetAzimuthAngle: -1

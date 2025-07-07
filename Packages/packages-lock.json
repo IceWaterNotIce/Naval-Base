@@ -1,12 +1,5 @@
 {
   "dependencies": {
-    "com.icewaternotice.build-helper": {
-      "version": "https://github.com/IceWaterNotIce/Build-Helper.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "28895b6b76ed210a0238ef5705df0b44c4e6e264"
-    },
     "com.icewaternotice.damage-text-helper": {
       "version": "https://github.com/IceWaterNotIce/DamageTextHelper.git",
       "depth": 0,

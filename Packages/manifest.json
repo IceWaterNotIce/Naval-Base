@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.icewaternotice.build-helper": "https://github.com/IceWaterNotIce/Build-Helper.git",
     "com.icewaternotice.damage-text-helper": "https://github.com/IceWaterNotIce/DamageTextHelper.git",
     "com.icewaternotice.sprite-outline-helper": "https://github.com/IceWaterNotIce/2D_Sprite_Outline.git",
     "com.unity.collab-proxy": "2.8.2",
