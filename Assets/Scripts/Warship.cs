@@ -17,6 +17,10 @@ public class Warship : Ship
     // 新增：等級顯示 UI
     public Text levelText;
 
+    // 新增：經驗條與經驗值顯示
+    public Slider experienceSlider;
+    public Text experienceText;
+
     public virtual void GainExperience(int amount)
     {
         experience += amount;
@@ -24,6 +28,7 @@ public class Warship : Ship
         {
             LevelUp();
         }
+        UpdateExperienceUI(); // 新增：經驗值變動時更新 UI
     }
 
     protected virtual void LevelUp()
@@ -37,6 +42,7 @@ public class Warship : Ship
         Debug.Log($"Warship leveled up to {level}! Attack Damage: {attackDamage}, Max Health: {maxHealth}");
         // 新增：更新等級顯示
         UpdateLevelUI();
+        UpdateExperienceUI(); // 新增：升級時也更新經驗 UI
     }
 
     // 新增：等級顯示更新方法
@@ -48,9 +54,23 @@ public class Warship : Ship
         }
     }
 
+    // 新增：經驗條與經驗值顯示更新方法
+    public void UpdateExperienceUI()
+    {
+        if (experienceSlider != null)
+        {
+            experienceSlider.value = Mathf.Clamp01((float)experience / Mathf.Max(1, experienceToNextLevel));
+        }
+        if (experienceText != null)
+        {
+            experienceText.text = $"{experience} / {experienceToNextLevel}";
+        }
+    }
+
     void Start()
     {
         UpdateLevelUI();
+        UpdateExperienceUI(); // 新增：初始化時也更新經驗 UI
     }
 
     public virtual void HandleAttack()
