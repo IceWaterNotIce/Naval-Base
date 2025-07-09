@@ -1,11 +1,20 @@
 {
   "dependencies": {
-    "com.icewaternotice.build-helper": {
-      "version": "https://github.com/IceWaterNotIce/Build-Helper.git",
+    "com.icewaternotice.damage-text-helper": {
+      "version": "https://github.com/IceWaterNotIce/DamageTextHelper.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.0"
+      },
+      "hash": "7baeba4270df15b7079c7286f82171096c24ec48"
+    },
+    "com.icewaternotice.sprite-outline-helper": {
+      "version": "https://github.com/IceWaterNotIce/2D_Sprite_Outline.git",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "28895b6b76ed210a0238ef5705df0b44c4e6e264"
+      "hash": "929a96c4fb96be6888868033b5fc35121c5157f1"
     },
     "com.unity.2d.animation": {
       "version": "10.1.2",
@@ -271,6 +280,14 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.unity.textmeshpro": {
+      "version": "3.0.0",
+      "depth": 1,
+      "source": "builtin",
+      "dependencies": {
+        "com.unity.ugui": "2.0.0"
+      }
     },
     "com.unity.timeline": {
       "version": "1.8.7",

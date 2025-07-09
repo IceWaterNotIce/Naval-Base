@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Ammo : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class Ammo : MonoBehaviour
 
     private Vector3 startPosition; // Starting position of the ammo
     private Vector3 direction; // Direction toward the target
+
+    public event Action OnHitEnemy; // 新增事件
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,16 +53,17 @@ public class Ammo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Ammo collided with {collision.tag}"); // Debug log
+       // Debug.Log($"Ammo collided with {collision.tag}"); // Debug log
         if (collision.CompareTag(targetTag)) // Check if collided object matches the target tag
         {
             if (targetTag == "Enemy")
             {
-                Enemy enemy = collision.GetComponent<Enemy>();
+                EnemyShip enemy = collision.GetComponent<EnemyShip>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage); // Deal damage to the enemy
                     Debug.Log("Damage dealt to Enemy"); // Debug log
+                    OnHitEnemy?.Invoke(); // 觸發事件
                 }
             }
             else if (targetTag == "NavalBase")
@@ -69,6 +73,15 @@ public class Ammo : MonoBehaviour
                 {
                     navalBase.TakeDamage(damage); // Deal damage to the naval base
                     Debug.Log("Damage dealt to NavalBase"); // Debug log
+                }
+            }
+            else if (targetTag == "PlayerShip")
+            {
+                PlayerShip playerShip = collision.GetComponent<PlayerShip>();
+                if (playerShip != null)
+                {
+                    playerShip.TakeDamage(damage); // Deal damage to the player ship
+                    Debug.Log("Damage dealt to PlayerShip"); // Debug log
                 }
             }
             Destroy(gameObject); // Destroy the ammo

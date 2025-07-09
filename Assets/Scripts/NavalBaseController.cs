@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class NavalBaseController : MonoBehaviour
+public class NavalBaseController : MonoBehaviour, IPointerClickHandler
 {
     public GameObject ammoPrefab; // Prefab for ammo
     public Transform firePoint; // Point where ammo is fired
@@ -16,8 +17,35 @@ public class NavalBaseController : MonoBehaviour
     public Slider healthSlider; // Reference to the UI Slider element for health display
     public AmmoManager ammoManager; // Reference to AmmoManager
     public TechTreeManager techTreeManager; // Reference to TechTreeManager
+    public int level = 1; // Naval base level
+    public int maxLevel = 10; // Maximum level
+    public Text levelText; // Reference to the UI Text element for level display
+    public int levelUpGoldCost = 100; // Gold cost for leveling up
+    public GameObject detailPanel; // Reference to the detail panel UI
+    public Text detailText; // Reference to the Text element in the detail panel
+    public Button closeButton; // Reference to the close button in the detail panel
+    public Button levelUpButton; // Reference to the level-up button in the detail panel
 
     private float fireTimer;
+
+    void Start()
+    {
+        if (detailPanel != null)
+        {
+            detailPanel.SetActive(false); // Hide the detail panel at the start of the game
+        }
+
+        if (closeButton != null)
+        {
+            closeButton.onClick.AddListener(() => ToggleDetailPanel(false)); // Add listener to close button
+        }
+
+        if (levelUpButton != null)
+        {
+            levelUpButton.onClick.AddListener(LevelUp); // Add listener to level-up button
+        }
+        //SpriteOutlineHelper.AddMouseOverHighlight(gameObject); // Add mouse over highlight effect
+    }
 
     void Update()
     {
@@ -29,6 +57,8 @@ public class NavalBaseController : MonoBehaviour
         }
         UpdateGoldUI(); // Update the gold UI
         UpdateHealthUI(); // Update the health UI
+        UpdateLevelUI(); // Update the level UI
+        UpdateDetailPanel(); // Update the detail panel
     }
 
     private void DetectAndShootEnemies()
@@ -45,7 +75,8 @@ public class NavalBaseController : MonoBehaviour
 
     private void ShootAmmoAtEnemy(Transform enemy)
     {
-        GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
+        AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>(); // Get AmmoManager instance
+        GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform); // Instantiate ammo at fire point
         if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript)) // Ensure Ammo component exists
         {
             Vector3 targetPos = enemy.position;
@@ -90,6 +121,13 @@ public class NavalBaseController : MonoBehaviour
         UpdateGoldUI(); // Update the UI whenever gold changes
     }
 
+    public void DeductGold(int amount)
+    {
+        gold -= amount; // Deduct the specified amount of gold
+        gold = Mathf.Max(gold, 0); // Ensure gold does not go below 0
+        UpdateGoldUI(); // Update the UI whenever gold changes
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage; // Reduce health by the damage amount
@@ -121,9 +159,73 @@ public class NavalBaseController : MonoBehaviour
         }
     }
 
+    public void LevelUp()
+    {
+        if (gold >= levelUpGoldCost && level < maxLevel)
+        {
+            gold -= levelUpGoldCost; // Deduct gold for leveling up
+            level++; // Increase level
+            levelUpGoldCost += 50; // Increase the cost for the next level
+            maxHealth += 20; // Increase max health
+            detectionRadius += 2f; // Increase detection radius
+            health = maxHealth; // Restore health to max
+            UpdateGoldUI(); // Update gold UI
+            UpdateHealthUI(); // Update health UI
+            UpdateLevelUI(); // Update level UI
+            Debug.Log($"Naval Base leveled up to {level}!");
+        }
+        else
+        {
+            Debug.LogWarning("Not enough gold or already at max level!");
+        }
+    }
+
+    public void UpdateLevelUI()
+    {
+        if (level < 1) level = 1; // Ensure level is at least 1
+        if (levelText != null)
+        {
+            levelText.text = $"Level: {level}"; // Update the level text
+        }
+    }
+
+    public void UpdateDetailPanel()
+    {
+        if (detailPanel != null && detailText != null)
+        {
+            detailText.text = $"Level: {level}\n" +
+                              $"Gold: {gold}\n" +
+                              $"Health: {health}/{maxHealth}\n" +
+                              $"Detection Radius: {detectionRadius:F1}";
+        }
+    }
+
+    public void ToggleDetailPanel(bool isVisible)
+    {
+        if (detailPanel != null)
+        {
+            detailPanel.SetActive(isVisible); // Show or hide the detail panel
+        }
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ToggleDetailPanel(true); // Show the detail panel when the naval base is clicked
+    }
+
     private void HandleDestruction()
     {
         Debug.Log("Naval Base Destroyed!"); // Log destruction
         // Add additional logic for game over or naval base destruction
+    }
+
+    public Vector3 GetPosition()
+    {
+        return transform.position; // Return the current position of the naval base
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position; // Set the position of the naval base
     }
 }

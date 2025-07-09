@@ -1,6 +1,5 @@
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 [System.Serializable]
 public class PredictionTech {
@@ -14,16 +13,12 @@ public class TechTreeManager : MonoBehaviour {
     public PredictionTech intelligentCorrection = new PredictionTech();
     
     public NavalBaseController navalBaseController; // Reference to NavalBaseController
-    public Button basicShootingButton;
-    public Button dynamicTrackingButton;
-    public Button intelligentCorrectionButton;
 
     private string savePath;
 
     void Start() {
         savePath = Path.Combine(Application.streamingAssetsPath, "TechTreeSave.json");
         LoadTechTree();
-        UpdateUI();
     }
 
     //=== 科技解鎖方法 ===//
@@ -34,7 +29,6 @@ public class TechTreeManager : MonoBehaviour {
             navalBaseController.gold -= 2; // Deduct gold
             navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
-            UpdateUI();
         }
     }
 
@@ -45,7 +39,6 @@ public class TechTreeManager : MonoBehaviour {
             navalBaseController.gold -= 3; // Deduct gold
             navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
-            UpdateUI();
         }
     }
 
@@ -56,7 +49,6 @@ public class TechTreeManager : MonoBehaviour {
             navalBaseController.gold -= 4; // Deduct gold
             navalBaseController.UpdateGoldUI(); // Update gold UI
             SaveTechTree();
-            UpdateUI();
         }
     }
 
@@ -84,18 +76,6 @@ public class TechTreeManager : MonoBehaviour {
             dynamicTracking.isUnlocked = data.dynamicTracking;
             intelligentCorrection.isUnlocked = data.intelligentCorrection;
         }
-    }
-
-    //=== UI 更新 ===//
-    void UpdateUI() {
-        basicShootingButton.interactable = navalBaseController.gold >= 2 && !basicShooting.isUnlocked;
-        dynamicTrackingButton.interactable = navalBaseController.gold >= 3 && basicShooting.isUnlocked && !dynamicTracking.isUnlocked;
-        intelligentCorrectionButton.interactable = navalBaseController.gold >= 4 && dynamicTracking.isUnlocked && !intelligentCorrection.isUnlocked;
-        
-        // 視覺化已解鎖狀態
-        basicShootingButton.GetComponent<Image>().color = basicShooting.isUnlocked ? Color.green : Color.white;
-        dynamicTrackingButton.GetComponent<Image>().color = dynamicTracking.isUnlocked ? Color.green : Color.white;
-        intelligentCorrectionButton.GetComponent<Image>().color = intelligentCorrection.isUnlocked ? Color.green : Color.white;
     }
 
     //=== 射擊系統調用接口 ===//
