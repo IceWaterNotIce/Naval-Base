@@ -73,16 +73,16 @@ public class EnemyShip : Warship
                 Vector3 direction = (target.position - transform.position).normalized;
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-                targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
-                targetSpeed = maxSpeed; // 使用基類的速度邏輯
+                TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+                TargetSpeed = maxSpeed; // 使用基類的速度邏輯
             }
             else // Too close to the naval base
             {
                 Vector3 direction = (transform.position - target.position).normalized;
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-                targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
-                targetSpeed = maxSpeed; // 使用基類的速度邏輯
+                TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+                TargetSpeed = maxSpeed; // 使用基類的速度邏輯
             }
         }
     }
@@ -97,8 +97,8 @@ public class EnemyShip : Warship
             Vector3 orbitDirection = new Vector3(-direction.y, direction.x, 0).normalized;
             float targetAngle = Mathf.Atan2(orbitDirection.y, orbitDirection.x) * Mathf.Rad2Deg;
 
-            targetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
-            targetSpeed = orbitSpeed; // 使用基類的速度邏輯
+            TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+            TargetSpeed = orbitSpeed; // 使用基類的速度邏輯
         }
     }
 

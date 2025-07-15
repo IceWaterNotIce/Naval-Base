@@ -68,7 +68,7 @@ public class DebugPanelController : MonoBehaviour
                     PlayerShip playerShip = ship.GetComponent<PlayerShip>();
                     if (playerShip != null)
                     {
-                        debugText.text += $"- {playerShip.ShipName}: Level {playerShip.level}\n"; // 顯示每艘船的等級
+                        debugText.text += $"- {playerShip.ShipName}\n"; // 顯示每艘船的名稱
                     }
                 }
             }

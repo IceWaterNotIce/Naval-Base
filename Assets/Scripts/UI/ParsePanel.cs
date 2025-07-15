@@ -13,8 +13,6 @@ public class ParsePanel : PopupPanel
     public Button quitGameButton;
     public Button startNewGameButton;
 
-    private bool isExpanded = true;
-
     void Start()
     {
 

@@ -13,6 +13,7 @@ public class PlayerShipControlUI : MonoBehaviour
     public Button fullSpeedButton, threeQuarterSpeedButton, halfSpeedButton, quarterSpeedButton, stopButton;
     public Button rotateLeftButton, rotateHalfLeftButton, rotateNoneButton, rotateHalfRightButton, rotateRightButton;
     public Button DeselectShipButton; // New button for deselecting the ship
+    public Button moveToPositionButton; // 新增：移動到指定位置的按鈕
 
     [Header("Camera Follow")]
     public Camera mainCamera;
@@ -25,6 +26,7 @@ public class PlayerShipControlUI : MonoBehaviour
     private PlayerShip selectedShip;
     private Vector3 cameraVelocity = Vector3.zero;
     private bool isFollowingShip = false;
+    private bool isMoveToPositionMode = false; // 新增：是否啟用移動模式
 
     void Start()
     {
@@ -51,6 +53,11 @@ public class PlayerShipControlUI : MonoBehaviour
         if (cancelFollowButton != null)
         {
             cancelFollowButton.onClick.AddListener(CancelCameraFollow);
+        }
+
+        if (moveToPositionButton != null)
+        {
+            moveToPositionButton.onClick.AddListener(EnableMoveToPositionMode);
         }
     }
 
@@ -119,6 +126,18 @@ public class PlayerShipControlUI : MonoBehaviour
                     camController.enabled = true;
             }
         }
+
+        if (isMoveToPositionMode && Input.GetMouseButtonDown(0)) // 檢測鼠標左鍵點擊
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+            worldPosition.z = 0; // 確保 Z 軸為 0
+            if (selectedShip != null)
+            {
+                selectedShip.MoveToPosition(worldPosition);
+            }
+            isMoveToPositionMode = false; // 點擊後退出移動模式
+        }
     }
 
     public void SelectShip(PlayerShip ship)
@@ -159,7 +178,7 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (selectedShip != null)
         {
-            selectedShip.targetSpeed = selectedShip.maxSpeed * speedMultiplier;
+            selectedShip.TargetSpeed = selectedShip.maxSpeed * speedMultiplier; // 修正屬性名稱
         }
     }
 
@@ -167,7 +186,7 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (selectedShip != null)
         {
-            selectedShip.targetRotationSpeed = selectedShip.maxRotateSpeed * rotationMultiplier;
+            selectedShip.TargetRotationSpeed = selectedShip.maxRotateSpeed * rotationMultiplier; // 修正屬性名稱
         }
     }
 
@@ -178,9 +197,15 @@ public class PlayerShipControlUI : MonoBehaviour
             shipNameText.text = $"Name: {selectedShip.ShipName}";
             maxSpeedText.text = $"Max Speed: {selectedShip.maxSpeed}";
             maxRotationSpeedText.text = $"Max Rotation Speed: {selectedShip.maxRotateSpeed}";
-            attackDamageText.text = $"Attack Damage: {selectedShip.attackDamage}";
+            // 移除不存在的屬性 attackDamage 和 level
             attackIntervalText.text = $"Attack Interval: {selectedShip.attackInterval}s";
-            levelText.text = $"Level: {selectedShip.level}"; // 顯示等級
         }
     }
+
+    private void EnableMoveToPositionMode()
+    {
+        Debug.Log("Move to position mode enabled.");
+        isMoveToPositionMode = true; // 啟用移動模式
+    }
 }
+

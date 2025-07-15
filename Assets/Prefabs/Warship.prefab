@@ -505,6 +505,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1626099304067924059, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1959222814598491295, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -551,6 +555,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5321003700533678031, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321003700533678031, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5321003700533678031, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
@@ -654,7 +662,7 @@ MonoBehaviour:
   maxHealth: 5
   healthSlider: {fileID: 3575821291549649881}
   healthText: {fileID: 3445260958815000311}
-  healthCanvas: {fileID: 9039003851952597345}
+  UICanvas: {fileID: 0}
   nameText: {fileID: 5336095240552790374}
   targetSpeed: 0
   maxSpeed: 2
@@ -715,10 +723,5 @@ Transform:
 --- !u!224 &8888144173707421527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8393971449378229882, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  m_PrefabInstance: {fileID: 1091111940987300141}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &9039003851952597345 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8238375212236243020, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
   m_PrefabInstance: {fileID: 1091111940987300141}
   m_PrefabAsset: {fileID: 0}

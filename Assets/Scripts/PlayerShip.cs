@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class PlayerShip : Warship
 {
-    public LayerMask enemyLayer; // 用於檢測敵人的圖層
-    public float detectionRadius = 10f; // 檢測敵人的半徑
+    private LayerMask m_enemyLayer; // 用於檢測敵人的圖層
+    private float m_detectionRadius = 10f; // 檢測敵人的半徑
 
     protected override void Update()
     {
@@ -12,7 +12,7 @@ public class PlayerShip : Warship
 
     protected override void PerformAttack()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectionRadius, enemyLayer);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, m_detectionRadius, m_enemyLayer);
         foreach (Collider2D enemy in enemies)
         {
             if (enemy != null)
@@ -40,7 +40,33 @@ public class PlayerShip : Warship
     private void OnMouseDown()
     {
         Debug.Log($"PlayerShip {name} clicked."); // Log when the ship is clicked
-        PlayerShipControlUI controlUI = FindFirstObjectByType<PlayerShipControlUI>(); // Use the updated method
+
+        // Try to find the UI in the scene
+        PlayerShipControlUI controlUI = FindFirstObjectByType<PlayerShipControlUI>();
+        if (controlUI == null)
+        {
+            // If not found, load from Resources and add to UI Canvas
+            GameObject uiPrefab = Resources.Load<GameObject>("UI/PlayerShipControlUI");
+            if (uiPrefab != null)
+            {
+                Canvas uiCanvas = FindFirstObjectByType<Canvas>();
+                if (uiCanvas != null)
+                {
+                    GameObject uiInstance = Instantiate(uiPrefab, uiCanvas.transform);
+                    controlUI = uiInstance.GetComponent<PlayerShipControlUI>();
+                    Debug.Log("PlayerShipControlUI loaded from Resources and added to Canvas.");
+                }
+                else
+                {
+                    Debug.LogWarning("UI Canvas not found in the scene!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("PlayerShipControlUI prefab not found in Resources!");
+            }
+        }
+
         if (controlUI != null)
         {
             Debug.Log("PlayerShipControlUI found. Selecting ship."); // Debug log
@@ -48,7 +74,7 @@ public class PlayerShip : Warship
         }
         else
         {
-            Debug.LogWarning("PlayerShipControlUI not found!"); // Warn if the control UI is missing
+            Debug.LogWarning("PlayerShipControlUI not found or failed to load!"); // Warn if the control UI is missing
         }
     }
 }
