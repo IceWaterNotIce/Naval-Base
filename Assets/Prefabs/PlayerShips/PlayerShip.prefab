@@ -275,36 +275,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657115c4b2e8d1a4bb9d9dfeb38081c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipName: Player
-  Health: 100
   maxHealth: 100
   healthSlider: {fileID: 2565586257540163297}
   healthText: {fileID: 4455488339199843279}
-  UICanvas: {fileID: 0}
+  UICanvas: {fileID: 8031584460528149593}
   nameText: {fileID: 795781032697660777}
-  targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
-  targetRotationSpeed: 0
   rotationAcceleration: 10
   maxRotateSpeed: 200
-  targetAzimuthAngle: -1
   target: {fileID: 0}
   rb: {fileID: 2325113222400593197}
   firePoint: {fileID: 7164826092291161145}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1
-  level: 1
-  experience: 0
-  experienceToNextLevel: 100
-  attackDamage: 1
   levelText: {fileID: 6343473758251742302}
   experienceSlider: {fileID: 3124438345018861572}
   experienceText: {fileID: 5389964735993766137}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  detectionRadius: 10
 --- !u!114 &795781032697660777 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1805445635322038353, guid: 618ee0746856850419d21f9deda68413, type: 3}
@@ -379,5 +366,10 @@ MonoBehaviour:
 --- !u!4 &7164826092291161145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8172774116208718081, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 1298467841658735928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &8031584460528149593 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 9039003851952597345, guid: 618ee0746856850419d21f9deda68413, type: 3}
   m_PrefabInstance: {fileID: 1298467841658735928}
   m_PrefabAsset: {fileID: 0}

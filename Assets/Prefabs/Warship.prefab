@@ -657,29 +657,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c6fb68495e46949a5c88f1dc0c4a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipName: Warship
-  Health: 100
   maxHealth: 5
   healthSlider: {fileID: 3575821291549649881}
   healthText: {fileID: 3445260958815000311}
-  UICanvas: {fileID: 0}
+  UICanvas: {fileID: 9039003851952597345}
   nameText: {fileID: 5336095240552790374}
-  targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
-  targetRotationSpeed: 100
   rotationAcceleration: 10
   maxRotateSpeed: 200
-  targetAzimuthAngle: -1
   target: {fileID: 0}
   rb: {fileID: 3621285214985519125}
   firePoint: {fileID: 8172774116208718081}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1
-  level: 1
-  experience: 0
-  experienceToNextLevel: 100
-  attackDamage: 1
   levelText: {fileID: 5336095240552790374}
   experienceSlider: {fileID: 4132379770256303420}
   experienceText: {fileID: 6397387191879478721}
@@ -723,5 +714,10 @@ Transform:
 --- !u!224 &8888144173707421527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8393971449378229882, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
+  m_PrefabInstance: {fileID: 1091111940987300141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &9039003851952597345 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 8238375212236243020, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
   m_PrefabInstance: {fileID: 1091111940987300141}
   m_PrefabAsset: {fileID: 0}

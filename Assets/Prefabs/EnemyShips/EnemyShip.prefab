@@ -25,6 +25,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 538106589100233037, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 538106589100233037, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -52,6 +56,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1852518986882132342, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1952714302572414856, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_Name
       value: EnemyShip
@@ -105,6 +113,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5115077814946981602, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5115077814946981602, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -154,6 +166,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6889222920078419417, guid: 618ee0746856850419d21f9deda68413, type: 3}
@@ -273,29 +293,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b4cbb54fec5ab347a03866dae9f5a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipName: Enemy
-  Health: 100
   maxHealth: 100
   healthSlider: {fileID: 192762565598445327}
   healthText: {fileID: 2081521309544874529}
-  healthCanvas: {fileID: 5639619508095237559}
+  UICanvas: {fileID: 5639619508095237559}
   nameText: {fileID: 3043643011939622023}
-  targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
-  targetRotationSpeed: 100
   rotationAcceleration: 10
   maxRotateSpeed: 200
-  targetAzimuthAngle: -1
   target: {fileID: 0}
   rb: {fileID: 104261996130768067}
   firePoint: {fileID: 4780725817443624407}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1
-  level: 1
-  experience: 0
-  experienceToNextLevel: 100
-  attackDamage: 1
   levelText: {fileID: 8736583422818495920}
   experienceSlider: {fileID: 750451378090389994}
   experienceText: {fileID: 7780847747782457623}

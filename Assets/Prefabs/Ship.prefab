@@ -222,7 +222,7 @@ MonoBehaviour:
   maxHealth: 5
   healthSlider: {fileID: 4520406776669291252}
   healthText: {fileID: 2374643923295191002}
-  UICanvas: {fileID: 0}
+  UICanvas: {fileID: 8238375212236243020}
   nameText: {fileID: 1597181079911555452}
   maxSpeed: 2
   acceleration: 0.5
