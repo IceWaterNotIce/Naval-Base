@@ -113,7 +113,9 @@ public class Ship : MonoBehaviour
     public enum NavigationMode
     {
         Manual, // 手動控制
-        Auto    // 自動導航
+        Auto,    // 自動導航
+
+        Position
     }
 
     private NavigationMode m_navigationMode = NavigationMode.Manual; // 私有字段
@@ -137,6 +139,20 @@ public class Ship : MonoBehaviour
         get => m_rotationMode;
         set => m_rotationMode = value;
     }
+
+    // 新增：移動模式相關
+    public enum MovementMode
+    {
+        SpeedAndRotation,   // 使用目標速度和旋轉速度
+        SpeedAndAngle,      // 使用目標速度和目標角度
+        SpeedAndPosition,   // 使用目標速度和目標位置
+        SpeedAndTarget      // 使用目標速度和目標物件
+    }
+
+    [Header("Movement Settings")]
+    public MovementMode currentMovementMode = MovementMode.SpeedAndRotation;
+    public float positionReachThreshold = 0.1f;
+    public float angleReachThreshold = 5f;
 
     // ===== 方法 =====
     public virtual void Initialize(string name, float speed, float health)
@@ -204,65 +220,128 @@ public class Ship : MonoBehaviour
         }
     }
 
-    public void MoveToPosition(Vector2 targetPosition)
+
+    public void MoveToPosition(Vector2 position)
     {
-        Debug.Log($"Ship {name} moving to position {targetPosition}.");
-        TargetAzimuthAngle = Mathf.Atan2(targetPosition.y - transform.position.y, targetPosition.x - transform.position.x) * Mathf.Rad2Deg;
-        TargetSpeed = maxSpeed; // 設置最大速度移動
+        currentMovementMode = MovementMode.SpeedAndPosition;
+        TargetPosition = position;
+        TargetSpeed = maxSpeed;
+    }
+
+    public void FollowTarget(Transform targetTransform)
+    {
+        currentMovementMode = MovementMode.SpeedAndTarget;
+        target = targetTransform;
+        TargetSpeed = maxSpeed;
     }
 
     protected virtual void Update()
     {
-        MoveForward(); // Call movement logic
-        HandleRotation(); // Handle rotation logic
-        UpdateHealthUIPosition(); // Ensure health UI follows the ship
+        UpdateMovement(); // 更新移動邏輯
+        UpdateHealthUIPosition(); // 確保 UI 跟隨船艦
     }
 
-    protected void HandleRotation()
+    protected virtual void UpdateMovement()
     {
-        if (RotateMode == RotationMode.Manual) // 如果目標方位角被設定
+        switch (currentMovementMode)
         {
-            TargetAzimuthAngle = Mathf.Repeat(TargetAzimuthAngle, 360f); // 確保範圍在 0 到 360
-            TargetRotationSpeed = 0; // 重置旋轉速度
-            float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, TargetAzimuthAngle);
-            if (Mathf.Abs(angleDifference) > 5f) // 加入緩衝區
-            {
-                currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, 
-                    Mathf.Sign(angleDifference) * maxRotateSpeed, 
-                    rotationAcceleration * Time.deltaTime);
-            }
-            else if (Mathf.Abs(angleDifference) < 0.1f) // 如果接近目標角度
-            {
-                currentRotateSpeed = 0; // 停止旋轉
-                RotateMode = RotationMode.None; // 重置旋轉模式
-            }
-            else
-            {
-                rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
-            }
+            case MovementMode.SpeedAndRotation:
+                MoveWithSpeedAndRotation();
+                break;
+            case MovementMode.SpeedAndAngle:
+                MoveWithSpeedAndAngle();
+                break;
+            case MovementMode.SpeedAndPosition:
+                MoveWithSpeedAndPosition();
+                break;
+            case MovementMode.SpeedAndTarget:
+                MoveWithSpeedAndTarget();
+                break;
+        }
+    }
+
+    // 模式1: 使用目標速度和旋轉速度移動
+    protected virtual void MoveWithSpeedAndRotation()
+    {
+        currentSpeed = Mathf.MoveTowards(currentSpeed, TargetSpeed, acceleration * Time.deltaTime);
+        currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, TargetRotationSpeed, rotationAcceleration * Time.deltaTime);
+        
+        rb.linearVelocity = transform.right * currentSpeed;
+        rb.angularVelocity = currentRotateSpeed;
+    }
+
+    // 模式2: 使用目標速度和目標角度移動
+    protected virtual void MoveWithSpeedAndAngle()
+    {
+        if (TargetAzimuthAngle < 0) return;
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, TargetSpeed, acceleration * Time.deltaTime);
+        
+        float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, TargetAzimuthAngle);
+        
+        if (Mathf.Abs(angleDifference) > angleReachThreshold)
+        {
+            float targetRotSpeed = Mathf.Sign(angleDifference) * maxRotateSpeed;
+            currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotSpeed, rotationAcceleration * Time.deltaTime);
         }
         else
         {
-            currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, TargetRotationSpeed, rotationAcceleration * Time.deltaTime);
-            rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
+            currentRotateSpeed = 0;
+            transform.rotation = Quaternion.Euler(0, 0, TargetAzimuthAngle);
+        }
+
+        rb.linearVelocity = transform.right * currentSpeed;
+        rb.angularVelocity = currentRotateSpeed;
+    }
+
+    // 模式3: 使用目標速度和目標位置移動
+    protected virtual void MoveWithSpeedAndPosition()
+    {
+        if (TargetPosition == Vector2.zero) return;
+
+        Vector2 direction = (TargetPosition - (Vector2)transform.position).normalized;
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
+        TargetAzimuthAngle = targetAngle;
+        MoveWithSpeedAndAngle(); // 重用角度移動邏輯
+
+        // 檢查是否到達目標位置
+        if (Vector2.Distance(transform.position, TargetPosition) < positionReachThreshold)
+        {
+            TargetSpeed = 0;
+            TargetPosition = Vector2.zero;
         }
     }
 
-    protected virtual void MoveForward()
+    // 模式4: 使用目標速度和目標物件移動
+    protected virtual void MoveWithSpeedAndTarget()
     {
-        currentSpeed = Mathf.MoveTowards(currentSpeed, TargetSpeed, acceleration * Time.deltaTime);
-        currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, TargetRotationSpeed, acceleration * Time.deltaTime);
+        if (target == null) return;
+        
+        TargetPosition = target.position;
+        MoveWithSpeedAndPosition(); // 重用位置移動邏輯
+    }
 
+    protected virtual void OnDrawGizmos()
+    {
         if (rb != null)
         {
-            rb.linearVelocity = transform.right * currentSpeed; // Move the ship forward based on its current speed
-            rb.angularVelocity = currentRotateSpeed; // Apply rotation speed
+            Vector2 currentPosition = transform.position;
+            Vector2 direction = transform.right.normalized; // 初始方向
+            float timeStep = 0.1f; // 時間步長
+            int steps = Mathf.CeilToInt(2f / timeStep); // 計算步數 (2 秒內)
 
-            // 修正屬性名稱
-            if (NavMode == NavigationMode.Auto && TargetPosition != Vector2.zero && Vector2.Distance(transform.position, TargetPosition) < 0.1f)
+            Gizmos.color = Color.green; // 設定線條顏色
+
+            for (int i = 0; i < steps; i++)
             {
-                TargetSpeed = 0; // 停止移動
-                TargetPosition = Vector2.zero; // 重置目標位置
+                Vector2 nextPosition = currentPosition + direction * currentSpeed * timeStep;
+                Gizmos.DrawLine(currentPosition, nextPosition); // 繪製曲線的一段
+                currentPosition = nextPosition;
+
+                // 根據旋轉速度更新方向
+                float rotationDelta = currentRotateSpeed * timeStep;
+                direction = Quaternion.Euler(0, 0, rotationDelta) * direction;
             }
         }
     }
