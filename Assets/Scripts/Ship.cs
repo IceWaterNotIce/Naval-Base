@@ -146,13 +146,21 @@ public class Ship : MonoBehaviour
         SpeedAndRotation,   // 使用目標速度和旋轉速度
         SpeedAndAngle,      // 使用目標速度和目標角度
         SpeedAndPosition,   // 使用目標速度和目標位置
-        SpeedAndTarget      // 使用目標速度和目標物件
+        SpeedAndTarget,     // 使用目標速度和目標物件
+        RandomMovement      // 新增：在矩形範圍內隨機移動
     }
 
     [Header("Movement Settings")]
     public MovementMode currentMovementMode = MovementMode.SpeedAndRotation;
     public float positionReachThreshold = 0.1f;
     public float angleReachThreshold = 5f;
+
+    // 新增矩形範圍設定
+    [Header("Random Movement Settings")]
+    public Rect movementBounds = new Rect(-5, -5, 10, 10); // 預設移動範圍 (x,y,width,height)
+    public float randomMovementChangeInterval = 3f; // 目標位置變更間隔(秒)
+    private float randomMovementTimer = 0f;
+    private Vector2 randomTargetPosition; // 隨機移動的目標位置
 
     // ===== 方法 =====
     public virtual void Initialize(string name, float speed, float health)
@@ -235,6 +243,24 @@ public class Ship : MonoBehaviour
         TargetSpeed = maxSpeed;
     }
 
+    // 新增方法：開始隨機移動
+    public void StartRandomMovement()
+    {
+        currentMovementMode = MovementMode.RandomMovement;
+        TargetSpeed = maxSpeed * 0.5f; // 使用一半的最大速度進行隨機移動
+        GenerateRandomTargetPosition(); // 生成第一個隨機目標位置
+    }
+
+    // 新增方法：生成隨機目標位置
+    private void GenerateRandomTargetPosition()
+    {
+        randomTargetPosition = new Vector2(
+            Random.Range(movementBounds.xMin, movementBounds.xMax),
+            Random.Range(movementBounds.yMin, movementBounds.yMax)
+        );
+        Debug.Log($"New random target position: {randomTargetPosition}");
+    }
+
     protected virtual void Update()
     {
         UpdateMovement(); // 更新移動邏輯
@@ -256,6 +282,9 @@ public class Ship : MonoBehaviour
                 break;
             case MovementMode.SpeedAndTarget:
                 MoveWithSpeedAndTarget();
+                break;
+            case MovementMode.RandomMovement: // 新增：隨機移動處理
+                MoveRandomly();
                 break;
         }
     }
@@ -322,24 +351,44 @@ public class Ship : MonoBehaviour
         MoveWithSpeedAndPosition(); // 重用位置移動邏輯
     }
 
+    // 新增方法：隨機移動邏輯
+    protected virtual void MoveRandomly()
+    {
+        // 更新計時器
+        randomMovementTimer += Time.deltaTime;
+        
+        // 如果到達間隔時間或已到達目標位置，生成新的隨機目標
+        if (randomMovementTimer >= randomMovementChangeInterval || 
+            Vector2.Distance(transform.position, randomTargetPosition) < positionReachThreshold)
+        {
+            randomMovementTimer = 0f;
+            GenerateRandomTargetPosition();
+        }
+        
+        // 使用現有的位置移動邏輯
+        TargetPosition = randomTargetPosition;
+        MoveWithSpeedAndPosition();
+    }
+
     protected virtual void OnDrawGizmos()
     {
+        // 繪製移動範圍
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(movementBounds.center, movementBounds.size);
+        
         if (rb != null)
         {
             Vector2 currentPosition = transform.position;
-            Vector2 direction = transform.right.normalized; // 初始方向
-            float timeStep = 0.1f; // 時間步長
-            int steps = Mathf.CeilToInt(2f / timeStep); // 計算步數 (2 秒內)
+            Vector2 direction = transform.right.normalized;
+            float timeStep = 0.1f;
+            int steps = Mathf.CeilToInt(2f / timeStep);
 
-            Gizmos.color = Color.green; // 設定線條顏色
-
+            Gizmos.color = Color.green;
             for (int i = 0; i < steps; i++)
             {
                 Vector2 nextPosition = currentPosition + direction * currentSpeed * timeStep;
-                Gizmos.DrawLine(currentPosition, nextPosition); // 繪製曲線的一段
+                Gizmos.DrawLine(currentPosition, nextPosition);
                 currentPosition = nextPosition;
-
-                // 根據旋轉速度更新方向
                 float rotationDelta = currentRotateSpeed * timeStep;
                 direction = Quaternion.Euler(0, 0, rotationDelta) * direction;
             }
