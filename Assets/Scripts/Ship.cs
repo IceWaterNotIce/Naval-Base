@@ -308,8 +308,8 @@ public class Ship : MonoBehaviour
     protected virtual void MoveWithSpeedAndRotation()
     {
         currentSpeed = Mathf.MoveTowards(currentSpeed, TargetSpeed, acceleration * Time.deltaTime);
-        currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, TargetRotationSpeed, rotationAcceleration * Time.deltaTime);
-        
+        currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, TargetRotationSpeed * (currentSpeed / maxSpeed), rotationAcceleration * Time.deltaTime); // 根據速度調整旋轉速度
+
         rb.linearVelocity = transform.right * currentSpeed;
         rb.angularVelocity = currentRotateSpeed;
     }
@@ -320,12 +320,11 @@ public class Ship : MonoBehaviour
         if (TargetAzimuthAngle < 0) return;
 
         currentSpeed = Mathf.MoveTowards(currentSpeed, TargetSpeed, acceleration * Time.deltaTime);
-        
         float angleDifference = Mathf.DeltaAngle(transform.eulerAngles.z, TargetAzimuthAngle);
-        
+
         if (Mathf.Abs(angleDifference) > angleReachThreshold)
         {
-            float targetRotSpeed = Mathf.Sign(angleDifference) * maxRotateSpeed;
+            float targetRotSpeed = Mathf.Sign(angleDifference) * maxRotateSpeed * (currentSpeed / maxSpeed); // 根據速度調整旋轉速度
             currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotSpeed, rotationAcceleration * Time.deltaTime);
         }
         else
