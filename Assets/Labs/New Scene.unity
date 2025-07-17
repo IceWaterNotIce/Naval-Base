@@ -118,11 +118,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!223 &182211616 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8031584460528149593, guid: b4a4f14a03c712745afaf4593c8b47e1, type: 3}
-  m_PrefabInstance: {fileID: 2140691057}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &674086757
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,10 +373,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2590127604889404664, guid: b4a4f14a03c712745afaf4593c8b47e1, type: 3}
-      propertyPath: UICanvas
-      value: 
-      objectReference: {fileID: 182211616}
     - target: {fileID: 5629902364324232582, guid: b4a4f14a03c712745afaf4593c8b47e1, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
