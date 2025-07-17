@@ -21,6 +21,7 @@ public class Ship : MonoBehaviour
     }
 
     // ===== 血量 (Health) 相關 =====
+    [SerializeField] // 顯示在 Inspector 中
     private float m_health; // 私有字段
     public float Health // 公共屬性
     {
@@ -335,16 +336,16 @@ public class Ship : MonoBehaviour
 
         if (Mathf.Abs(angleDifference) > angleReachThreshold)
         {
-            float targetRotSpeed = Mathf.Sign(angleDifference) * maxRotateSpeed * (currentSpeed / maxSpeed); // 根據速度調整旋轉速度
+            float targetRotSpeed = Mathf.Sign(angleDifference) * maxRotateSpeed * (currentSpeed / maxSpeed);
             currentRotateSpeed = Mathf.MoveTowards(currentRotateSpeed, targetRotSpeed, rotationAcceleration * Time.deltaTime);
         }
         else
         {
             currentRotateSpeed = 0;
-            transform.rotation = Quaternion.Euler(0, 0, TargetAzimuthAngle);
+            transform.rotation = Quaternion.Euler(0, 0, TargetAzimuthAngle); // 更新船艦方向
         }
 
-        rb.linearVelocity = transform.right * currentSpeed;
+        rb.linearVelocity = transform.right * currentSpeed; // 使用船艦方向更新速度
         rb.angularVelocity = currentRotateSpeed;
     }
 

@@ -33,7 +33,7 @@ public class EnemyShip : Warship
 
     private void UpdateTarget()
     {
-        // 優先檢測最近的玩家船隻
+        // 確保 "PlayerShip" 層存在
         Collider2D[] playerShips = Physics2D.OverlapCircleAll(transform.position, playerShipDetectionRadius, LayerMask.GetMask("PlayerShip"));
         Transform closestPlayerShip = null;
         float closestDistance = float.MaxValue;
@@ -54,7 +54,11 @@ public class EnemyShip : Warship
         }
         else
         {
-            target = GameObject.FindWithTag("NavalBase")?.transform; // 如果沒有玩家船隻，目標為 NavalBase
+            Transform navalBase = GameObject.FindWithTag("NavalBase")?.transform;
+            if (navalBase != null)
+            {
+                target = navalBase; // 如果沒有玩家船隻，目標為 NavalBase
+            }
         }
     }
 
@@ -64,24 +68,16 @@ public class EnemyShip : Warship
         {
             float distance = Vector3.Distance(transform.position, target.position);
 
-            if (distance > minDistanceToNavalBase && distance <= 5f) // Within attack range but not too close
+            if (distance > minDistanceToNavalBase && distance <= 6f) // 調整距離閾值
             {
                 OrbitAroundNavalBase(); // Move around the naval base
             }
-            else if (distance > 5f) // Too far from the naval base
+            else
             {
                 Vector3 direction = (target.position - transform.position).normalized;
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-                TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
-                TargetSpeed = maxSpeed; // 使用基類的速度邏輯
-            }
-            else // Too close to the naval base
-            {
-                Vector3 direction = (transform.position - target.position).normalized;
-                float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-                TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+                TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 使用目標角度更新方向
                 TargetSpeed = maxSpeed; // 使用基類的速度邏輯
             }
         }
@@ -97,7 +93,7 @@ public class EnemyShip : Warship
             Vector3 orbitDirection = new Vector3(-direction.y, direction.x, 0).normalized;
             float targetAngle = Mathf.Atan2(orbitDirection.y, orbitDirection.x) * Mathf.Rad2Deg;
 
-            TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 確保範圍在 0 到 360
+            TargetAzimuthAngle = Mathf.Repeat(targetAngle, 360f); // 使用軌道角度更新方向
             TargetSpeed = orbitSpeed; // 使用基類的速度邏輯
         }
     }
@@ -115,11 +111,18 @@ public class EnemyShip : Warship
         if (ammoPrefab != null && firePoint != null && target != null)
         {
             AmmoManager ammoManager = FindFirstObjectByType<AmmoManager>();
-            GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform);
-            if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript))
+            if (ammoManager != null)
             {
-                string targetTag = target.CompareTag("PlayerShip") ? "PlayerShip" : "NavalBase";
-                ammoScript.SetTarget(target.position, targetTag);
+                GameObject ammo = Instantiate(ammoPrefab, firePoint.position, firePoint.rotation, ammoManager.transform);
+                if (ammo.TryGetComponent<Ammo>(out Ammo ammoScript))
+                {
+                    string targetTag = target.CompareTag("PlayerShip") ? "PlayerShip" : "NavalBase";
+                    ammoScript.SetTarget(target.position, targetTag);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("AmmoManager not found in the scene.");
             }
         }
     }
@@ -135,10 +138,14 @@ public class EnemyShip : Warship
 
     private void RewardPlayer()
     {
-        NavalBaseController navalBase = GameObject.FindWithTag("NavalBase").GetComponent<NavalBaseController>();
+        NavalBaseController navalBase = GameObject.FindWithTag("NavalBase")?.GetComponent<NavalBaseController>();
         if (navalBase != null)
         {
             navalBase.AddGold(goldReward);
+        }
+        else
+        {
+            Debug.LogWarning("NavalBaseController not found.");
         }
 
         PlayerShip playerShip = FindFirstObjectByType<PlayerShip>();
@@ -146,6 +153,9 @@ public class EnemyShip : Warship
         {
             playerShip.GainExperience(experienceReward); // 獎勵經驗值給玩家船隻
         }
+        else
+        {
+            Debug.LogWarning("PlayerShip not found.");
+        }
     }
 }
-
