@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class PlayerShip : Warship
 {
-    private LayerMask m_enemyLayer = LayerMask.GetMask("EnemyShip"); // 初始化敵人圖層
-    private float m_detectionRadius = 10f; // 檢測敵人的半徑
+    private LayerMask m_enemyLayer;
+    public float m_detectionRadius = 10f; // 檢測敵人的半徑
+    void Awake()
+    {
+        m_enemyLayer = LayerMask.GetMask("Enemy"); // 獲取敵人船隻的 LayerMask
+    }
 
     protected override void Update()
     {
