@@ -428,4 +428,13 @@ public class Ship : MonoBehaviour
             }
         }
     }
+
+    protected virtual void Awake()
+    {
+        if (Health <= 0)
+        {
+            Debug.LogWarning($"{ShipName} has no health and will be destroyed.");
+            DestroyShip(); // 如果健康值為 0 或更低，銷毀船艦
+        }
+    }
 }

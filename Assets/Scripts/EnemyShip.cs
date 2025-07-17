@@ -70,10 +70,12 @@ public class EnemyShip : Warship
 
             if (distance > minDistanceToNavalBase && distance <= 6f) // 調整距離閾值
             {
+                currentMovementMode = MovementMode.SpeedAndTarget; // 設置移動模式
                 OrbitAroundNavalBase(); // Move around the naval base
             }
             else
             {
+                currentMovementMode = MovementMode.SpeedAndAngle; // 設置移動模式
                 Vector3 direction = (target.position - transform.position).normalized;
                 float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
