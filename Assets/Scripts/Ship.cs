@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DamageTextHelper; // 引入傷害數字顯示的命名空間
+using System.Collections.Generic; // 引入列表支持
 
 public class Ship : MonoBehaviour
 {
@@ -190,8 +191,28 @@ public class Ship : MonoBehaviour
         }
     }
 
+    private List<Vector2> movementHistory = new List<Vector2>(); // 記錄移動路徑
+    private const int maxHistoryPoints = 100; // 最大記錄點數
+
+    protected virtual void Update()
+    {
+        UpdateMovement(); // 更新移動邏輯
+        UpdateHealthUIPosition(); // 確保 UI 跟隨船艦
+
+        // 記錄移動路徑
+        if (Time.frameCount % 3 == 0) // 每3幀記錄一次以減少性能開銷
+        {
+            movementHistory.Add(transform.position);
+            if (movementHistory.Count > maxHistoryPoints)
+            {
+                movementHistory.RemoveAt(0); // 移除最早的記錄點
+            }
+        }
+    }
+
     protected virtual void DestroyShip()
     {
+        movementHistory.Clear(); // 清除歷史數據
         Destroy(gameObject);
     }
 
@@ -259,12 +280,6 @@ public class Ship : MonoBehaviour
             Random.Range(movementBounds.yMin, movementBounds.yMax)
         );
         Debug.Log($"New random target position: {randomTargetPosition}");
-    }
-
-    protected virtual void Update()
-    {
-        UpdateMovement(); // 更新移動邏輯
-        UpdateHealthUIPosition(); // 確保 UI 跟隨船艦
     }
 
     protected virtual void UpdateMovement()
@@ -375,15 +390,23 @@ public class Ship : MonoBehaviour
         // 繪製移動範圍
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(movementBounds.center, movementBounds.size);
-        
+
         if (rb != null)
         {
+            // 繪製已移動的實際路徑（紅色）
+            Gizmos.color = Color.red;
+            for (int i = 1; i < movementHistory.Count; i++)
+            {
+                Gizmos.DrawLine(movementHistory[i - 1], movementHistory[i]);
+            }
+
+            // 繪製未來移動預測路徑（綠色）
+            Gizmos.color = Color.green;
             Vector2 currentPosition = transform.position;
             Vector2 direction = transform.right.normalized;
             float timeStep = 0.1f;
             int steps = Mathf.CeilToInt(2f / timeStep);
 
-            Gizmos.color = Color.green;
             for (int i = 0; i < steps; i++)
             {
                 Vector2 nextPosition = currentPosition + direction * currentSpeed * timeStep;
