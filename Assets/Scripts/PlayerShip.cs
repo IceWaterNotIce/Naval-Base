@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerShip : Warship
 {
-    private LayerMask m_enemyLayer; // 用於檢測敵人的圖層
+    private LayerMask m_enemyLayer = LayerMask.GetMask("EnemyShip"); // 初始化敵人圖層
     private float m_detectionRadius = 10f; // 檢測敵人的半徑
 
     protected override void Update()
@@ -17,7 +17,7 @@ public class PlayerShip : Warship
         {
             if (enemy != null)
             {
-                ShootAmmoAtEnemy(enemy.transform);
+                ShootAmmoAtEnemy(enemy.transform); // 對檢測到的敵人射擊
             }
         }
     }
