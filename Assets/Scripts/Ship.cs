@@ -163,6 +163,10 @@ public class Ship : MonoBehaviour
     private float randomMovementTimer = 0f;
     private Vector2 randomTargetPosition; // 隨機移動的目標位置
 
+    // 新增粒子系統設定
+    [Header("Particle System Settings")]
+    public ParticleSystem shipParticleSystem; // 粒子系統
+
     // ===== 方法 =====
     public virtual void Initialize(string name, float speed, float health)
     {
@@ -198,6 +202,13 @@ public class Ship : MonoBehaviour
     {
         UpdateMovement(); // 更新移動邏輯
         UpdateHealthUIPosition(); // 確保 UI 跟隨船艦
+
+        // 更新粒子系統的生命週期
+        if (shipParticleSystem != null)
+        {
+            var mainModule = shipParticleSystem.main;
+            mainModule.startLifetime = currentSpeed * 10; // 粒子生命週期根據速度調整
+        }
 
         // 記錄移動路徑
         if (Time.frameCount % 3 == 0) // 每3幀記錄一次以減少性能開銷

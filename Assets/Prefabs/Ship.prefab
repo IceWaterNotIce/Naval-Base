@@ -229,7 +229,7 @@ MonoBehaviour:
   rotationAcceleration: 10
   maxRotateSpeed: 200
   target: {fileID: 0}
-  rb: {fileID: 0}
+  rb: {fileID: 4423954513793788216}
   currentMovementMode: 0
   positionReachThreshold: 0.1
   angleReachThreshold: 5
@@ -240,6 +240,7 @@ MonoBehaviour:
     width: 10
     height: 10
   randomMovementChangeInterval: 3
+  shipParticleSystem: {fileID: 2916344426972043421}
 --- !u!212 &5135344872581193433
 SpriteRenderer:
   m_ObjectHideFlags: 0

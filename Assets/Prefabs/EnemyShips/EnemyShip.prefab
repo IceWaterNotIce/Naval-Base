@@ -265,6 +265,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!198 &1472550932133930342 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2836290615235834288, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 3689303570150364374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2081521309544874529 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3445260958815000311, guid: 618ee0746856850419d21f9deda68413, type: 3}
@@ -304,6 +309,17 @@ MonoBehaviour:
   maxRotateSpeed: 200
   target: {fileID: 0}
   rb: {fileID: 104261996130768067}
+  currentMovementMode: 0
+  positionReachThreshold: 0.1
+  angleReachThreshold: 5
+  movementBounds:
+    serializedVersion: 2
+    x: -5
+    y: -5
+    width: 10
+    height: 10
+  randomMovementChangeInterval: 3
+  shipParticleSystem: {fileID: 1472550932133930342}
   firePoint: {fileID: 4780725817443624407}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1
