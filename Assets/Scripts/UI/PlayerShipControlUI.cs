@@ -27,7 +27,12 @@ public class PlayerShipControlUI : MonoBehaviour
     private Vector3 cameraVelocity = Vector3.zero;
     private bool isFollowingShip = false;
     private bool isMoveToPositionMode = false; // 新增：是否啟用移動模式
+[Header("Move To Position")]
+    public Image positionIcon; // 新增：移動目標位置圖示
+    public Canvas shipUICanvas; // 新增：船隻UI畫布
+    public float iconDisplayDuration = 2f; // 圖示顯示時間
 
+    private Coroutine iconDisplayCoroutine; // 用於控制圖示顯示的協程
     void Start()
     {
         controlPanel.SetActive(false); // Hide the control panel initially
@@ -58,6 +63,11 @@ public class PlayerShipControlUI : MonoBehaviour
         if (moveToPositionButton != null)
         {
             moveToPositionButton.onClick.AddListener(EnableMoveToPositionMode);
+        }
+
+        if (positionIcon != null)
+        {
+            positionIcon.gameObject.SetActive(false);
         }
     }
 
@@ -138,8 +148,55 @@ public class PlayerShipControlUI : MonoBehaviour
             }
             isMoveToPositionMode = false; // 點擊後退出移動模式
         }
+
+                if (isMoveToPositionMode && Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePosition = Input.mousePosition;
+            Vector3 worldPosition = mainCamera.ScreenToWorldPoint(mousePosition);
+            worldPosition.z = 0;
+            
+            if (selectedShip != null)
+            {
+                selectedShip.MoveToPosition(worldPosition);
+                ShowPositionIcon(worldPosition); // 顯示位置圖示
+            }
+            
+            isMoveToPositionMode = false;
+        }
+    }
+private void ShowPositionIcon(Vector3 worldPosition)
+    {
+        if (positionIcon == null || shipUICanvas == null) return;
+
+        // 停止正在執行的協程（如果有的話）
+        if (iconDisplayCoroutine != null)
+        {
+            StopCoroutine(iconDisplayCoroutine);
+        }
+
+        // 將世界座標轉換為UI座標
+        Vector2 screenPosition = mainCamera.WorldToScreenPoint(worldPosition);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            shipUICanvas.transform as RectTransform,
+            screenPosition,
+            shipUICanvas.worldCamera,
+            out Vector2 canvasPosition
+        );
+
+        // 設置圖示位置
+        positionIcon.rectTransform.anchoredPosition = canvasPosition;
+        positionIcon.gameObject.SetActive(true);
+
+        // 啟動協程在指定時間後隱藏圖示
+        iconDisplayCoroutine = StartCoroutine(HideIconAfterDelay());
     }
 
+    private System.Collections.IEnumerator HideIconAfterDelay()
+    {
+        yield return new WaitForSeconds(iconDisplayDuration);
+        positionIcon.gameObject.SetActive(false);
+        iconDisplayCoroutine = null;
+    }
     public void SelectShip(PlayerShip ship)
     {
         Debug.Log($"Ship {ship.name} selected."); // Debug log
