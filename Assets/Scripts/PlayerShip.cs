@@ -46,7 +46,7 @@ public class PlayerShip : Warship
         Debug.Log($"PlayerShip {name} clicked."); // Log when the ship is clicked
 
         // Try to find the UI in the scene
-        PlayerShipControlUI controlUI = FindFirstObjectByType<PlayerShipControlUI>();
+        PlayerShipUI controlUI = FindFirstObjectByType<PlayerShipUI>();
         if (controlUI == null)
         {
             // If not found, load from Resources and add to UI Canvas
@@ -57,8 +57,8 @@ public class PlayerShip : Warship
                 if (uiCanvas != null)
                 {
                     GameObject uiInstance = Instantiate(uiPrefab, uiCanvas.transform);
-                    controlUI = uiInstance.GetComponent<PlayerShipControlUI>();
-                    Debug.Log("PlayerShipControlUI loaded from Resources and added to Canvas.");
+                    controlUI = uiInstance.GetComponent<PlayerShipUI>();
+                    Debug.Log("PlayerShipUI loaded from Resources and added to Canvas.");
                 }
                 else
                 {
