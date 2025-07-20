@@ -6,9 +6,14 @@ public class ShipParticleSystemController : MonoBehaviour
 
     private Ship m_linkedShip;
 
-    public void Initialize(Ship ship)
+    private void Awake()
     {
-        m_linkedShip = ship;
+        // 自動從父物件獲取 Ship 組件
+        m_linkedShip = GetComponentInParent<Ship>();
+        if (m_linkedShip == null)
+        {
+            Debug.LogWarning("No Ship component found in parent hierarchy.");
+        }
     }
 
     private void Update()

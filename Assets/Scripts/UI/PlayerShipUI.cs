@@ -13,6 +13,7 @@ public class PlayerShipUI : ShipUI
     public float cameraFollowSmoothTime = 0.3f;
     private Vector3 cameraVelocity = Vector3.zero;
     private bool isFollowingShip = false;
+    private bool isFollowSizeSet = false; // 新增標誌變數
 
     void Start()
     {
@@ -49,6 +50,7 @@ public class PlayerShipUI : ShipUI
         controlUI.gameObject.SetActive(false);
         detailUI.gameObject.SetActive(false);
         isFollowingShip = false;
+        isFollowSizeSet = false; // 重置標誌，允許下次重新設置相機大小
     }
 
     public void CancelCameraFollow()
@@ -84,13 +86,10 @@ public class PlayerShipUI : ShipUI
             cameraFollowSmoothTime
         );
 
-        if (mainCamera.orthographic)
+        if (mainCamera.orthographic && !isFollowSizeSet)
         {
-            mainCamera.orthographicSize = Mathf.Lerp(
-                mainCamera.orthographicSize, 
-                followSize, 
-                Time.deltaTime * 5f
-            );
+            mainCamera.orthographicSize = followSize;
+            isFollowSizeSet = true; // 設置標誌為 true，避免重複設置
         }
     }
 }
