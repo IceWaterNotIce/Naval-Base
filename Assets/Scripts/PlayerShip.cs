@@ -4,7 +4,7 @@ public class PlayerShip : Warship
 {
     private LayerMask m_enemyLayer;
     public float m_detectionRadius = 10f; // 檢測敵人的半徑
-    void Awake()
+    new void Awake()
     {
         m_enemyLayer = LayerMask.GetMask("Enemy"); // 獲取敵人船隻的 LayerMask
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerShipUI : MonoBehaviour
+public class PlayerShipUI : ShipUI
 {
     public PlayerShipControlUI controlUI;
     public PlayerShipDetailUI detailUI;

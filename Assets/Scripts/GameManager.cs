@@ -279,7 +279,6 @@ public class GameManager : MonoBehaviour
                 if (enemyScript != null && i < loadedData.enemyHealth.Count)
                 {
                     enemyScript.Health = loadedData.enemyHealth[i]; // 使用 Health 屬性
-                    enemyScript.UpdateHealthUI(); // 調用公開的 UpdateHealthUI 方法
                 }
             }
 
@@ -370,7 +369,6 @@ public class GameManager : MonoBehaviour
                 if (playerShipScript != null)
                 {
                     playerShipScript.Health = shipData.health;
-                    playerShipScript.UpdateHealthUI();
                 }
                 playerShipManager.playerShips.Add(newShip); // 添加到 PlayerShipManager 的玩家船隻列表
             }

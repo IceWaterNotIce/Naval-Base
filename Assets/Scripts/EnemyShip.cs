@@ -15,14 +15,11 @@ public class EnemyShip : Warship
         base.Initialize(name, speed, health);
         rb = GetComponent<Rigidbody2D>(); // Get Rigidbody2D component
         UpdateTarget(); // 更新目標
-        UpdateHealthUI(); // Initialize health display
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // Get Rigidbody2D component
-        SetCanvasEventCamera(); // Call method from Ship class
-        UpdateHealthUI(); // Call method from Ship class
     }
     protected override void Update()
     {

@@ -42,11 +42,14 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (ship == null) return;
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && moveToPositionButton.interactable)
         {
             Vector3 mousePosition = Input.mousePosition;
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
             worldPosition.z = 0;
+
+            Debug.Log($"Mouse Position: {mousePosition}");
+            Debug.Log($"World Position: {worldPosition}");
             
             if (ship != null)
             {
@@ -86,11 +89,6 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (positionIcon == null || shipUICanvas == null) return;
 
-        if (iconDisplayCoroutine != null)
-        {
-            StopCoroutine(iconDisplayCoroutine);
-        }
-
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             shipUICanvas.transform as RectTransform,
@@ -101,13 +99,5 @@ public class PlayerShipControlUI : MonoBehaviour
 
         positionIcon.rectTransform.anchoredPosition = canvasPosition;
         positionIcon.gameObject.SetActive(true);
-        iconDisplayCoroutine = StartCoroutine(HideIconAfterDelay());
-    }
-
-    private System.Collections.IEnumerator HideIconAfterDelay()
-    {
-        yield return new WaitForSeconds(iconDisplayDuration);
-        positionIcon.gameObject.SetActive(false);
-        iconDisplayCoroutine = null;
     }
 }
