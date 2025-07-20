@@ -467,11 +467,11 @@ RectTransform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 2380487532735028779}
+  m_Father: {fileID: 6784111330610186472}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.77, y: 0.57}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7541033809003047505
@@ -3433,7 +3433,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3678356034650149651, guid: 618ee0746856850419d21f9deda68413, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4589815074810993481}
-    - targetCorrespondingSourceObject: {fileID: 3678356034650149651, guid: 618ee0746856850419d21f9deda68413, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 5486251658678584784, guid: 618ee0746856850419d21f9deda68413, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8868250508439612789}
     m_AddedComponents:
@@ -3462,6 +3462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WorldSpaceCanvas: {fileID: 8031584460528149593}
+  StaticCanvas: {fileID: 4383241744630582940}
   controlUI: {fileID: 6153686436648362475}
   detailUI: {fileID: 4514406703675216749}
   followSize: 10
@@ -3558,6 +3559,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!223 &4383241744630582940 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 3373603747237774244, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 1298467841658735928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4514406703675216749 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3216539241209290325, guid: 618ee0746856850419d21f9deda68413, type: 3}
@@ -3602,6 +3608,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &6784111330610186472 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5486251658678584784, guid: 618ee0746856850419d21f9deda68413, type: 3}
+  m_PrefabInstance: {fileID: 1298467841658735928}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7164826092291161145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8172774116208718081, guid: 618ee0746856850419d21f9deda68413, type: 3}

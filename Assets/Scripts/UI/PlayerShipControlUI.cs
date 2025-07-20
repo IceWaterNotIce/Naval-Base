@@ -89,15 +89,7 @@ public class PlayerShipControlUI : MonoBehaviour
     {
         if (positionIcon == null || shipUICanvas == null) return;
 
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            shipUICanvas.transform as RectTransform,
-            screenPosition,
-            shipUICanvas.worldCamera,
-            out Vector2 canvasPosition
-        );
-
-        positionIcon.rectTransform.anchoredPosition = canvasPosition;
+        positionIcon.rectTransform.anchoredPosition = worldPosition;
         positionIcon.gameObject.SetActive(true);
     }
 }

@@ -21,8 +21,10 @@ public class PlayerShipUI : ShipUI
         detailUI.gameObject.SetActive(false);
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update(); // Call base class Update for ShipUI functionality
+
         if (selectedShip != null)
         {
             UpdateCameraFollow();

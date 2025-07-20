@@ -4,39 +4,26 @@ public class ShipUI : MonoBehaviour
 {
     [Header("UI References")]
     public Canvas WorldSpaceCanvas;
-  
-
-    private Ship m_linkedShip;
-    public Ship LinkedShip
-    {
-        get => m_linkedShip;
-        set
-        {
-            m_linkedShip = value;
-            if (m_linkedShip != null)
-            {
-                SetCanvasEventCamera();
-            }
-        }
-    }
+    public Canvas StaticCanvas;
+    private Ship LinkedShip;
 
     private void Awake()
     {
-        if (WorldSpaceCanvas == null)
+        FindShipInParent();
+    }
+
+    private void FindShipInParent()
+    {
+        LinkedShip = GetComponentInParent<Ship>();
+        if (LinkedShip == null)
         {
-            WorldSpaceCanvas = GetComponent<Canvas>();
+            Debug.LogWarning("No Ship component found in parent hierarchy.");
         }
     }
 
-    public void Initialize(Ship ship)
+    protected virtual void Update()
     {
-        m_linkedShip = ship;
-        SetCanvasEventCamera();
-    }
-
-    private void Update()
-    {
-        if (m_linkedShip != null)
+        if (LinkedShip != null)
         {
             UpdateUIPosition();
         }
@@ -48,13 +35,12 @@ public class ShipUI : MonoBehaviour
         {
             WorldSpaceCanvas.transform.rotation = Quaternion.identity;
         }
-    }
 
-    public void SetCanvasEventCamera()
-    {
-        if (WorldSpaceCanvas != null && Camera.main != null)
+        if (StaticCanvas != null)
         {
-            WorldSpaceCanvas.worldCamera = Camera.main;
+            // Set the position of StaticCanvas to the world space position without linkship transform
+            StaticCanvas.transform.position = Vector3.zero; // Corrected to Vector3.zero
+            StaticCanvas.transform.rotation = Quaternion.identity; // Maintain fixed rotation
         }
     }
 }
