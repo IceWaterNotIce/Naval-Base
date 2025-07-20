@@ -37,7 +37,7 @@ public class Ship : MonoBehaviour
     [Header("Speed Settings")]
 
     [SerializeField]
-    protected float m_currentSpeed = 0f;
+    protected float m_currentSpeed;
     public float CurrentSpeed
     {
         get => m_currentSpeed;
@@ -278,17 +278,36 @@ public class Ship : MonoBehaviour
     {
         if (TargetPosition == Vector2.zero) return;
 
+        // 計算方向與距離
         Vector2 direction = (TargetPosition - (Vector2)transform.position).normalized;
-        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float distance = Vector2.Distance(transform.position, TargetPosition);
 
-        TargetAzimuthAngle = targetAngle;
-        MoveWithSpeedAndAngle();
+        // 計算減速所需的距離
+        float decelerationDistance = (m_currentSpeed * m_currentSpeed) / (2f * acceleration);
 
-        if (Vector2.Distance(transform.position, TargetPosition) < positionReachThreshold)
+        // 如果距離小於減速距離，開始減速
+        if (distance <= decelerationDistance)
+        {
+            TargetSpeed = 0f; // 設定目標速度為 0，讓船艦平滑減速
+        }
+        else
+        {
+            TargetSpeed = maxSpeed; // 否則保持最高速度
+        }
+
+        // 如果已經非常接近目標位置，強制停止
+        if (distance < positionReachThreshold)
         {
             TargetSpeed = 0;
             TargetPosition = Vector2.zero;
+            currentMovementMode = MovementMode.SpeedAndRotation; // 切換回速度和旋轉模式
+            return;
         }
+
+        // 正常移動邏輯
+        float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        TargetAzimuthAngle = targetAngle;
+        MoveWithSpeedAndAngle();
     }
 
     protected virtual void MoveWithSpeedAndTarget()
