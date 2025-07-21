@@ -44,6 +44,13 @@ public class Warship : Ship
     #endregion
 
     #region Unity生命週期
+    void OnEnable()
+    {
+        // 自動從子物件中獲取所有武器
+        weapons.Clear();
+        weapons.AddRange(GetComponentsInChildren<Weapon>());
+    }
+
     void Start()
     {
         UpdateLevelUI();
