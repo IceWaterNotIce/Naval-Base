@@ -5,6 +5,7 @@
 // 功能描述: 戰艦基礎類別，包含攻擊、偵測、升級系統
 // =============================================
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ public class Warship : Ship
     private float stealthFactor = 5f;      // 隱蔽值
     private float environmentModifier = 0f; // 環境修正值
     private float detectionThreshold = 10f; // 偵測閾值
+    public List<int> enemyLayerMasks = new List<int>(); // 敵人圖層遮罩列表
     #endregion
 
     #region 攻擊系統變數
@@ -148,21 +150,24 @@ public class Warship : Ship
 
     private void DetectNearbyEnemies()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectDistance);
-        foreach (var hit in hits)
+        foreach (int layerMask in enemyLayerMasks)
         {
-            Warship enemy = hit.GetComponent<Warship>();
-            if (enemy == null || enemy == this) continue;
+            Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectDistance, 1 << layerMask);
+            foreach (var hit in hits)
+            {
+                Warship enemy = hit.GetComponent<Warship>();
+                if (enemy == null || enemy == this) continue;
 
-            float detectionCertainty = CalculateDetectionCertainty(enemy);
-            if (detectionCertainty > 0.7f)
-            {
-                Debug.Log($"[確信] 偵測到 {enemy.ShipName}！");
-                enemy.OnDetected(this);
-            }
-            else if (detectionCertainty > 0.3f)
-            {
-                Debug.Log($"[懷疑] 可能發現 {enemy.ShipName}...");
+                float detectionCertainty = CalculateDetectionCertainty(enemy);
+                if (detectionCertainty > 0.7f)
+                {
+                    Debug.Log($"[確信] 偵測到 {enemy.ShipName}！");
+                    enemy.OnDetected(this);
+                }
+                else if (detectionCertainty > 0.3f)
+                {
+                    Debug.Log($"[懷疑] 可能發現 {enemy.ShipName}...");
+                }
             }
         }
     }
