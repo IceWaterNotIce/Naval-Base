@@ -79,7 +79,7 @@ public class Warship : Ship
     #endregion
 
     #region 攻擊系統
-    public override void HandleAttack()
+    public void HandleAttack()
     {
         foreach (var weapon in weapons)
         {
@@ -105,11 +105,10 @@ public class Warship : Ship
         m_level++;
         m_experience -= m_experienceToNextLevel;
         m_experienceToNextLevel += 50; // 每次升級增加所需經驗值
-        m_attackDamage += 1;           // 提升攻擊傷害
         maxHealth += 10;               // 提升最大血量
         Health = maxHealth;            // 恢復血量
-        
-        Debug.Log($"Warship leveled up to {m_level}! Attack Damage: {m_attackDamage}, Max Health: {maxHealth}");
+
+        Debug.Log($"Warship leveled up to {m_level}! Max Health: {maxHealth}");
         UpdateLevelUI();
         UpdateExperienceUI();
     }

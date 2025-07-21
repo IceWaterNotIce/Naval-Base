@@ -3,6 +3,9 @@ using UnityEngine;
 public class PlayerShip : Warship
 {
     private LayerMask m_enemyLayer;
+    public Transform firePoint;            // 子彈發射點
+    public GameObject ammoPrefab;          // 子彈預製體
+
     new void Awake()
     {
         m_enemyLayer = LayerMask.GetMask("Enemy"); // 獲取敵人船隻的 LayerMask
@@ -13,16 +16,10 @@ public class PlayerShip : Warship
         base.Update(); // Call base class Update for movement and health UI updates
     }
 
-    protected override void PerformAttack()
+    public void PerformAttack()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectDistance, m_enemyLayer);
-        foreach (Collider2D enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                ShootAmmoAtEnemy(enemy.transform); // 對檢測到的敵人射擊
-            }
-        }
+        // 實現玩家攻擊邏輯
+        Debug.Log("PlayerShip is performing an attack.");
     }
 
     private void ShootAmmoAtEnemy(Transform enemy)
@@ -37,6 +34,14 @@ public class PlayerShip : Warship
                 ammoScript.OnHitEnemy += () => GainExperience(10); // 擊中敵人時獲得經驗值
                 Debug.Log($"PlayerShip shot at enemy {enemy.name} at position {enemy.position}"); // Debug log
             }
+        }
+    }
+
+    private void Fire()
+    {
+        if (ammoPrefab != null && firePoint != null)
+        {
+            Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
         }
     }
 
@@ -81,4 +86,3 @@ public class PlayerShip : Warship
         }
     }
 }
-

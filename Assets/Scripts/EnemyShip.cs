@@ -8,6 +8,9 @@ public class EnemyShip : Warship
     public int goldReward = 1; // Gold rewarded when the enemy dies
     public int experienceReward = 20; // 擊殺獎勵經驗值
 
+    public Transform firePoint;            // 子彈發射點
+    public GameObject ammoPrefab;          // 子彈預製體
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public override void Initialize(string name, float speed, float health)
     {
@@ -96,12 +99,10 @@ public class EnemyShip : Warship
         }
     }
 
-    protected override void PerformAttack()
+    public void PerformAttack()
     {
-        if (target != null && Vector3.Distance(transform.position, target.position) <= 5f)
-        {
-            ShootAmmoAtTarget();
-        }
+        // 實現敵人攻擊邏輯
+        Debug.Log("EnemyShip is performing an attack.");
     }
 
     private void ShootAmmoAtTarget()
@@ -122,6 +123,14 @@ public class EnemyShip : Warship
             {
                 Debug.LogWarning("AmmoManager not found in the scene.");
             }
+        }
+    }
+
+    private void Fire()
+    {
+        if (ammoPrefab != null && firePoint != null)
+        {
+            Instantiate(ammoPrefab, firePoint.position, firePoint.rotation);
         }
     }
 

@@ -7,7 +7,6 @@ public class PlayerShipDetailUI : MonoBehaviour
     public Text maxSpeedText;
     public Text maxRotationSpeedText;
     public Text attackDamageText;
-    public Text attackIntervalText;
     public Text levelText;
     
     private PlayerShip ship;
@@ -31,6 +30,5 @@ public class PlayerShipDetailUI : MonoBehaviour
         shipNameText.text = $"Name: {ship.ShipName}";
         maxSpeedText.text = $"Max Speed: {ship.maxSpeed}";
         maxRotationSpeedText.text = $"Max Rotation Speed: {ship.maxRotateSpeed}";
-        attackIntervalText.text = $"Attack Interval: {ship.attackInterval}s";
     }
 }

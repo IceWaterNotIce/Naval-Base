@@ -218,6 +218,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -5447561582518598289, guid: 618ee0746856850419d21f9deda68413, type: 3}
+      propertyPath: enemyLayerMasks.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 538106589100233037, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -248,15 +252,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1852518986882132342, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 28
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1852518986882132342, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1852518986882132342, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -80
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1952714302572414856, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_Name
@@ -324,19 +328,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80.00001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6639567816959406270, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000030100346
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8172774116208718081, guid: 618ee0746856850419d21f9deda68413, type: 3}
       propertyPath: m_LocalPosition.x
