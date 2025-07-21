@@ -26,11 +26,7 @@ public class Warship : Ship
 
     #region 攻擊系統變數
     [Header("攻擊系統")]
-    public Transform firePoint;            // 子彈發射點
-    public GameObject ammoPrefab;          // 子彈預製體
-    public float attackInterval = 1f;      // 攻擊間隔（秒）
-    private float m_attackTimer;           // 攻擊計時器
-    private int m_attackDamage = 1;        // 攻擊傷害
+    public List<Weapon> weapons = new List<Weapon>(); // 儲存武器的列表
     #endregion
 
     #region 升級系統變數
@@ -74,19 +70,13 @@ public class Warship : Ship
     #endregion
 
     #region 攻擊系統
-    public virtual void HandleAttack()
+    public override void HandleAttack()
     {
-        m_attackTimer += Time.deltaTime;
-        if (m_attackTimer >= attackInterval)
+        foreach (var weapon in weapons)
         {
-            PerformAttack();
-            m_attackTimer = 0f; // 重置攻擊計時器
+            Vector3 direction = transform.up; // 假設攻擊方向為物件的正上方
+            weapon.HandleAttack(transform.position, direction);
         }
-    }
-
-    protected virtual void PerformAttack()
-    {
-        // 攻擊邏輯由子類別實現
     }
     #endregion
 
@@ -181,6 +171,35 @@ public class Warship : Ship
     public virtual void OnDetected(Warship detector)
     {
         Debug.Log($"{ShipName} 被 {detector.ShipName} 偵測到！");
+    }
+    #endregion
+
+    #region 武器系統方法
+    public void AddWeapon(Weapon weapon)
+    {
+        if (weapon != null && !weapons.Contains(weapon))
+        {
+            weapons.Add(weapon);
+            Debug.Log($"Weapon {weapon.WeaponName} added to {ShipName}.");
+        }
+    }
+
+    public void RemoveWeapon(Weapon weapon)
+    {
+        if (weapon != null && weapons.Contains(weapon))
+        {
+            weapons.Remove(weapon);
+            Debug.Log($"Weapon {weapon.WeaponName} removed from {ShipName}.");
+        }
+    }
+
+    public void FireAllWeapons(Vector3 targetPosition)
+    {
+        foreach (var weapon in weapons)
+        {
+            Vector3 direction = (targetPosition - transform.position).normalized;
+            weapon.Fire(transform.position, direction);
+        }
     }
     #endregion
 }
