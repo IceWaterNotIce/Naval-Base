@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour // 將類別標記為 abstract
 {
     public string WeaponName;
     public int Damage;
@@ -30,31 +30,13 @@ public abstract class Weapon : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(position, Range);
     }
-}
 
-public class Bomb : Weapon
-{
-    public override void Fire(Vector3 position, Vector3 direction)
+    private void OnDrawGizmosSelected()
     {
-        Debug.Log($"Bomb dropped at {position} with damage {Damage}");
-        // 實現炸彈邏輯
-    }
-}
-
-public class Airplane : Weapon
-{
-    public override void Fire(Vector3 position, Vector3 direction)
-    {
-        Debug.Log($"Airplane launched from {position} with damage {Damage}");
-        // 實現飛機邏輯
-    }
-}
-
-public class FishBomb : Weapon
-{
-    public override void Fire(Vector3 position, Vector3 direction)
-    {
-        Debug.Log($"Fish Bomb launched at {position} with damage {Damage}");
-        // 實現魚雷邏輯
+        if (firePoint != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(firePoint.position, Range);
+        }
     }
 }
