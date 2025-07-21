@@ -1,11 +1,25 @@
 using UnityEngine;
 
-public static class WeatherManager
+public class WeatherManager : MonoBehaviour
 {
-    public enum WeatherType { Clear, Fog, Night }
-    public static WeatherType CurrentWeather = WeatherType.Clear;
+    public static WeatherManager Instance { get; private set; }
 
-    public static float GetCurrentVisibility()
+    public enum WeatherType { Clear, Fog, Night }
+    public WeatherType CurrentWeather = WeatherType.Clear;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public float GetCurrentVisibility()
     {
         return CurrentWeather switch
         {

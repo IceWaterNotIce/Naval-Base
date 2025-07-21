@@ -657,18 +657,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c6fb68495e46949a5c88f1dc0c4a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_shipName: Warship
   m_health: 100
   maxHealth: 5
-  healthSlider: {fileID: 3575821291549649881}
-  healthText: {fileID: 3445260958815000311}
-  UICanvas: {fileID: 9039003851952597345}
-  nameText: {fileID: 5336095240552790374}
+  m_currentSpeed: 0
+  m_targetSpeed: 0
   maxSpeed: 2
   acceleration: 0.5
+  m_targetRotationSpeed: 0
   rotationAcceleration: 10
   maxRotateSpeed: 200
+  currentRotateSpeed: 0
+  m_targetAzimuthAngle: -1
   target: {fileID: 0}
   rb: {fileID: 3621285214985519125}
+  m_targetPosition: {x: 0, y: 0}
   currentMovementMode: 0
   positionReachThreshold: 0.1
   angleReachThreshold: 5
@@ -679,40 +682,14 @@ MonoBehaviour:
     width: 10
     height: 10
   randomMovementChangeInterval: 3
-  shipParticleSystem: {fileID: 2836290615235834288}
+  detectDistance: 10
+  beDetectDistance: 8
   firePoint: {fileID: 8172774116208718081}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1
   levelText: {fileID: 5336095240552790374}
   experienceSlider: {fileID: 4132379770256303420}
   experienceText: {fileID: 6397387191879478721}
---- !u!198 &2836290615235834288 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 2916344426972043421, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  m_PrefabInstance: {fileID: 1091111940987300141}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3445260958815000311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2374643923295191002, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  m_PrefabInstance: {fileID: 1091111940987300141}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3575821291549649881 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4520406776669291252, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  m_PrefabInstance: {fileID: 1091111940987300141}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &3621285214985519125 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 4423954513793788216, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
@@ -731,10 +708,5 @@ Transform:
 --- !u!224 &8888144173707421527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8393971449378229882, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
-  m_PrefabInstance: {fileID: 1091111940987300141}
-  m_PrefabAsset: {fileID: 0}
---- !u!223 &9039003851952597345 stripped
-Canvas:
-  m_CorrespondingSourceObject: {fileID: 8238375212236243020, guid: 3877824eb0ce5b74cb2745c46d5104a8, type: 3}
   m_PrefabInstance: {fileID: 1091111940987300141}
   m_PrefabAsset: {fileID: 0}

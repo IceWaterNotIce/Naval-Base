@@ -3484,7 +3484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657115c4b2e8d1a4bb9d9dfeb38081c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_shipName: 
+  m_shipName: PlayerShip
   m_health: 100
   maxHealth: 100
   m_currentSpeed: 0
@@ -3509,6 +3509,8 @@ MonoBehaviour:
     width: 10
     height: 10
   randomMovementChangeInterval: 3
+  detectDistance: 10
+  beDetectDistance: 8
   firePoint: {fileID: 7164826092291161145}
   ammoPrefab: {fileID: 4192150160076958293, guid: d58aaecbc80501042bee163b428fde8d, type: 3}
   attackInterval: 1

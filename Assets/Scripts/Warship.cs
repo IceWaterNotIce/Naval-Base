@@ -147,4 +147,9 @@ public class Warship : Ship
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, beDetectDistance);
     }
+
+    public virtual void OnDetected(Warship detector)
+    {
+        Debug.Log($"{ShipName} 被 {detector.ShipName} 偵測到！");
+    }
 }
