@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerShip : Warship
 {
     private LayerMask m_enemyLayer;
-    public float m_detectionRadius = 10f; // 檢測敵人的半徑
     new void Awake()
     {
         m_enemyLayer = LayerMask.GetMask("Enemy"); // 獲取敵人船隻的 LayerMask
@@ -16,7 +15,7 @@ public class PlayerShip : Warship
 
     protected override void PerformAttack()
     {
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, m_detectionRadius, m_enemyLayer);
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, detectDistance, m_enemyLayer);
         foreach (Collider2D enemy in enemies)
         {
             if (enemy != null)

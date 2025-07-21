@@ -6,7 +6,6 @@ public class EnemyShip : Warship
     public float minDistanceToNavalBase = 3f; // Minimum distance to the naval base
     public float orbitSpeed = 1f; // Speed at which the enemy orbits the naval base
     public int goldReward = 1; // Gold rewarded when the enemy dies
-    public float playerShipDetectionRadius = 10f; // 半徑內檢測玩家船隻
     public int experienceReward = 20; // 擊殺獎勵經驗值
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,7 +30,7 @@ public class EnemyShip : Warship
     private void UpdateTarget()
     {
         // 確保 "PlayerShip" 層存在
-        Collider2D[] playerShips = Physics2D.OverlapCircleAll(transform.position, playerShipDetectionRadius, LayerMask.GetMask("PlayerShip"));
+        Collider2D[] playerShips = Physics2D.OverlapCircleAll(transform.position, detectDistance, LayerMask.GetMask("PlayerShip"));
         Transform closestPlayerShip = null;
         float closestDistance = float.MaxValue;
 
