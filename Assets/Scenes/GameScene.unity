@@ -1663,7 +1663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00075561646}
+  m_AnchoredPosition: {x: 0, y: 0.00023973343}
   m_SizeDelta: {x: 0, y: 263.8}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &236724269
@@ -6893,76 +6893,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &865031942
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 865031944}
-  - component: {fileID: 865031943}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &865031943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865031942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37521d2aa04b6db408f3e99e6e59a788, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlPanel: {fileID: 2048401904}
-  shipNameText: {fileID: 1529791255}
-  maxSpeedText: {fileID: 334052714}
-  maxRotationSpeedText: {fileID: 899415260}
-  attackDamageText: {fileID: 1811117666}
-  attackIntervalText: {fileID: 1817484160}
-  levelText: {fileID: 734463144}
-  fullSpeedButton: {fileID: 884437485}
-  threeQuarterSpeedButton: {fileID: 192185591}
-  halfSpeedButton: {fileID: 1656137709}
-  quarterSpeedButton: {fileID: 190003390}
-  stopButton: {fileID: 1236410100}
-  rotateLeftButton: {fileID: 1519007369}
-  rotateHalfLeftButton: {fileID: 973363223}
-  rotateNoneButton: {fileID: 620905378}
-  rotateHalfRightButton: {fileID: 1437848965}
-  rotateRightButton: {fileID: 1146715496}
-  DeselectShipButton: {fileID: 1320791301}
-  moveToPositionButton: {fileID: 0}
-  mainCamera: {fileID: 519420031}
-  followSize: 5
-  cameraFollowSmoothTime: 0.3
-  cancelFollowButton: {fileID: 754475115}
-  positionIcon: {fileID: 0}
-  shipUICanvas: {fileID: 0}
-  iconDisplayDuration: 2
---- !u!4 &865031944
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865031942}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 543.739, y: 324.30365, z: 9.73678}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &867902574
 GameObject:
   m_ObjectHideFlags: 0
@@ -7924,7 +7854,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0009208611}
+  m_AnchoredPosition: {x: 0, y: 0.00029003428}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &959682185
@@ -10753,17 +10683,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b043599fb345c7459d0985fa9910aa4, type: 3}
---- !u!114 &1320791301 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1185418773424706339, guid: 1b043599fb345c7459d0985fa9910aa4, type: 3}
-  m_PrefabInstance: {fileID: 1320791300}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &1320791302 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1171235026497948485, guid: 1b043599fb345c7459d0985fa9910aa4, type: 3}
@@ -16558,6 +16477,5 @@ SceneRoots:
   - {fileID: 1290133806}
   - {fileID: 1347369613}
   - {fileID: 274980083}
-  - {fileID: 865031944}
   - {fileID: 1244769741}
   - {fileID: 1652089531}
