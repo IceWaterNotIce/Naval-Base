@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewWeapon", menuName = "Weapons/Weapon")]
-public abstract class Weapon : ScriptableObject
+public abstract class Weapon : MonoBehaviour
 {
     public string WeaponName;
     public int Damage;
@@ -25,9 +24,14 @@ public abstract class Weapon : ScriptableObject
             m_attackTimer = 0f; // 重置攻擊計時器
         }
     }
+
+    public void DrawAttackRange(Vector3 position)
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(position, Range);
+    }
 }
 
-[CreateAssetMenu(fileName = "NewBomb", menuName = "Weapons/Bomb")]
 public class Bomb : Weapon
 {
     public override void Fire(Vector3 position, Vector3 direction)
@@ -37,7 +41,6 @@ public class Bomb : Weapon
     }
 }
 
-[CreateAssetMenu(fileName = "NewAirplane", menuName = "Weapons/Airplane")]
 public class Airplane : Weapon
 {
     public override void Fire(Vector3 position, Vector3 direction)
@@ -47,7 +50,6 @@ public class Airplane : Weapon
     }
 }
 
-[CreateAssetMenu(fileName = "NewFishBomb", menuName = "Weapons/FishBomb")]
 public class FishBomb : Weapon
 {
     public override void Fire(Vector3 position, Vector3 direction)

@@ -66,6 +66,15 @@ public class Warship : Ship
         // 繪製被偵測距離範圍
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, beDetectDistance);
+
+        // 繪製武器攻擊範圍
+        foreach (var weapon in weapons)
+        {
+            if (weapon != null)
+            {
+                weapon.DrawAttackRange(transform.position);
+            }
+        }
     }
     #endregion
 
